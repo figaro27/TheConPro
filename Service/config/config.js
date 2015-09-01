@@ -16,22 +16,22 @@ config.tokenRenewIn = 50; // if your token will expire with in tokenRenewIn minu
 
 //rackspace
 config.storage = {
-    username : 'natomis',
-    apiKey : '0759efb0ab28e56efc2f15a138e99d2a',
-    container : 'coatingsestimatordevelopment',
+    username : '',
+    apiKey : '',
+    container : '',
     provider : 'rackspace',
     region : 'IAD'
 };
 
 config.smtp = {
-    username: 'smtpsend',
-    password: 'smtpsendpassword',
-    server: 'mailer.natomis.com',
-    port: '587'
+    username: '',
+    password: '',
+    server: '',
+    port: ''
 };
 
 config.senderemail = 'noreply@coatingsestimator.com';
-config.suggestionemail = 'tbbates@gmail.com';
-config.registrationemail = 'tbbates@gmail.com';
+config.suggestionemail = '';
+config.registrationemail = '';
 
 module.exports = config;
