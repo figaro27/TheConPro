@@ -1,0 +1,15 @@
+<!doctype html><head><meta charset="utf-8"><title></title><meta name="description" content=""><meta name="viewport" content="width=device-width"><!-- Place favicon.ico and apple-touch-icon.png in the root directory --><link rel="stylesheet" href="styles/vendor.ae0959f0.css"><link rel="stylesheet" href="styles/main.dac7aa31.css"><body id="appBody" ng-cloak><div class="container-fluid" ui-view></div><script src="scripts/vendor.582ab714.js"></script><script src="cordova.js"></script><script src="scripts/scripts.67efed2c.js"></script><script type="text/javascript">/*
+   ng-cloak ng-app="app"
+   */
+  angular.element(document).ready(function() {
+    var appBody = document.getElementById('appBody');
+    if (window.cordova) {
+      document.addEventListener('deviceready', function() {
+
+        angular.bootstrap(appBody, ['estimateApp']);
+        navigator.splashscreen.hide();
+      }, false);
+    } else {
+      angular.bootstrap(document.body, ['estimateApp']);
+    }
+  });</script>
