@@ -16,7 +16,7 @@ module.exports = function (objectType) {
         };
     }
 
-    function create(app, req) {
+    function generate(app, req) {
 
         var deferred = Q.defer(),
             changePerson = req.user.person; // person making the changes
@@ -253,7 +253,7 @@ module.exports = function (objectType) {
     return {
         Build: build,
         Populate: populate,
-        Create: create,
+        Generate: generate,
         Update: update,
         Remove: remove,
         Search: search

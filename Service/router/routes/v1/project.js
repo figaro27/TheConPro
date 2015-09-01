@@ -3,7 +3,7 @@ module.exports = function (app, path) {
     var base = require('./base')(),
         config = {
             type: 'project',
-            create: true,
+            generate: true,
             update: true,
             remove: false,
             search: true,
@@ -17,7 +17,7 @@ module.exports = function (app, path) {
     }
 
     base.Router.post('/', function (req, res, next) {
-        return base.RestAction(app, req, res, next, manager.Create(app, req, res, next));
+        return base.RestAction(app, req, res, next, manager.Generate(app, req, res, next));
     });
 
     base.Router.put('/', function (req, res, next) {

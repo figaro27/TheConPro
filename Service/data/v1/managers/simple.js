@@ -11,9 +11,8 @@ module.exports = function (configuration) {
         delegate = require('../delegates/simple')(configuration.type);
     }
     else {
-        delegate = require('../delegates/' + configuration.type)();
+        delegate = require('../delegates/' + configuration.type);
     }
-
     /*
      the configuration object should look like this:
      config = {
@@ -29,14 +28,14 @@ module.exports = function (configuration) {
 
     function search(app, req, res, next) {
         if (configuration.search === true) {
-            return base.PostAction(app, req, res, next, delegate.Search(app, req));
+            return base.PostAction(app, req, res, next, delegate.Search(app, req, next));
         }
         next();
     }
 
-    function create(app, req, res, next) {
-        if (configuration.create === true) {
-            return base.PostAction(app, req, res, next, delegate.Create(app, req));
+    function generate(app, req, res, next) {
+        if (configuration.generate === true) {
+            return base.PostAction(app, req, res, next, delegate.Generate(app, req));
         }
         next();
     }
@@ -113,16 +112,22 @@ module.exports = function (configuration) {
         next();
     }
 
-    function membership(app, req, res, next) {
+    function verify(app, req,res,next){
+        if(configuration.type === 'account'){
+            return base.GetAction(app,req,res,next, delegate.Verify(app,req));
+        }
+    }
+
+    function permission(app, req, res, next) {
         if (configuration.type === 'team') {
-            return base.PostAction(app, req, res, next, delegate.Membership(app, req));
+            return base.PostAction(app, req, res, next, delegate.Permission(app, req, next));
         }
         next();
     }
 
-    function ownership(app, req, res, next) {
+    function permissions(app, req, res, next) {
         if (configuration.type === 'team') {
-            return base.PostAction(app, req, res, next, delegate.Ownership(app, req));
+            return base.PostAction(app, req, res, next, delegate.Permissions(app, req));
         }
         next();
     }
@@ -135,9 +140,8 @@ module.exports = function (configuration) {
     }
 
 
-
     return {
-        Create: create,
+        Generate: generate,
         Update: update,
         Remove: remove,
         Search: search,
@@ -148,9 +152,10 @@ module.exports = function (configuration) {
         Resolve: resolve,
         ChangePassword: changepassword,
         ForgotPassword: forgotpassword,
-        Ownership: ownership,
-        Membership: membership,
         DownloadString: downloadString,
-        Feedback: feedback
+        Feedback: feedback,
+        Permission: permission,
+        Permissions: permissions,
+        Verify: verify
     };
 };

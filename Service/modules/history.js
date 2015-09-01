@@ -18,7 +18,6 @@ module.exports = function (db) {
             action:     {type: Sequelize.STRING},
             setid:      {type: Sequelize.STRING}
         };
-        // add added and addedby fields
         dto = _.merge(dto, db.BaseEntity.addFields);
     }
 

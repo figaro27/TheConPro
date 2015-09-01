@@ -4,7 +4,8 @@
 'use strict';
 module.exports = function () {
     var Q = require('q'),
-        uuid = require('node-uuid');
+        uuid = require('node-uuid'),
+        postal = require('postal');
 
     String.prototype.format = function () {
         var formatted = this;
@@ -285,6 +286,8 @@ module.exports = function () {
         }
 
         try {
+
+
             model.save(model, transaction)
                 .then(
                 function (saveddata) {
@@ -353,7 +356,62 @@ module.exports = function () {
         itemsToSave.push(entity);
         dtoItems.push(dto);
     }
+/*
+    channel = postal.channel(objectType)
+    function listener() {
+        if (channel.bus.subscriptions && channel.bus.subscriptions.team) {
+            return;
+        }
+        channel.subscribe(objectType + '.updated', function (data) {
+            console.log(objectType + ' updated', data);
+        });
 
+        channel.subscribe(objectType + '.created', function (data) {
+            console.log(objectType + ' created', data);
+        });
+
+    }
+*/
+    function subscribe(objectType, subscriptions){
+        var channel = postal.channel();
+        if(channel.bus.subscriptions[objectType]){
+            return;
+        }
+
+        _.each(subscriptions, function(sub){
+           channel.subscribe(sub.type, sub.delegate);
+        });
+
+    }
+
+    function publish(objectType, type, data){
+        var channel = postal.channel();
+        channel.publish(type, data);
+    }
+
+    function ownership(app, person, objectType) {
+        var model = require('./../models/' + objectType)(app.db).Model();
+        var sql = [
+            'select a.* from ' + objectType + ' a where a.addedby = \'{0}\''.format(person)
+        ].join();
+        return getEntityModels(app, model, sql);
+    }
+
+    function teamMembership(app, person, objectType, permission) {
+        var model = require('./../models/' + objectType)(app.db).Model();
+        var sql = [
+            'select  a.* from ' + objectType + ' a inner join team b on a.addedby = b.addedby where  b.personid = \'{0}\' and b.permission & {1} > 0'.format(person, permission)
+        ].join();
+        return getEntityModels(app, model, sql);
+    }
+/*
+    function membership(app, changeUser, addedby, permission) {
+        var model = require('./../models/' + objectType)(app.db).Model();
+        var person = changeUser;
+        var sql = 'select * from ' + objectType + ' where personid = \'{0}\' and permission & {1} > 0 and addedby =\'{2}\' '.format(person, permission, addedby);
+        return base.GetEntityModels(app, model, sql);
+    }
+    */
     return {
         GetEntity: getEntity,
         GetEntities: getEntites,
@@ -367,6 +425,10 @@ module.exports = function () {
         BuildSaveArray: buildSaveArray,
         RemoveEntity: deleteEntity,
         GuidSearchFormat : guidSearchFormat,
-        FixSqlResult : fixSqlResult
+        FixSqlResult : fixSqlResult,
+        Subscribe: subscribe,
+        Publish: publish,
+        TeamMembership: teamMembership,
+        Ownership: ownership
     };
 };

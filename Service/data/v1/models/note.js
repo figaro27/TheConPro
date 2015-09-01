@@ -13,17 +13,9 @@ module.exports = function (db) {
             fid: {type: Sequelize.UUID},
             body: {type: Sequelize.STRING}
         };
-
-        // add added and addedby fields
         dto = _.merge(dto, db.BaseEntity.addFields);
-
-        // add created and createdby fields
         dto = _.merge(dto, db.BaseEntity.changeFields);
-
-        // add version fields
         dto = _.merge(dto, db.BaseEntity.versionFields);
-
-        // add status fields
         dto = _.merge(dto, db.BaseEntity.statusFields);
     }
 

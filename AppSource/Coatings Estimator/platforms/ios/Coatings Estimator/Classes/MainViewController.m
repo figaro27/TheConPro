@@ -29,8 +29,7 @@
 
 @implementation MainViewController
 
--(BOOL)prefersStatusBarHidden
-{
+- (BOOL)prefersStatusBarHidden{
 	return YES;
 }
 

@@ -9,17 +9,9 @@ module.exports = function (db) {
             id: {type: Sequelize.UUID, unique: true, primaryKey: true},
             personid: {type: Sequelize.UUID}
         };
-
-        // add added and addedby fields
         dto = _.merge(dto, db.BaseEntity.addFields);
-
-        // add created and createdby fields
         dto = _.merge(dto, db.BaseEntity.changeFields);
-
-        // add version fields
         dto = _.merge(dto, db.BaseEntity.versionFields);
-
-        // add status fields
         dto = _.merge(dto, db.BaseEntity.statusFields);
     }
 

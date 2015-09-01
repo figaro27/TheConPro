@@ -14,6 +14,12 @@ angular.module('estimateApp')
       $scope.errors = {};
       $scope.model = {};
       $scope.formInfo = {};
+
+
+      if(Account.IsAuthenticated()){
+        $state.go('index');
+      }
+
       $scope.login = function (model) {
 
         Account.Login(model)

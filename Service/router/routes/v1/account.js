@@ -4,7 +4,7 @@ module.exports = function (app, path) {
         email = require('../../../modules/emailer')(),
         config = {
             type: 'account',
-            create: true,
+            generate: true,
             update: true,
             remove: true,
             search: true,
@@ -16,7 +16,8 @@ module.exports = function (app, path) {
             '/',
             '/login',
             '/register',
-            '/forgotpassword'
+            '/forgotpassword',
+            '/verify'
         ];
 
     function startup() {
@@ -50,6 +51,10 @@ module.exports = function (app, path) {
 
     base.Router.post('/resolve', function (req, res, next) {
         return base.RestAction(app, req, res, next, manager.Resolve(app, req, res, next));
+    });
+
+    base.Router.post('/verify', function(req, res, next){
+       return base.RestAction(app,req, res, next, manager.Verify(app,req,res, next));
     });
 
     //base.Router.get('/',app.utility.RequireRoles(['user']), function (req, res) {

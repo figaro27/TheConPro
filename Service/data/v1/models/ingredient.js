@@ -10,16 +10,9 @@ module.exports = function (db) {
             coverage: {type: Sequelize.STRING},
             purchaseprice: {type: Sequelize.STRING}
         };
-        // add added and addedby fields
         dto = _.merge(dto, db.BaseEntity.addFields);
-
-        // add created and createdby fields
         dto = _.merge(dto, db.BaseEntity.changeFields);
-
-        // add version fields
         dto = _.merge(dto, db.BaseEntity.versionFields);
-
-        // add status fields
         dto = _.merge(dto, db.BaseEntity.statusFields);
     }
 

@@ -51,6 +51,9 @@ module.exports = function (app) {
         removeFields:  {
             removed: {type: Sequelize.BOOLEAN}
         },
+        permissionFields: {
+            permission: {type: Sequelize.INTEGER}
+        },
         links:         {
 
             //Order of operations

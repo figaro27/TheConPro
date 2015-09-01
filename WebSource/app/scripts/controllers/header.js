@@ -6,7 +6,9 @@
  * Controller of the estimateApp
  */
 angular.module('estimateApp')
-  .controller('HeaderCtrl', ['$scope', '$rootScope','Reference','Config', function ($scope,$rootScope, Reference, Config) {
+  .controller('HeaderCtrl', [
+        '$scope', '$rootScope','Reference','Config','Log', function (
+        $scope,$rootScope, Reference, Config,Log) {
     'use strict';
 
     function init() {
@@ -22,6 +24,10 @@ angular.module('estimateApp')
     $rootScope.$on(Config.SetTitleEvent, function (event, data) {
       $scope.title = data;
     });
+
+      $rootScope.$on(Config.AjaxActivity, function (event, data) {
+        $scope.busy = data;
+      });
 
   }]);
 

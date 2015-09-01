@@ -3,10 +3,12 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     multer = require('multer'),
     app = express(),
-    compresssion = require('compression');
+    compresssion = require('compression'),
+    postal = require('postal');
 
 GLOBAL._ = require('lodash');
 GLOBAL.Sequelize = require('sequelize');
+app.postal = postal;
 app.use(compresssion());
 app.disable('x-powered-by');
 

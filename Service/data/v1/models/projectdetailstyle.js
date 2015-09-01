@@ -15,19 +15,10 @@ module.exports = function (db) {
             colorid: {type: Sequelize.UUID},
             patternid: {type: Sequelize.UUID}
         };
-        // add added and addedby fields
         dto = _.merge(dto, db.BaseEntity.addFields);
-
-        // add created and createdby fields
         dto = _.merge(dto, db.BaseEntity.changeFields);
-
-        // add version fields
         dto = _.merge(dto, db.BaseEntity.versionFields);
-
-        // add status fields
         dto = _.merge(dto, db.BaseEntity.statusFields);
-
-        // add version fields
         dto = _.merge(dto, db.BaseEntity.removeFields);
     }
 

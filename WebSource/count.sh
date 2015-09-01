@@ -11,4 +11,4 @@
   -not -path '*/app/images*' \
   -not -path '*/app/styles/Lata/*' \
   -not -path '*/app/styles/Oxygen/*' \
-  -a \( -name '*.js' -o -name '*.html' -o -name '*.css' \) | xargs cat | wc -l
+  -a \( -name '*.js' -o -name '*.html' -o -name '*.scss' \) | xargs cat | wc -l

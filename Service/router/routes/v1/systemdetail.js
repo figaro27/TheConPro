@@ -3,7 +3,7 @@ module.exports = function (app, path) {
     var base = require('./base')(),
         config = {
             type: 'systemdetail',
-            create: true,
+            generate: true,
             update: true,
             remove: true,
             search: true,
@@ -21,7 +21,7 @@ module.exports = function (app, path) {
     });
 
     base.Router.post('/', app.utility.RequireRoles(['concreteprotector','subscriber','administrator']), function (req, res, next) {
-        return base.RestAction(app, req, res, next, manager.Create(app, req, res, next));
+        return base.RestAction(app, req, res, next, manager.Generate(app, req, res, next));
     });
 
     base.Router.put('/', app.utility.RequireRoles(['concreteprotector','subscriber','administrator']), function (req, res, next) {

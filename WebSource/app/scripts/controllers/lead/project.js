@@ -28,12 +28,14 @@ angular.module('estimateApp')
           searchType: 'use',
           populate: true
         };
-        var searchType = {
+        var systemSearch = {
           'type': 'use',
           'populate': ['systemdetail', 'ingredient']
         };
         promises.push(Lead.Get($scope.leadid, hints));
-        promises.push(System.GetAll(searchType));
+
+        promises.push(System.GetAll(systemSearch));
+
         var addresscriteria = [{'personid': $scope.leadid}];
 
         promises.push(Address.Search(addresscriteria));
@@ -341,19 +343,21 @@ angular.module('estimateApp')
             adds.push(style);
           }
           else {
-            if (ingredient.style.id) {
-              style = ingredient.style;
-              style.ingredientid = ingredient.id;
-              updates.push(style);
-            }
-            else {
-              if (ingredient.style) {
+            if(ingredient.style) {
+              if (ingredient.style.id) {
                 style = ingredient.style;
+                style.ingredientid = ingredient.id;
+                updates.push(style);
               }
-              style.projectdetailid = model.id;
-              style.ingredientid = ingredient.id;
-              style.purchaseprice = ingredient.purchaseprice;
-              adds.push(style);
+              else {
+                if (ingredient.style) {
+                  style = ingredient.style;
+                }
+                style.projectdetailid = model.id;
+                style.ingredientid = ingredient.id;
+                style.purchaseprice = ingredient.purchaseprice;
+                adds.push(style);
+              }
             }
           }
         }
@@ -494,10 +498,17 @@ angular.module('estimateApp')
         }
 
         function meshProjectSystem() {
+
+
           _.each($scope.Model.details, function (detail) {
             detail.System = _.where($scope.Systems, {id: detail.systemid})[0];
             if(detail.System){
               detail.System.saleprice = Number(detail.saleprice);
+            } else {
+                detail.System = {
+                    name: 'hidden by preference, unhide or select other system'
+                };
+
             }
 
           });
@@ -595,7 +606,6 @@ angular.module('estimateApp')
         }
 
         $scope.RemoveAreaImage = function (model, index) {
-
           function removeImage(buttonIndex){
             if(buttonIndex === 1){
               if (model.id) {
@@ -609,7 +619,6 @@ angular.module('estimateApp')
               }
             }
           }
-
           if(navigator && navigator.notification){
             navigator.notification.confirm(
               'Are you absolutely sure you want to remove this image?', // message
@@ -626,8 +635,6 @@ angular.module('estimateApp')
 
             }
           }
-
-
         };
 
         $scope.TakePicture = function () {

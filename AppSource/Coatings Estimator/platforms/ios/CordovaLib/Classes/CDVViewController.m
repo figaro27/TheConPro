@@ -24,6 +24,7 @@
 #import "CDVUserAgentUtil.h"
 #import "CDVWebViewDelegate.h"
 #import <AVFoundation/AVFoundation.h>
+#import "CDVHandleOpenURL.h"
 
 #define degreesToRadian(x) (M_PI * (x) / 180.0)
 
@@ -459,7 +460,9 @@
 
         [CDVTimer stop:@"TotalPluginStartup"];
     }
-
+    
+    [self registerPlugin:[[CDVHandleOpenURL alloc] initWithWebView:self.webView] withClassName:NSStringFromClass([CDVHandleOpenURL class])];
+    
     // /////////////////
     NSURL* appURL = [self appUrl];
 
@@ -1027,13 +1030,6 @@
 - (void)processOpenUrl:(NSURL*)url
 {
     [self processOpenUrl:url pageLoaded:NO];
-}
--(void)presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion
-{
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_USEC), dispatch_get_main_queue(),
-				   ^{
-					   [super presentViewController:viewControllerToPresent animated:flag completion:completion];
-				   });
 }
 
 // ///////////////////////

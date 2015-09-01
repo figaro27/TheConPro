@@ -82,27 +82,6 @@
         </div>
     </div>
 
-<span ng-hide="IsNew">
-    <div class="row" ng-hide="showTeams">
-      <div class="col-xs-12">
-        <a class="btn  btn-left btn-primary btn-sm" style="width: 100%;" ng-click="showTeams = !showTeams"><i
-          style="margin-top: 3px;" class="pull-left fa fa-plus-circle"></i> Shares ({{TeamCount}})</a>
-      </div>
-    </div>
-    <div class="row" ng-show="showTeams">
-      <div class="col-xs-12" >
-        <a class="btn  btn-left btn-warning btn-sm" style="width: 100%;" ng-click="showTeams = !showTeams"><i
-          style="margin-top: 3px;" class="pull-left fa fa-minus-circle"></i> Shares ({{TeamCount}})</a>
-      </div>
-    </div>
-    <div class="row" ng-show="showTeams" ng-repeat="team in Teams">
-      <div class="col-xs-12">
-        <input type="checkbox"  ng-checked="team.checked" ng-click="checkTeam(team.id)" name="checkbox_{{team.id}}" id="checkbox_{{team.id}}" value="value">
-        <label for="checkbox_{{team.id}}">{{team.name}}</label>
-      </div>
-    </div>
-</span>
-
     <div class="row">
       <div class="col-xs-12" style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
         <button ng-disabled="saving"  type="submit" class="btn btn-success" ng-click="Save(System)">Save</button>

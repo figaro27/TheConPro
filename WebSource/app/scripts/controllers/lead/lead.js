@@ -1,8 +1,8 @@
 angular.module('estimateApp')
   .controller('LeadCtrl', ['$scope', '$stateParams', '$state', '$rootScope', '$q', 'Lead', 'Authorization',
-    'Reference', 'Address', 'Phone', '$window', 'Team', 'LeadTeam', 'LeadDetail', 'Project', 'Person',
+    'Reference', 'Address', 'Phone', '$window', 'LeadDetail', 'Project', 'Person',
     function ($scope, $stateParams, $state, $rootScope, $q, Lead, Authorization,
-              Reference, Address, Phone, $window, Team, LeadTeam, LeadDetail, Project, Person) {
+              Reference, Address, Phone, $window,  LeadDetail, Project, Person) {
 
       'use strict';
 
@@ -30,25 +30,25 @@ angular.module('estimateApp')
           promises = [];
 
           promises.push(Lead.Get($stateParams.id, hints));
+
           promises.push(Address.Search(searchCriteria));
           promises.push(Phone.Search(searchCriteria));
+
           promises.push(Project.Search([{leadid: $stateParams.id}, {time: 'estimate'}]));
+
           promises.push(Project.Search([{leadid: $stateParams.id}, {time: 'current'}]));
           promises.push(Project.Search([{leadid: $stateParams.id}, {time: 'complete'}]));
+
           $q.all(promises)
             .then(function (promiseResults) {
               populateLead(promiseResults[0][0]);
+
               populateAddresses(promiseResults[1]);
               populatePhones(promiseResults[2]);
 
               populateEstimates(promiseResults[3]);
               populateCurrent(promiseResults[4]);
               populateComplete(promiseResults[5]);
-
-              if ($scope.moreThanAUser === true) {
-                getLeadTeams($stateParams.id);
-              }
-
 
             }, function (error) {
               Reference.ProcessError(error, $scope.errors);
@@ -86,49 +86,6 @@ angular.module('estimateApp')
         }
 
 
-        function getLeadTeams(id) {
-          $scope.editingTeams = false;
-          var criteria = [];
-          criteria.push({'personid': id});
-
-          LeadTeam.Search(criteria)
-            .then(function (result) {
-              $scope.Teams = result;
-              getTeams(result);
-
-            }, function (error) {
-              Reference.ProcessError(error, $scope.errors);
-            });
-
-        }
-
-
-        function getTeams(leadTeams) {
-          Team.GetAll()
-            .then(function (result) {
-              $scope.CurrentTeams = [];
-              if (!leadTeams) {
-                $scope.Teams = _.sortBy(result, 'name');
-                return;
-              }
-              var innerTeam = result;
-              _.each(innerTeam, function (team) {
-                var ic = _.where(leadTeams, {'teamid': team.id})[0];
-                if (ic) {
-                  team.leadteamid = ic.id;
-                  team.checked = true;
-                  team.leadteamversion = ic.version;
-                  $scope.CurrentTeams.push(team);
-                }
-              });
-              $scope.Teams = _.sortBy(innerTeam, 'name');
-              $scope.CurrentTeams = _.sortBy($scope.CurrentTeams, 'name');
-              $scope.TeamCount = $scope.CurrentTeams.length;
-
-            }, function (error) {
-              Reference.ProcessError(error, $scope.errors);
-            });
-        }
 
 
         $scope.IsInRoles = function (roles) {
@@ -158,10 +115,6 @@ angular.module('estimateApp')
             Reference.ProcessError(error, $scope.errors);
           });
 
-        $scope.checkTeam = function (id) {
-          var primary = _.where($scope.Teams, {'id': id})[0];
-          primary.checked = !primary.checked;
-        };
 
         $scope.StatusOptions = Lead.Statuses;
         $scope.BestTimeToCalLOptions = Lead.BestTimeToCalLOptions;
@@ -426,76 +379,6 @@ angular.module('estimateApp')
         $scope.Cancel = function () {
           $rootScope.back();
         };
-
-        $scope.SaveTeams = function () {
-
-          var saves = [];
-
-          _.each($scope.Teams, function (team) {
-            var leadTeam = {};
-            if (!team.leadteamid) {
-              if (team.checked === true) {
-                leadTeam.personid = $stateParams.id;
-                leadTeam.teamid = team.id;
-                saves.push(LeadTeam.Add(leadTeam));
-              }
-
-            } else {
-              if (team.checked === false) {
-                saves.push(LeadTeam.Remove(team.leadteamid));
-              }
-
-            }
-          });
-
-          //saves.push(processTeams($stateParams.id, $scope.Teams));
-          $q.all(saves)
-            .then(function (results) {
-              getLeadTeams($stateParams.id);
-            }, function (error) {
-              Reference.ProcessError(error, $scope.errors);
-            });
-        };
-
-        $scope.CancelEditTeams = function () {
-          $scope.Teams = angular.copy($scope.TeamsPrime);
-          $scope.editingTeams = false;
-        };
-
-        $scope.EditTeams = function () {
-          $scope.TeamsPrime = angular.copy($scope.Teams);
-          $scope.editingTeams = true;
-        };
-
-        function processTeams(id, teams) {
-          var response = $q.defer();
-          var innerResponse = [],
-            i = 0;
-          _.each(teams, function (team) {
-            i = i + 1;
-
-            var leadTeam = {};
-            if (!team.leadteamid) {
-              if (team.checked === true) {
-                leadTeam.personid = id;
-                leadTeam.teamid = team.id;
-                innerResponse.push(LeadTeam.Add(leadTeam));
-              }
-
-            } else {
-              // These will be associations where the ingredient is not checked
-              // we will remove these as they are not checked
-              if (team.checked === false) {
-                innerResponse.push(LeadTeam.Remove(team.leadteamid));
-              }
-
-            }
-          });
-          if (i === teams.length) {
-            return response.resolve(innerResponse);
-          }
-          return response.promise;
-        }
 
       }
 

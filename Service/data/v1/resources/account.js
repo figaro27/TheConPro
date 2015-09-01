@@ -85,8 +85,45 @@ module.exports = function(){
         return deferred.promise;
     }
 
+    function newRegistration(account, person){
+
+        var deferred = Q.defer(),
+            errorMessage = {},
+            result = '';
+
+        try {
+            // add the opening body tags
+            result += baseOptions.OpeningTags;
+            result += baseOptions.RowBegin + '&nbsp;' + baseOptions.RowEnd;
+            result += baseOptions.RowBegin + '&nbsp;' + baseOptions.RowEnd;
+            result += baseOptions.RowBegin + '&nbsp;' + baseOptions.RowEnd;
+            result += baseOptions.RowBegin + '&nbsp;' + baseOptions.RowEnd;
+            result += baseOptions.RowBegin + '&nbsp;' + baseOptions.RowEnd;
+            result += baseOptions.RowBegin + 'Name: '+ person.firstname + ' ' + person.lastname + baseOptions.RowEnd;
+            if(person.company){
+                result += baseOptions.RowBegin + 'Company: '+ person.company  + baseOptions.RowEnd;
+            }
+            result += baseOptions.RowBegin + 'Username: '+ account.username  + baseOptions.RowEnd;
+            result += baseOptions.RowBegin + '&nbsp;' + baseOptions.RowEnd;
+
+            result += baseOptions.RowBegin + '&nbsp;' + baseOptions.RowEnd;
+            result += baseOptions.ClosingTags;
+
+            deferred.resolve(result);
+
+
+        }
+        catch (e) {
+            errorMessage.message = e;
+            errorMessage.code = 500;
+            deferred.reject(errorMessage);
+        }
+        return deferred.promise;
+    }
+
     return{
         ForgotPassword: forgotPassword,
-        Feedback: feedback
+        Feedback: feedback,
+        NewRegistration: newRegistration
     };
 };

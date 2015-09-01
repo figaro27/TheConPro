@@ -5,10 +5,12 @@ var express = require('express'),
     app = express(),
     https = require('https'),
     fs = require('fs'),
-    compresssion = require('compression');
+    compresssion = require('compression'),
+    postal = require('postal');
 
 GLOBAL._ = require('lodash');
 GLOBAL.Sequelize = require('sequelize');
+app.postal = postal;
 app.use(compresssion());
 app.disable('x-powered-by');
 

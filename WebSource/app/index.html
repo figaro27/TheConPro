@@ -20,7 +20,6 @@
 <body id="appBody" ng-cloak >
 <div class="container-fluid" ui-view></div>
 
-
 <!-- build:js scripts/vendor.js -->
 <!-- bower:js -->
 <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -46,9 +45,11 @@
 <script src="scripts/controllers/main.js"></script>
 <script src="scripts/controllers/settings.js"></script>
 <script src="scripts/directives/textarea.js"></script>
+<script src="scripts/directives/modal.js"></script>
 
 <script src="scripts/services/config.js"></script>
 <script src="scripts/services/httpinterceptor.js"></script>
+<script src="scripts/services/ignore.js"></script>
 <script src="scripts/services/localservice.js"></script>
 <script src="scripts/services/reference.js"></script>
 <script src="scripts/services/service.js"></script>
@@ -59,6 +60,12 @@
 <script src="scripts/controllers/account/login.js"></script>
 <script src="scripts/controllers/account/register.js"></script>
 <script src="scripts/controllers/account/changepassword.js"></script>
+<script src="scripts/controllers/account/subscribe.js"></script>
+
+<script src="scripts/controllers/contracttemplate/contracttemplate.js"></script>
+<script src="scripts/controllers/contracttemplate/contracttemplatelayout.js"></script>
+
+<script src="scripts/controllers/preference/preference.js"></script>
 
 <script src="scripts/controllers/system/color.js"></script>
 <script src="scripts/controllers/system/ingredient.js"></script>
@@ -67,11 +74,13 @@
 
 <script src="scripts/controllers/team/team.js"></script>
 <script src="scripts/services/team/team.js"></script>
-<script src="scripts/services/team/teamdetail.js"></script>
-
 
 <script src="scripts/services/account/account.js"></script>
 <script src="scripts/services/account/authorization.js"></script>
+<script src="scripts/services/account/iap.js"></script>
+
+<script src="scripts/services/contracttemplate/contracttemplate.js"></script>
+
 
 <script src="scripts/services/system/color.js"></script>
 <script src="scripts/services/system/ingredient.js"></script>
@@ -80,8 +89,9 @@
 <script src="scripts/services/system/pattern.js"></script>
 <script src="scripts/services/system/system.js"></script>
 <script src="scripts/services/system/systemdetail.js"></script>
-<script src="scripts/services/system/systemteam.js"></script>
 
+<script src="scripts/controllers/lead/contract.js"></script>
+<script src="scripts/controllers/lead/newcontract.js"></script>
 <script src="scripts/controllers/lead/estimates.js"></script>
 <script src="scripts/controllers/lead/newlead.js"></script>
 <script src="scripts/controllers/lead/lead.js"></script>
@@ -89,8 +99,8 @@
 <script src="scripts/controllers/lead/project.js"></script>
 <script src="scripts/controllers/lead/projects.js"></script>
 
+<script src="scripts/services/lead/contract.js"></script>
 <script src="scripts/services/lead/lead.js"></script>
-<script src="scripts/services/lead/leadteam.js"></script>
 <script src="scripts/services/lead/leaddetail.js"></script>
 <script src="scripts/services/lead/project.js"></script>
 <script src="scripts/services/lead/projectdetail.js"></script>
@@ -102,10 +112,13 @@
 <script src="scripts/services/person.js"></script>
 <script src="scripts/services/address.js"></script>
 <script src="scripts/services/phone.js"></script>
+<script src="scripts/services/log.js"></script>
 <script src="scripts/services/note.js"></script>
 <script src="scripts/services/basefactory.js"></script>
 <script src="scripts/services/storage.js"></script>
 <script src="scripts/directives/signature.js"></script>
+
+<script src="scripts/filters/sanitize.js"></script>
 <!-- endbuild -->
 
 <script type="text/javascript">

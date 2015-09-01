@@ -10,8 +10,6 @@ module.exports = function (app) {
         secret: app.config.jwtSecret
     }).unless({path: app.skipoptions});
 
-    //app.use(jwt({ secret: 'shhhhhhared-secret'}).unless({path: ['/token']}));
-
     function coorsCheck(req, res, next) {
 
         try {
