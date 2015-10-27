@@ -5,7 +5,7 @@
 var base = require('./base')(),
     Q = require('q'),
     uuid = require('node-uuid'),
-    objectType = 'team';
+    objectType = 'accountrole';
 
 var accountrole = function accountrole() {};
 

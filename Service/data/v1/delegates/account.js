@@ -22,6 +22,12 @@ var model = function account() {
     init();
 };
 
+var status = {
+    inactive: '0',
+    active: '1',
+    noperson: '2'
+};
+
 var accountStatus = {
     inactive: '0',
     active: '1',
@@ -199,6 +205,7 @@ function doesPasswordMatch(account, password) {
     return deferred.promise;
 }
 
+
 function login(app, body) {
     var deferred = Q.defer();
 
@@ -237,7 +244,7 @@ function login(app, body) {
                             var accountrole = require('./../models/accountrole')(app.db).Model(),
 
 
-                                accountrolecriteria = new SearchMethod().byAccountId;
+                            accountrolecriteria = new SearchMethod().byAccountId;
                             accountrolecriteria.where.accountid = account.id;
 
                             var person = require('./../models/person')(app.db).Model(),
@@ -349,12 +356,13 @@ function resolve(app, body) {
                     model.status = account.status;
                     model.passwordtype = 0;
 
-                    var accountroledelegate = require('./accountrole')();
+                    //var accountroledelegate = require('./accountrole')();
+                    var accountroledelegate = require('./accountrole');
                     var accountrolemodel = require('./../models/accountrole')(app.db).Model();
 
                     var accountrole = {};
                     accountrole.accountid = account.id;
-                    accountrole.role = 'user';
+                    accountrole.role = 'administrator';
 
                     base.PopulateDefaults(accountrole, accountrolemodel, actionDate, account.id, true);
                     accountroledelegate.Populate(accountrole, accountrolemodel, true);

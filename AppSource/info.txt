@@ -1,0 +1,31 @@
+CoatingsEstimator
+Brian stallter
+Concrete
+
+Keystore password: Coatings
+
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore coatings.keystore coatings.apk Coatings
+
+zipalign -v 4 coatings_.apk coatings.apk
+
+Google:
+theconcreteprotectordevteam@gmail.com
+tcpdt9090
+
+Apple:
+Tcpdt9090
+
+
+Sleepy3d@gmail.com
+
+
+Brianstallter@gmail.com
+
+hegotgame
+
+eee
+eeee
+e@e.com
+eee123
+
+free version allows users to make 2 custom systems, ingredients, colors, etc.  and no sharing... according to Brad it should already have a database of systems, ingredients, colors, etc. that are default that come with the app....

@@ -1,38 +1,4 @@
 {
-    "com.ionic.keyboard": {
-        "source": {
-            "type": "registry",
-            "id": "com.ionic.keyboard"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "cordova-plugin-console": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-console"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "cc.fovea.cordova.purchase": {
-        "source": {
-            "type": "registry",
-            "id": "cc.fovea.cordova.purchase"
-        },
-        "is_top_level": true,
-        "variables": {
-            "BILLING_KEY": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtAFMGUI/43Oat66jn5vUQ6B14WF7P4WNkvZCCl3l7yPnHBPS1Ae786WIIl1yqSoLMh/tvpuvP1CppDtb5gRBLoYWZq04gLB9kFD95++ntH09/96v4kG38g2o423lRF60ir/VsLYjwVdGlJLoJuNyM11GdQVr0Z1tfbnwTceSEuR5j4uzcA+yS3E16saNolqZaev50mbag60k8AXDLnUhxebplFZLvzAMFlD0Hwj2ckzytlSs2bRTZ+b2W/UfoiF26BmCnkl5bVtGfCq1AoaRIlWO6y3+jTaf9geJQ7KqyuCZaYLfe889XIrzQM2OEi/iwD6rGCfOJwqz0zN0lPLhRwIDAQAB"
-        }
-    },
-    "cordova-plugin-camera": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-camera"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-device": {
         "source": {
             "type": "registry",
@@ -41,10 +7,10 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-dialogs": {
+    "cordova-plugin-whitelist": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-dialogs"
+            "id": "cordova-plugin-whitelist"
         },
         "is_top_level": true,
         "variables": {}
@@ -56,5 +22,24 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "com.ionic.keyboard": {
+        "source": {
+            "type": "registry",
+            "id": "com.ionic.keyboard"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cc.fovea.cordova.purchase": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/j3k0/cordova-plugin-purchase.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {
+            "BILLING_KEY": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA23iz6tk/Dq+T21B6UVPxNPKG5WN6KDLP9pYS8FRY8g5KNsJVZZHvifh0cZlCYeWviduYXrcRz1+BMHFT8maT8pOcPFRgsMJ1TGrtSgXhCBGv9hlenvKVdDd7sWkxxaWAxzODLUDIp1+m6nm9xqqpyisrnErUdIgCWAZ7V//i+b9DpKtWxvQ2jfDCk6DVikhY02r1u/Bpge55OSl9dJCuLiEoWSAHVL+I2CXC9C+5R3Em57VQX7GMa0MI+npIxr0q7gl0bHaJ4s0lkdSaQ/02Bc9DDkB+bFPXbvOTE2beQn/Di2JmrDYy7gndLQq929GU0VVuQv5KdTZBEdNqFLCdtwIDAQAB"
+        }
     }
 }

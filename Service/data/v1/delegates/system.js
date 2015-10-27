@@ -197,6 +197,7 @@ function generate(app, req) {
 
     var deferred = Q.defer(),
         changePerson = req.user.person;
+
     try {
         save(app, req.body, changePerson, true)
             .then(function (data) {
@@ -313,14 +314,21 @@ function search(app, req) {
                 baseTeams.push(membership(app, req));
             }
         }
+        if (searchType === 'count') {
+            baseTeams.push(ownership(app, req));
+        }
 
         if (searchType === 'maintain') {
+            baseTeams.push(ownership(app, req));
+            baseTeams.push(membership(app, req));
 
+            /*
             if (
                 _.contains(req.user.roles, 'concreteprotector') === true ||
                 _.contains(req.user.roles, 'administrator') === true
             ) {
                 baseTeams.push(globalSystems(app, req));
+
             }
             if (
                 _.contains(req.user.roles, 'subscriber') === true
@@ -328,6 +336,7 @@ function search(app, req) {
                 baseTeams.push(ownership(app, req));
                 baseTeams.push(membership(app, req));
             }
+            */
         }
 
         Q.all(baseTeams)
@@ -337,10 +346,19 @@ function search(app, req) {
                 searchResult = _.sortBy(searchResult, 'name');
                 var result = [];
 
+                if (searchType == "count")
+                {
+                    return deferred.resolve(searchResult.length);
+                }
+
                 //get the unique searchresults
                 _.each(searchResult, function (innerResult) {
                     _.each(innerResult, function (system) {
                         if (_.where(result, {'id': system.id}).length === 0) {
+                            if (system.addedby == req.user.person) {
+                                system.isMine = true;
+                            }
+
                             result.push(system);
                         }
                     });
@@ -397,7 +415,6 @@ function search(app, req) {
                         // populate system details if requested
 
                         var ignoreList = _.pluck(ignoreSource,'fid');
-
 
                         // 1. if ids were part of the criteria, remove them from the ignoreList if they are present
                         // 2. whwatever is left of the ignore list remove items from results if they are in the ignore list

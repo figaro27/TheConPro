@@ -188,6 +188,13 @@ module.exports = function (objectType) {
                 .then(function (searchresults) {
                     searchresults = base.FixSqlResult((searchresults));
                     searchresults = _.sortBy(searchresults, 'name');
+
+                    for (var i in searchresults) {
+                        if (searchresults[i].addedby == req.user.person) {
+                            searchresults[i].isMine = true;
+                        }
+                    }
+
                     return deferred.resolve(searchresults);
                 })
                 .fail(function (error) {
