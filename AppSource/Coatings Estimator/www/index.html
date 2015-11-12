@@ -154,9 +154,13 @@
     var appBody = document.getElementById('appBody');
     if (window.cordova) {
       document.addEventListener('deviceready', function() {
-
         angular.bootstrap(appBody, ['estimateApp']);
         navigator.splashscreen.hide();
+
+        if (typeof(StatusBar) != "undefined") {
+          StatusBar.hide();
+        }
+
       }, false);
     } else {
       angular.bootstrap(document.body, ['estimateApp']);

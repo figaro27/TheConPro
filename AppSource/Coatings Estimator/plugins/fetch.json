@@ -41,5 +41,14 @@
         "variables": {
             "BILLING_KEY": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA23iz6tk/Dq+T21B6UVPxNPKG5WN6KDLP9pYS8FRY8g5KNsJVZZHvifh0cZlCYeWviduYXrcRz1+BMHFT8maT8pOcPFRgsMJ1TGrtSgXhCBGv9hlenvKVdDd7sWkxxaWAxzODLUDIp1+m6nm9xqqpyisrnErUdIgCWAZ7V//i+b9DpKtWxvQ2jfDCk6DVikhY02r1u/Bpge55OSl9dJCuLiEoWSAHVL+I2CXC9C+5R3Em57VQX7GMa0MI+npIxr0q7gl0bHaJ4s0lkdSaQ/02Bc9DDkB+bFPXbvOTE2beQn/Di2JmrDYy7gndLQq929GU0VVuQv5KdTZBEdNqFLCdtwIDAQAB"
         }
+    },
+    "cordova-plugin-statusbar": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/apache/cordova-plugin-statusbar.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }

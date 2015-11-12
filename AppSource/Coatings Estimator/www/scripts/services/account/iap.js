@@ -42,7 +42,7 @@ angular.module('estimateApp')
             });
 
 
-            store.when("test_dummy").updated(function(p) {
+            store.when("paidversion_month").updated(function(p) {
               //alert(JSON.stringify(p));
 
               if (p.owned) {
@@ -55,7 +55,7 @@ angular.module('estimateApp')
             });
 
             store.when("paidversion_year").updated(function(p) {
-
+              //alert(JSON.stringify(p));
 
               if (p.owned) {
                 $rootScope.paid = true;
@@ -76,6 +76,24 @@ angular.module('estimateApp')
               alert(JSON.stringify(error));
             });
 
+            store.when( "product" ).cancelled(function(product) {
+              $rootScope.hideLoadingWheel();
+            });
+
+            store.when( "product" ).owned(function(product) {
+              $rootScope.hideLoadingWheel();
+            });
+
+            store.when( "product" ).approved(function(product) {
+              //alert(JSON.stringify(product));
+              $rootScope.hideLoadingWheel();
+              product.finish();
+            });
+
+            store.when( "product" ).error(function(product) {
+              $rootScope.hideLoadingWheel();
+            });
+
 
             store.refresh();
           };
@@ -83,9 +101,11 @@ angular.module('estimateApp')
             store.order("test_dummy");
           };
           service.buyMonthly = function() {
+            $rootScope.showLoadingWheel();
             store.order("paidversion_month");
           };
           service.buyYearly = function() {
+            $rootScope.showLoadingWheel();
             store.order("paidversion_year");
           };
 

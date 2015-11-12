@@ -339,3 +339,9 @@ fieldset[disabled] .btn-grey.active {
   margin-right: auto;
   margin-left: auto;
 }
+
+
+.setting-item {
+  margin-left:0px !important;
+  margin-right:0px !important;
+}
