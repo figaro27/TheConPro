@@ -7,8 +7,8 @@
  */
 angular.module('estimateApp')
     .controller('ContractTemplateCtrl', [
-        '$rootScope', '$state', '$scope', '$stateParams', 'ContractTemplate', '$cordovaCamera', 'Storage', '$q', 'Reference', 'Log', '$window','Config',function (
-            $rootScope, $state, $scope, $stateParams, Service, $cordovaCamera, Storage, $q, Reference, Log,$window, Config) {
+        '$rootScope', '$state', '$scope', '$stateParams', 'ContractTemplate', 'Storage', '$q', 'Reference', 'Log', '$window','Config',function (
+            $rootScope, $state, $scope, $stateParams, Service, Storage, $q, Reference, Log,$window, Config) {
             'use strict';
             $scope.saving = false;
 
@@ -262,7 +262,7 @@ angular.module('estimateApp')
                 $scope.GetImage = function (model) {
                     $scope.errors = [];
                     if (navigator && navigator.camera) {
-                        $cordovaCamera.getPicture(cameraOptions)
+                        navigator.camera.getPicture(cameraOptions)
                             .then(function (imageData) {
                                 //140000 max length
                                 Log.Log('imageData length ' + imageData.length);

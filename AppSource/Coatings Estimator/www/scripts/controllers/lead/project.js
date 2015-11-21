@@ -1,7 +1,7 @@
 angular.module('estimateApp')
   .controller('ProjectCtrl', [
-    '$window', '$scope', '$stateParams', '$q', '$rootScope', 'Lead', 'Project', 'ProjectDetail', 'Config', 'System', 'ProjectDetailStyle', 'Storage', 'Person', 'Reference', 'Note','Address','$cordovaCamera','$filter',
-    function ($window, $scope, $stateParams, $q, $rootScope, Lead, Project, ProjectDetail, Config, System, ProjectDetailStyle, Storage, Person, Reference, Note, Address, $cordovaCamera, $filter) {
+    '$window', '$scope', '$stateParams', '$q', '$rootScope', 'Lead', 'Project', 'ProjectDetail', 'Config', 'System', 'ProjectDetailStyle', 'Storage', 'Person', 'Reference', 'Note','Address','$filter',
+    function ($window, $scope, $stateParams, $q, $rootScope, Lead, Project, ProjectDetail, Config, System, ProjectDetailStyle, Storage, Person, Reference, Note, Address, $filter) {
 
       'use strict';
 
@@ -653,7 +653,7 @@ angular.module('estimateApp')
               targetHeight: 600
             };
 
-            $cordovaCamera.getPicture(cameraOptions)
+            navigator.camera.getPicture(cameraOptions)
               .then(function(imageData) {
               //  $scope.AreaImage.data = 'data:image/png;base64,' + imageData;
                 var newImage = {

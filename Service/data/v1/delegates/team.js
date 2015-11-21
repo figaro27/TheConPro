@@ -133,18 +133,18 @@ function save(app, body, changePerson, isNew) {
             if (!body.email) {
                 return deferred.reject({message: 'missing person', code: 420});
             }
-            var accountdelegate = require('./account')();
+            var accountdelegate = require('./account');
             member.username = body.email;
             accountdelegate.Resolve(app, member)
                 .then(function (account) {
                     source.personid = account.id;
                     base.PopulateDefaults(source, model, actionDate, changePerson, isNew);
-                    //populate(source, model, isNew);
-                    team.Populate(source, model, isNew);
+                    populate(source, model, isNew);
+                    //team.Populate(source, model, isNew);
 
                     var itemsToSave = [];
                     var sourceData = [];
-                    base.BuildSaveArray(itemsToSave, sourceData, team.Build(app, model, isNew, changePerson), model);
+                    base.BuildSaveArray(itemsToSave, sourceData, build(app, model, isNew, changePerson), model);
 
                     Q.all(itemsToSave)
                         .then(function (data) {

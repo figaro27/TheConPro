@@ -10,7 +10,8 @@ angular.module('estimateApp')
         function ($q, $rootScope, $state, $window, $cordovaDevice, Config, Log, Account) {
             'use strict';
           var service = this;
-          $rootScope.paid = false;
+          var service = this;
+          $rootScope.paid = Config.Purchased;
 
           service.init = function() {
             $rootScope.showLoadingWheel();

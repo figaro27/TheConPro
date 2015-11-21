@@ -13,7 +13,8 @@ angular.module('estimateApp')
       $scope.saving = false;
       $scope.IsInRoles = function (roles) {
         //return Authorization.IsInRole(roles);
-        return IAP.paid;
+        //return IAP.paid;
+        return $rootScope.paid;
       };
 
       $scope.System = {
