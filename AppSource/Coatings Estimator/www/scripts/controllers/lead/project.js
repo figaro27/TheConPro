@@ -643,7 +643,6 @@ angular.module('estimateApp')
 
           if (navigator && navigator.camera) {
 
-
             var cameraOptions = {
               quality: 50,
               destinationType: Camera.DestinationType.DATA_URL,
@@ -653,16 +652,15 @@ angular.module('estimateApp')
               targetHeight: 600
             };
 
-            navigator.camera.getPicture(cameraOptions)
-              .then(function(imageData) {
+            navigator.camera.getPicture(function(imageData) {
               //  $scope.AreaImage.data = 'data:image/png;base64,' + imageData;
-                var newImage = {
-                  'data':imageData // 'data:image/png;base64,' + imageData
-                };
-                populateCameraResult(newImage);
-              }, function(error) {
-                Reference.ProcessError(error, $scope.AreaImage.errors);
-            });
+              var newImage = {
+                'data':imageData // 'data:image/png;base64,' + imageData
+              };
+              populateCameraResult(newImage);
+            },function(error) {
+              Reference.ProcessError(error, $scope.AreaImage.errors);
+            }, cameraOptions);
 
           }
         };

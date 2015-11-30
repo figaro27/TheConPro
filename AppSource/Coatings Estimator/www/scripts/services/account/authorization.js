@@ -86,7 +86,6 @@ angular.module('estimateApp')
 
             Service.Post(user, url.login)
                 .then(function (result) {
-                console.log("1");
                     Service.SetConfigAuth(result);
                     response.resolve(result);
                 }, function (error) {

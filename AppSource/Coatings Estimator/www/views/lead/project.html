@@ -199,10 +199,10 @@
           </span>
               Coverage: {{System.coverage}} sq.ft.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <span ng-hide="showAreaPrice">
-                        <button class="btn btn-link btn-link-nolink" ng-click="showAreaPrice=!showAreaPrice">
+                        <div class="" ng-click="">
                             {{System.saleprice | currency}} / sqft
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </button>
+                        </div>
             </span>
           <span ng-show="showAreaPrice">
             <input type="number" step="any" style="background-color: green; color: white;"
@@ -218,9 +218,9 @@
               <thead>
               <tr style="border: 1px solid black;">
                   <th>
-                      <button class="btn btn-link btn-link-nolink" ng-click="showContractorPrice=!showContractorPrice">
+                      <div class="" ng-click="">
                           &nbsp;&nbsp;Amount&nbsp;
-                      </button>
+                      </div>
                   </th>
                   <th ng-show="showContractorPrice">price</th>
                   <th>Ingredient</th>
