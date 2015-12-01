@@ -317,8 +317,7 @@
               </tr>
               </thead>
               <tbody style="border-bottom: 1px solid black; padding-bottom: 10px; margin-bottom: 10px;">
-              <tr class="space2"
-                  ng-class-odd="'cpOddRow'" ng-class-even="'cpEvenRow'"
+              <tr class="space2" ng-class-odd="'cpOddRow'" ng-class-even="'cpEvenRow'"
                   ng-repeat="note in Notes  | orderBy:predicate:reverse">
                   <td>
                       &nbsp;
@@ -340,19 +339,16 @@
     </div>
       <div class="row" ng-show="showImages">
           <div class="col-xs-12">
-              <a class="btn btn-left btn-warning btn-sm" style="width: 100%;" ng-click="showImages = !showImages"><i
-                      style="margin-top: 3px;" class="pull-left fa fa-minus-circle"></i> Images</a>
+              <a class="btn btn-left btn-warning btn-sm" style="width: 100%;" ng-click="showImages = !showImages"><i  style="margin-top: 3px;" class="pull-left fa fa-minus-circle"></i> Images</a>
           </div>
       </div>
       <div class="row" ng-show="showImages">
           <div ng-hide="NewPicture" class="col-sm-12" style="text-align: center">
-              <button type="button" class="btn btn-success" ng-click="TakePicture()"><i
-                      class="fa fa-camera"></i>
+              <button type="button" class="btn btn-success" ng-click="TakePicture()"><i class="fa fa-camera"></i>
               </button>
           </div>
-          <div ng-show="NewPicture" class="col-sm-12" style="text-align: center">
-              <img ng-show="AreaImage.data" style="width: 100%; padding: 10px;"
-                   src="data:image/png;base64,{{AreaImage.data}}"/><br/>
+          <div ng-show="NewPicture" class="col-sm-12" style="text-align:center" >
+              <img style="width: 100%; padding: 10px;" ng-src="data:image/png;base64,{{AreaImage.data}}" /><br/>
               <button type="button" class="btn btn-success" ng-click="SaveAreaImage()">Save</button>
               <button type="button" class="btn btn-default" ng-click="CancelSaveAreaImage()">Cancel</button>
           </div>

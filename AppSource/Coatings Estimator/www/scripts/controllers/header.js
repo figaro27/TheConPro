@@ -26,7 +26,12 @@ angular.module('estimateApp')
     });
 
       $rootScope.$on(Config.AjaxActivity, function (event, data) {
-        $scope.busy = data;
+        //$scope.busy = data;
+
+        if (data)
+          $rootScope.showLoadingWheel();
+        else
+          $rootScope.hideLoadingWheel();
       });
 
   }]);

@@ -691,8 +691,10 @@ angular.module('estimateApp')
         }
 
         function populateCameraResult(newImage){
-          $scope.NewPicture = true;
-          $scope.AreaImage = newImage;
+          $scope.$apply(function() {
+            $scope.NewPicture = true;
+            $scope.AreaImage = newImage;
+          });
         }
 
         $scope.SaveAreaImage = function () {
