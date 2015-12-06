@@ -311,7 +311,7 @@ function search(app, req) {
             ) {
                 baseTeams.push(globalSystems(app, req));
                 baseTeams.push(ownership(app, req));
-                baseTeams.push(membership(app, req));
+                baseTeams.push(v1a(app, req));
             }
         }
         if (searchType === 'count') {
@@ -319,10 +319,9 @@ function search(app, req) {
         }
 
         if (searchType === 'maintain') {
-            baseTeams.push(ownership(app, req));
-            baseTeams.push(membership(app, req));
+            //baseTeams.push(ownership(app, req));
+            //baseTeams.push(membership(app, req));
 
-            /*
             if (
                 _.contains(req.user.roles, 'concreteprotector') === true ||
                 _.contains(req.user.roles, 'administrator') === true
@@ -336,7 +335,6 @@ function search(app, req) {
                 baseTeams.push(ownership(app, req));
                 baseTeams.push(membership(app, req));
             }
-            */
         }
 
         Q.all(baseTeams)
