@@ -319,7 +319,7 @@ function search(app, req) {
         }
 
         if (searchType === 'maintain') {
-            //baseTeams.push(ownership(app, req));
+            baseTeams.push(ownership(app, req));
             //baseTeams.push(membership(app, req));
 
             if (
