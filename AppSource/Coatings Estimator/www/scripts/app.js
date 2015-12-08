@@ -286,7 +286,7 @@ app.config(['$stateProvider',
                             }
                           }
 
-                          return counter < Config.LimitationCount;
+                          return counter < Config.SystemLimitationCount;
                         };
 
                         $scope.newmodel = $scope.canCreate() ? newsystem.name : "";
@@ -364,7 +364,7 @@ app.config(['$stateProvider',
                             }
                           }
 
-                          return counter < Config.LimitationCount;
+                          return counter < Config.ColorLimitationCount;
                         };
 
                         $scope.newmodel = $scope.canCreate() ? newcolor.name : "";
@@ -444,7 +444,7 @@ app.config(['$stateProvider',
                             }
                           }
 
-                          return counter < Config.LimitationCount;
+                          return counter < Config.IngredientLimitationCount;
                         };
 
                         $scope.newmodel = $scope.canCreate() ? newingredient.name : "";
@@ -499,12 +499,34 @@ app.config(['$stateProvider',
             views: {
                 'content@index': {
                     templateUrl: 'views/common/list.html',
-                    controller: ['$scope', '$state', 'models', function ($scope, $state, models) {
+                    controller: ['$scope', '$rootScope', '$state', 'models', function ($scope, $rootScope, $state, models) {
                         $scope.Models = models;
                         $scope.goto = function (id) {
                             $state.go(pattern.name, {id: id});
                         };
-                        $scope.newmodel = newpattern.name;
+
+
+                        $scope.canCreate = function() {
+                          if ($rootScope.paid)
+                            return true;
+
+                          var counter = 0;
+
+                          for (var i in $scope.Models) {
+                            try {
+                              if (typeof($scope.Models[i].isMine) != "undefined" && $scope.Models[i].isMine) {
+                                counter ++;
+                              }
+                            }
+                            catch (e) {
+
+                            }
+                          }
+
+                          return counter < Config.PatternLimitationCount;
+                        };
+
+                        $scope.newmodel = $scope.canCreate() ? newpattern.name : "";
                     }]
                 }
             },
@@ -880,9 +902,12 @@ app.config(['$stateProvider',
         $httpProvider.interceptors.push('HttpInterceptor');
 
 
-    }]).run(['$rootScope', '$state', '$stateParams', '$ionicLoading', '$window', 'Authorization', 'Config', 'Log',
-    function ($rootScope, $state, $stateParams, $ionicLoading, $window, Authorization, Config, Log) {
+    }]).run(['$rootScope', '$ionicPlatform', '$state', '$stateParams', '$ionicLoading', '$ionicPopup', '$window', 'Authorization', 'Config', 'Log',
+    function ($rootScope, $ionicPlatform, $state, $stateParams, $ionicLoading, $ionicPopup, $window, Authorization, Config, Log) {
         'use strict';
+      $ionicPlatform.registerBackButtonAction(function () {
+        window.history.back();
+      }, 100);
 
       $rootScope.showLoadingWheel = function() {
         $ionicLoading.show({
@@ -891,6 +916,12 @@ app.config(['$stateProvider',
       };
       $rootScope.hideLoadingWheel = function(){
         $ionicLoading.hide();
+      };
+      $rootScope.alert = function(title, msg) {
+        var alertPopup = $ionicPopup.alert({
+          title: (typeof(title) == "undefined" ? "" : title),
+          template: (typeof(msg) == "undefined" ? "" : msg)
+        });
       };
 
         //$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {

@@ -252,6 +252,7 @@ function innerSearch(app, req) {
                 _.contains(req.user.roles, 'administrator') === true
             ) {
                 baseTeams.push(leadDelegate.Membership(app, req));
+                baseTeams.push(leadDelegate.Ownership(app, req));
             }
         }
         // we are getting the teams for leads so that we can check at the end to make sure the

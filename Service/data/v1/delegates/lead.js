@@ -272,6 +272,7 @@ function search(app, req, next) {
                 _.contains(req.user.roles, 'administrator') === true
             ) {
                 baseTeams.push(membership(app, req));
+                baseTeams.push(ownership(app, req));
             }
         }
 

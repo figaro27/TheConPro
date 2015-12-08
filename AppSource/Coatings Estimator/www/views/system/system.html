@@ -46,17 +46,17 @@
       </div>
     </div>
 
-    <div class="row" ng-show="showIngredients">
-      <div class="col-xs-4" >
-      </div>
-      <div class="col-xs-2 " >
-        Purchase<br> Price
-      </div>
-      <div class="col-xs-2 text-center" >
-        <br>Units
+    <div class="row small-font" ng-show="showIngredients">
+      <div class="col-xs-4 text-center" >
       </div>
       <div class="col-xs-3 text-center" >
-        Extra Info
+        Purchase<br> Price
+      </div>
+      <div class="col-xs-3 text-center" >
+        Units
+      </div>
+      <div class="col-xs-3 text-center" >
+        Extra
       </div>
     </div>
     <div class="row" ng-show="showIngredients" ng-repeat="ingredient in Ingredients">
@@ -65,10 +65,10 @@
         <label for="checkbox_{{ingredient.id}}">{{ingredient.name}}</label>
       </div>
 
-      <div class="col-xs-2">
+      <div class="col-xs-3">
         {{ingredient.purchaseprice}}
       </div>
-      <div class="col-xs-2">
+      <div class="col-xs-3">
         <input type="hidden" ng-model="ingredient.primefactor">
         <select style="width: 100%;"
                 ng-model="ingredient.factor"

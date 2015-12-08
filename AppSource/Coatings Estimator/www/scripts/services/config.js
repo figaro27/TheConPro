@@ -29,6 +29,9 @@ angular.module('estimateApp')
     /*
 
      */
-        'LimitationCount': 2,
+        'SystemLimitationCount': 2,
+        'ColorLimitationCount': 5,
+        'IngredientLimitationCount': 5,
+        'PatternLimitationCount': 5,
         'Purchased': false,
     });

@@ -311,7 +311,7 @@ function search(app, req) {
             ) {
                 baseTeams.push(globalSystems(app, req));
                 baseTeams.push(ownership(app, req));
-                baseTeams.push(v1a(app, req));
+                //baseTeams.push(v1a(app, req));
             }
         }
         if (searchType === 'count') {

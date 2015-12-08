@@ -23,6 +23,7 @@ angular.module('estimateApp')
 
     $rootScope.$on(Config.SetTitleEvent, function (event, data) {
       $scope.title = data;
+      //$scope.title = data.toUpperCase();
     });
 
       $rootScope.$on(Config.AjaxActivity, function (event, data) {
