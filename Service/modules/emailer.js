@@ -4,7 +4,7 @@
 'use strict';
 module.exports = function () {
     var nodemailer = require('nodemailer'),
-    Mailgun = require('mailgun-js');
+    Mailgun = require('mailgun-js'),
     smtpTransport = require('nodemailer-smtp-transport');
 
     function sendHtmlEmailViaMailGun(app, from, to, subject, body) {
