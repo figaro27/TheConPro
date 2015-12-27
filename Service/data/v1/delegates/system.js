@@ -45,7 +45,7 @@ function populate(source, model, isNew) {
         model.saleprice = source.saleprice;
     }
 
-    if (source.share) {
+    if (typeof(source.share) != "undefined" && source.share != null) {
         model.share = source.share;
     }
 }
@@ -89,7 +89,7 @@ function build(app, source, isNew) {
                 }
 
 
-                if (source.share) {
+                if (typeof(source.share) != "undefined" && source.share != null) {
                     buildResult.share = source.share;
                 }
 
