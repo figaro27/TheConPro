@@ -308,7 +308,8 @@ function search(app, req) {
                 _.contains(req.user.roles, 'subscriber') === true ||
                 _.contains(req.user.roles, 'concreteprotector') === true ||
                 _.contains(req.user.roles, 'administrator') === true
-            ) {
+            )
+            {
                 baseTeams.push(globalSystems(app, req));
                 baseTeams.push(ownership(app, req));
                 //baseTeams.push(v1a(app, req));

@@ -647,7 +647,8 @@ function forgotpassword(app, body) {
                                                 var from = app.config.senderemail,
                                                     to = account.username,
                                                     subject = 'Forgot Password';
-                                                emailer.SendHtmlEmail(app, from, to, subject, passwordbody);
+                                                emailer.sendHtmlEmailViaMailGun(app, from, to, subject, passwordbody);
+                                                //emailer.sendHtmlEmail(app, from, to, subject, passwordbody);
                                                 deferred.resolve('forgot password email sent to ' + account.username);
                                             }, function (error) {
                                                 deferred.reject({message: error, code: 500});

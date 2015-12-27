@@ -25,6 +25,11 @@ config.storage = {
     region : 'IAD'
 };
 
+config.mailgun = {
+    api_key: 'key-061710f7633b3b2e2971afade78b48ea',
+    domain: 'sandboxa8b6f44a159048db93fd39fc8acbd3fa.mailgun.org'
+}
+
 config.smtp = {
     username: '',
     password: '',
