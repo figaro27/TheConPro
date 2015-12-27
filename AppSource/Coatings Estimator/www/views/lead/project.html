@@ -1,4 +1,4 @@
-<div class="entity">
+<td class="entity">
   <span ng-show="manageLead">
   <div class="row" style="color: red;" ng-show="!!Model.errors.length">
       <ul>
@@ -75,7 +75,7 @@
     </span>
 
   <span ng-hide="manageLead">
-    <span ng-hide="manageSystem">
+    <span ng-hide="_manageSystem">
   <div class="row" style="padding-top: 10px;">
       <div class="col-xs-12">
           <button class="btn btn-primary btn-xs" ng-disabled="manageSystem" ng-click="EditLead(Lead)">
@@ -120,7 +120,7 @@
       </ul>
   </div>
 
-  <div ng-hide="manageSystem">
+  <td ng-hide="manageSystem">
       <div class="row" ng-hide="showSystem">
           <div class="col-xs-12">
               <a class="btn btn-left btn-primary btn-sm" style="width: 100%;" ng-click="showSystem = !showSystem"><i
@@ -140,68 +140,75 @@
               </button>
           </div>
       </div>
-      <div ng-show="showSystem" class="row space2" style="margin-left: 2px; margin-right: 2px; cursor: pointer;"
-           ng-click="EditSystem(system, $index)"
-           ng-class-odd="'cpOddRow'" ng-class-even="'cpEvenRow'"
-           ng-repeat="system in LeadSystems">
-          <div class="col-md-3"><b>Area Name:</b> {{system.name}}</div>
-          <div class="col-md-3"><b>System:</b> {{system.System.name}}</div>
-          <div class="col-md-3"><b>Area:</b> {{system.area}} sq/ft</div>
-          <div class="col-md-3"><b>Price:</b> {{system.saleprice * system.area | currency}}</div>
-
-      </div>
-  </div>
-  <div ng-show="manageSystem">
-      <div class="row">
+    <div ng-show="showSystem">
+      <table class="tableview">
+        <tr class="tb-header">
+          <th style="width:15%"><b>Area Name:</b></th>
+          <th style="width:50%"><b>System:</b></th>
+          <th style="width:15%"><b>Area:</b></th>
+          <th style="width:20%"><b>Price:</b></th>
+        </tr>
+        <tr  style="margin-left: 2px; margin-right: 2px; cursor: pointer;"
+             ng-click="EditSystem(system, $index)"
+             ng-class-odd="'cpOddRow'" ng-class-even="'cpEvenRow'"
+             ng-repeat="system in LeadSystems">
+          <td>{{system.name}}</td>
+          <td>{{system.System.name}}</td>
+          <td>{{system.area}} sq/ft</td>
+          <td>{{system.saleprice * system.area | currency}}</td>
+        </tr>
+      </table>
+      <div ng-show="manageSystem">
+        <div class="row">
           <div class="col-xs-12">
-              Area Name
-              <input class="form-control" type="text" ng-model="LeadSystem.name"
-                     placeholder="area name">
+            Area Name
+            <input class="form-control" type="text" ng-model="LeadSystem.name"
+                   placeholder="area name">
           </div>
-      </div>
-      <div class="row">
+        </div>
+        <div class="row">
           <div class="col-sm-6">
-              Length ft.
-              <input class="form-control" type="number" ng-model-options="{debounce:1000}" ng-change="AreaChanged()"
-                     ng-model="LeadSystem.arealength"
-                     placeholder="length">
+            Length ft.
+            <input class="form-control" type="number" ng-model-options="{debounce:1000}" ng-change="AreaChanged()"
+                   ng-model="LeadSystem.arealength"
+                   placeholder="length">
           </div>
           <div class="col-sm-6">
-              Width ft.
-              <input class="form-control" type="number" ng-model-options="{debounce:1000}" ng-change="AreaChanged()"
-                     ng-model="LeadSystem.areawidth"
-                     placeholder="width">
+            Width ft.
+            <input class="form-control" type="number" ng-model-options="{debounce:1000}" ng-change="AreaChanged()"
+                   ng-model="LeadSystem.areawidth"
+                   placeholder="width">
           </div>
-      </div>
-      <div class="row">
+        </div>
+        <div class="row">
           <div class="col-xs-12">
-              System
-              <select style="width: 100%;"
-                      ng-model="LeadSystem.systemid"
-                      ng-change="SystemChange(LeadSystem.systemid)"
-                      ng-options="rel.id as rel.name + ' $' + rel.saleprice +' / sqft' for rel in Systems">
-                  <option style="display:none" value=""></option>
-              </select>
+            System
+            <select style="width: 100%;"
+                    ng-model="LeadSystem.systemid"
+                    ng-change="SystemChange(LeadSystem.systemid)"
+                    ng-options="rel.id as rel.name + ' $' + rel.saleprice +' / sqft' for rel in Systems">
+              <option style="display:none" value=""></option>
+            </select>
           </div>
-      </div>
-      <div class="row" ng-show="showSystem">
+        </div>
+        <div class="row" ng-show="showSystem">
           <div class="col-xs-12">
 
           <span ng-hide="showIngredients">
                     <a class="btn btn-link-nolink btn-md"
                        ng-click="showIngredients = !showIngredients"><i
-                            style="margin-top: 3px;" class="pull-right fa fa-plus-circle"></i></a>
+                      style="margin-top: 3px;" class="pull-right fa fa-plus-circle"></i></a>
           </span>
           <span ng-show="showIngredients">
                     <a class="btn btn-link-nolink btn-md"
                        ng-click="showIngredients = !showIngredients"><i
-                            style="margin-top: 3px;" class="pull-right fa fa-minus-circle"></i></a>
+                      style="margin-top: 3px;" class="pull-right fa fa-minus-circle"></i></a>
           </span>
-              Coverage: {{System.coverage}} sq.ft.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Coverage: {{System.coverage}} sq.ft.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <span ng-hide="showAreaPrice">
                         <div class="" ng-click="">
-                            {{System.saleprice | currency}} / sqft
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          {{System.saleprice | currency}} / sqft
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </div>
             </span>
           <span ng-show="showAreaPrice">
@@ -210,73 +217,73 @@
                    ng-model="System.saleprice">
                         <button class="btn btn-success" ng-click="showAreaPrice=!showAreaPrice">ok</button>
           </span>
-              System Price: {{System.price | currency}}
-
-              <span ng-show="System.ingredients.length === 0 ">Select System</span>
-          <span ng-show="showIngredients">
-          <table style="margin-top: 20px;" ng-show="System.ingredients.length !== 0 " width="100%">
-              <thead>
-              <tr style="border: 1px solid black;">
-                  <th>
-                      <div class="" ng-click="">
-                          &nbsp;&nbsp;Amount&nbsp;
-                      </div>
-                  </th>
-                  <th ng-show="showContractorPrice">price</th>
-                  <th>Ingredient</th>
-                  <th>&nbsp;Extra&nbsp;</th>
-                  <th>&nbsp;Units&nbsp;</th>
-                  <th>Color</th>
-                  <th>Pattern</th>
-              </tr>
-              </thead>
-              <tbody style="border-bottom: 1px solid black;">
-              <tr ng-repeat="detail in System.ingredients">
-                  <td>&nbsp;&nbsp;{{detail.amount}}</td>
-                  <th ng-show="showContractorPrice">{{detail.contractorprice | currency}}</th>
-                  <td>{{detail.name}}</td>
-                  <td>{{detail.extra}}</td>
-                  <td>{{detail.factor}}</td>
-                  <td>
-                      <span ng-show="detail.colors.length === 0">No Colors</span>
-                      <select ng-show="detail.colors.length > 0" style="width: 100%;"
-                              ng-model="detail.style.colorid"
-                              ng-options="rel.id as rel.name for rel in detail.colors">
-                          <option style="display:none" value=""></option>
-                      </select>
-                  </td>
-                  <td>
-                      <span ng-show="detail.patterns.length === 0">No Patterns</span>
-                      <select style="width: 100%;"
-                              ng-show="detail.patterns.length > 0"
-                              ng-model="detail.style.patternid"
-                              ng-options="rel.id as rel.name for rel in detail.patterns">
-                          <option style="display:none" value=""></option>
-                      </select>
-                  </td>
-              </tr>
-              <tr ng-show="showContractorPrice">
-                  <td>Ingredient Cost</td>
-                  <td>{{System.contractortotalprice | currency}}</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-              </tr>
-              </tbody>
+            System Price: {{System.price | currency}}
+            <span ng-show="System.ingredients.length === 0 ">Select System</span>
+          <div ng-show="showIngredients">
+            <table class="tableview" style="margin-top: 20px;" ng-show="System.ingredients.length !== 0 " width="100%">
+            <tr class="tb-header">
+              <th>
+                <div class="" ng-click="">
+                  &nbsp;&nbsp;Amount&nbsp;
+                </div>
+              </th>
+              <th ng-show="showContractorPrice">price</th>
+              <th>Ingredient</th>
+              <th>&nbsp;Extra&nbsp;</th>
+              <th>&nbsp;Units&nbsp;</th>
+              <th>Color</th>
+              <th>Pattern</th>
+            </tr>
+            <tbody style="border-bottom: 1px solid black;">
+            <tr ng-repeat="detail in System.ingredients">
+              <td>&nbsp;&nbsp;{{detail.amount}}</td>
+              <th ng-show="showContractorPrice">{{detail.contractorprice | currency}}</th>
+              <td>{{detail.name}}</td>
+              <td>{{detail.extra}}</td>
+              <td>{{detail.factor}}</td>
+              <td>
+                <span ng-show="detail.colors.length === 0">No Colors</span>
+                <select ng-show="detail.colors.length > 0" style="width: 100%;"
+                        ng-model="detail.style.colorid"
+                        ng-options="rel.id as rel.name for rel in detail.colors">
+                  <option style="display:none" value=""></option>
+                </select>
+              </td>
+              <td>
+                <span ng-show="detail.patterns.length === 0">No Patterns</span>
+                <select style="width: 100%;"
+                        ng-show="detail.patterns.length > 0"
+                        ng-model="detail.style.patternid"
+                        ng-options="rel.id as rel.name for rel in detail.patterns">
+                  <option style="display:none" value=""></option>
+                </select>
+              </td>
+            </tr>
+            <tr ng-show="showContractorPrice">
+              <td>Ingredient Cost</td>
+              <td>{{System.contractortotalprice | currency}}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            </tbody>
           </table>
-          </span>
           </div>
-      </div>
-      <div class="row" ng-show="showSystem">
+          </div>
+        </div>
+        <div class="row" ng-show="showSystem">
           <div class="col-xs-12" style="text-align: center; margin-top: 10px;">
-              <button ng-disabled="saving" type="button" class="btn btn-success" ng-click="SaveSystem(LeadSystem)">Save
-              </button>
-              <button type="button" class="btn btn-default" ng-click="CancelUpdateSystem(LeadSystem)">Cancel</button>
+            <button ng-disabled="saving" type="button" class="btn btn-success" ng-click="SaveSystem(LeadSystem)">Save
+            </button>
+            <button type="button" class="btn btn-default" ng-click="CancelUpdateSystem(LeadSystem)">Cancel</button>
           </div>
+        </div>
       </div>
-  </div>
+    </div>
+
+
 
   <!-- Systems End -->
 

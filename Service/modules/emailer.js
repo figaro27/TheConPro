@@ -17,7 +17,7 @@ module.exports = function () {
             //The email to contact
             to: to,
             //Subject and text data
-            subject: 'Hello from Mailgun',
+            subject: 'Hello from Coatings Estimator. Reset password.',
             html: body
         }
 

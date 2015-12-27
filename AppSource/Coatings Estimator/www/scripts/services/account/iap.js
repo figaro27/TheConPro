@@ -11,9 +11,13 @@ angular.module('estimateApp')
             'use strict';
           var service = this;
           var service = this;
+
           $rootScope.paid = Config.Purchased;
 
-          service.init = function() {
+          service.init = function(ignoreStore) {
+
+            $rootScope.paid = ignoreStore;
+
             $rootScope.showLoadingWheel();
 
             if (typeof(store) == "undefined") {

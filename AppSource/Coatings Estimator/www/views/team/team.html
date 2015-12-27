@@ -19,7 +19,46 @@
         Email<br/><input class="form-control" type="text" ng-model="Member.email" placeholder="email">
       </div>
     </div>
-    <div class="row">
+
+
+    <table class="tableview">
+      <tr class="tb-header">
+        <td>Systems</td>
+        <td>Leads</td>
+        <td>Financial</td>
+        <td>Contract</td>
+      </tr>
+      <tr>
+        <td>
+          <input type="checkbox" ng-model="Member.readsystem" name="readsystem" id="readsystem" value="value">
+          <label for="readsystem">Read</label>&nbsp;<br/>
+          <input type="checkbox" ng-model="Member.editsystem" name="editsystem" id="editsystem" value="value">
+          <label for="editsystem">Full</label>&nbsp;
+        </td>
+        <td>
+          <input type="checkbox" ng-model="Member.readlead" name="readlead" id="readlead" value="value">
+          <label for="readlead">Read</label>&nbsp;<br/>
+          <input type="checkbox" ng-model="Member.editlead" name="editlead" id="editlead" value="value">
+          <label for="editlead">Full</label>&nbsp;
+        </td>
+        <td>
+          <input type="checkbox" ng-model="Member.readfinancial" name="readfinancial" id="readfinancial" value="value">
+          <label for="readfinancial">Read</label>&nbsp;<br/>
+          <input type="checkbox" ng-model="Member.editfinancial" name="editfinancial" id="editfinancial" value="value">
+          <label for="editfinancial">Full</label>&nbsp;
+        </td>
+        <td>
+          <input type="checkbox" ng-model="Member.readcontract" name="readcontract" id="readcontract" value="value">
+          <label for="readcontract">Read</label>&nbsp;<br/>
+          <input type="checkbox" ng-model="Member.editcontract" name="editcontract" id="editcontract" value="value">
+          <label for="editcontract">Full</label>&nbsp;
+        </td>
+      </tr>
+    </table>
+
+
+
+    <div class="row" style="display:none; font-size:0.9em;">
       <div class="col-xs-3">
         Systems<br/>
         <input type="checkbox" ng-model="Member.readsystem" name="readsystem" id="readsystem" value="value">
