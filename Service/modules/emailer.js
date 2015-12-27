@@ -25,14 +25,14 @@ module.exports = function () {
         mailgun.messages().send(data, function (err, body) {
             //If there is an error, render the error page
             if (err) {
-                res.render('error', { error : err});
+                //res.render('error', { error : err});
                 console.log("got an error: ", err);
             }
             //Else we can greet    and leave
             else {
                 //Here "submitted.jade" is the view file for this landing page
                 //We pass the variable "email" from the url parameter in an object rendered by Jade
-                res.render('submitted', { email : req.params.mail });
+                //res.render('submitted', { email : body });
                 console.log(body);
             }
         });
@@ -102,6 +102,7 @@ module.exports = function () {
     }
 
     return {
+        sendHtmlEmailViaMailGun: sendHtmlEmailViaMailGun,
         SendHtmlEmail: sendHtmlEmail,
         SendTextEmail: sendTextEmail
     };
