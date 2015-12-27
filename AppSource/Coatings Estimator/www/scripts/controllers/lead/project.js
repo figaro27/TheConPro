@@ -653,7 +653,7 @@ angular.module('estimateApp')
             };
 
             navigator.camera.getPicture(function(imageData) {
-              //  $scope.AreaImage.data = 'data:image/png;base64,' + imageData;
+              $scope.AreaImage.data = 'data:image/png;base64,' + imageData;
               var newImage = {
                 'data':imageData // 'data:image/png;base64,' + imageData
               };
