@@ -6,7 +6,8 @@ angular.module('estimateApp')
         var url = {
             search: 'api/v1/system/search',
             add: 'api/v1/system',
-            update: 'api/v1/system'
+            update: 'api/v1/system',
+            remove: 'api/v1/system'
         };
 
         service.GetSystems = function (populate, searchType) {
@@ -89,6 +90,10 @@ angular.module('estimateApp')
                     return response.reject(error);
                 });
             return response.promise;
+        };
+
+        service.Remove = function (id) {
+            return Service.Remove(id, url.remove);
         };
 
         function buildSaveIngredients(id, ingredients) {

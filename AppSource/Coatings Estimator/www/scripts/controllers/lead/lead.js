@@ -129,6 +129,26 @@ angular.module('estimateApp')
           $scope.editingLead = false;
         };
 
+        $scope.Remove = function (model) {
+          promises = [];
+
+          promises.push(Lead.Remove(model.id));
+
+          if (typeof(model.person) != "undefined")
+            promises.push(Person.Remove(model.person.id));
+
+          if (typeof(model.detail) != "undefined" && typeof(model.detail.id) != "undefined")
+            promises.push(LeadDetail.Remove(model.detail.id));
+
+          $q.all(promises)
+            .then(function (lead) {
+              //populateLead(lead[0]);
+              $rootScope.back();
+            }, function (error) {
+              Reference.ProcessError(error, $scope.errors);
+            });
+        };
+
         $scope.SaveLead = function (model) {
           var errors = [];
           model.Errors = [];
@@ -374,7 +394,7 @@ angular.module('estimateApp')
           if (!model.type) {
             model.type = 'home';
           }
-        }
+        };
 
         $scope.Cancel = function () {
           $rootScope.back();

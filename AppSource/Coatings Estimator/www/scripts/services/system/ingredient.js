@@ -6,7 +6,8 @@ angular.module('estimateApp')
     var url = {
       search: 'api/v1/ingredient/search',
       add: 'api/v1/ingredient',
-      update: 'api/v1/ingredient'
+      update: 'api/v1/ingredient',
+      remove: 'api/v1/ingredient',
     };
 
     service.GetAll = function () {
@@ -57,6 +58,27 @@ angular.module('estimateApp')
           var saves = [];
           saves.push(buildSaveColors(result.id, model.colors));
           saves.push(buildSavePatterns(result.id, model.patterns));
+          $q.all(saves)
+            .then(function(saveresult){
+              return response.resolve(saveresult);
+            },
+            function(error){
+              return response.reject(error);
+            });
+        },
+        function(error){
+          return response.reject(error);
+        });
+      return response.promise;
+    };
+
+    service.Remove = function (id) {
+      var response = $q.defer();
+      Service.Remove(id, url.remove)
+        .then(function(result){
+          var saves = [];
+          //saves.push(buildSaveColors(result.id, model.colors));
+          //saves.push(buildSavePatterns(result.id, model.patterns));
           $q.all(saves)
             .then(function(saveresult){
               return response.resolve(saveresult);

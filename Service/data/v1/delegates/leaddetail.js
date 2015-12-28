@@ -211,6 +211,30 @@ function update(app, req) {
 }
 leaddetail.prototype.Update = update;
 
+function remove(app, req) {
+    var deferred = Q.defer();
+
+    try {
+        var personLead = require('./../models/' + objectType)(app.db).Model();
+
+        var criteria = new SearchMethod().byId;
+        criteria.where.id = req.params.id;
+
+        base.RemoveEntity(personLead, criteria)
+            .then(function () {
+                return deferred.resolve(req.params.id);
+            },
+            function (error) {
+                return deferred.reject(error);
+            });
+    }
+    catch (e) {
+        return deferred.reject({message: e, code: 400});
+    }
+    return deferred.promise;
+}
+leaddetail.prototype.Remove = remove;
+
 function search(app, req) {
     var deferred = Q.defer(),
         body = req.body;

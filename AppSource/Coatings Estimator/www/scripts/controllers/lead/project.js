@@ -564,9 +564,11 @@ angular.module('estimateApp')
         // Images & Signatues
 
         function populateStorages(storageModels) {
+
           var queues = [],
+
           response = $q.defer(),
-            results =  _.where(storageModels, {type: 'areaimage'});
+          results =  _.where(storageModels, {type: 'areaimage'});
 
          // $scope.AreaImages = _.where(storageModels, {type: 'areaimage'});
 

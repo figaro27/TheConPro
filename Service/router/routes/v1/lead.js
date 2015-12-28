@@ -25,6 +25,10 @@ module.exports = function (app, path) {
         return base.RestAction(app, req, res, next, manager.Update(app, req, res, next));
     });
 
+    base.Router.delete('/:id', function (req, res, next) {
+        return base.RestAction(app, req, res, next, manager.Remove(app, req, res, next));
+    });
+
     base.Router.post('/search', function (req, res, next) {
         return base.RestAction(app, req, res, next, manager.Search(app, req, res, next));
     });

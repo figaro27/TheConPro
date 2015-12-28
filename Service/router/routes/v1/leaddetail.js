@@ -5,7 +5,7 @@ module.exports = function (app, path) {
             type: 'leaddetail',
             generate: true,
             update: true,
-            remove: false,
+            remove: true,
             search: true,
             simpleDelegate: false,
             simpleManager: true
@@ -23,6 +23,10 @@ module.exports = function (app, path) {
 
     base.Router.put('/',function (req, res, next) {
         return base.RestAction(app, req, res, next, manager.Update(app, req, res, next));
+    });
+
+    base.Router.delete('/:id', function (req, res, next) {
+        return base.RestAction(app, req, res, next, manager.Remove(app, req, res, next));
     });
 
     base.Router.post('/search', function (req, res, next) {

@@ -189,6 +189,30 @@ function generate(app, req) {
 }
 person.prototype.Generate = generate;
 
+function remove(app, req) {
+    var deferred = Q.defer();
+
+    try {
+        var personLead = require('./../models/' + objectType)(app.db).Model();
+
+        var criteria = new SearchMethod().byId;
+        criteria.where.id = req.params.id;
+
+        base.RemoveEntity(personLead, criteria)
+            .then(function () {
+                return deferred.resolve(req.params.id);
+            },
+            function (error) {
+                return deferred.reject(error);
+            });
+    }
+    catch (e) {
+        return deferred.reject({message: e, code: 400});
+    }
+    return deferred.promise;
+}
+person.prototype.Remove = remove;
+
 function update(app, req) {
 
     var deferred = Q.defer(),

@@ -7,7 +7,8 @@ angular.module('estimateApp')
       var url = {
         search: 'api/v1/lead/search',
         add: 'api/v1/lead',
-        update: 'api/v1/lead'
+        update: 'api/v1/lead',
+        remove: 'api/v1/lead'
       };
 
       service.Statuses = Reference.Statuses;
@@ -224,6 +225,19 @@ angular.module('estimateApp')
 
         return response.promise;
       };
+
+      service.Remove = function (id) {
+        var response = $q.defer();
+
+        Service.Remove(id, url.remove)
+          .then(function (result) {
+            return response.resolve(result);
+          },
+          function (error) {
+            return response.reject(error);
+          });
+        return response.promise;
+      }
 
       service.Update = function (model) {
         var response = $q.defer();

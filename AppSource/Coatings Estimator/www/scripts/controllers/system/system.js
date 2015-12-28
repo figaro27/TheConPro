@@ -118,6 +118,20 @@ angular.module('estimateApp')
         }
       };
 
+      $scope.Remove = function (id) {
+        System.Remove(id)
+          .then(function (result) {
+            $scope.saving = false;
+            $rootScope.back();
+          },
+          function (error) {
+            $scope.saving = false;
+            Reference.ProcessError(error, model.errors);
+          });
+      }
+
+
+
       $scope.checkIngredient = function(id){
         var primary = _.where($scope.Ingredients, {'id': id})[0];
         primary.checked = !primary.checked;
