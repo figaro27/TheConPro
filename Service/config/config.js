@@ -18,9 +18,9 @@ config.tokenRenewIn = 50; // if your token will expire with in tokenRenewIn minu
 
 //rackspace
 config.storage = {
-    username : '',
+    username : 'bstallter',
     apiKey : '5621fdf861864de0aa4fd029767c022a',
-    container : 'bstallter',
+    container : 'a-container',
     provider : 'rackspace',
     region : 'IAD'
 };
