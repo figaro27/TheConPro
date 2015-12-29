@@ -20,7 +20,7 @@ config.tokenRenewIn = 50; // if your token will expire with in tokenRenewIn minu
 config.storage = {
     username : 'bstallter',
     apiKey : '5621fdf861864de0aa4fd029767c022a',
-    container : 'a-container',
+    container : 'ce-filepool',
     provider : 'rackspace',
     region : 'IAD'
 };
