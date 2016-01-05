@@ -46,8 +46,8 @@ angular.module('estimateApp')
 
 
     service.ValidEmail = function (email) {
-      var re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-      return re.test(email);
+      var regexp = /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/;
+      return regexp.test(email);
     };
 
     service.ValidPhone = function (phone) {

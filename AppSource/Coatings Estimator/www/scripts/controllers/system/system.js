@@ -6,15 +6,12 @@
  * Controller of the estimateApp
  */
 angular.module('estimateApp')
-  .controller('SystemCtrl', ['$rootScope', '$state', '$scope', '$stateParams','$q', 'System','Reference', 'Ingredient','SystemDetail','Authorization', 'Config', 'IAP',
-    function ($rootScope, $state, $scope, $stateParams, $q, System, Reference, Ingredient , SystemDetail, Authorization, Config, IAP) {
+  .controller('SystemCtrl', ['$rootScope', '$state', '$scope', '$stateParams','$q', 'System','Reference', 'Ingredient','SystemDetail','Authorization','Team','SystemTeam',  function ($rootScope, $state, $scope, $stateParams, $q, System, Reference, Ingredient , SystemDetail, Authorization, Team, SystemTeam) {
     'use strict';
     function init() {
       $scope.saving = false;
       $scope.IsInRoles = function (roles) {
-        //return Authorization.IsInRole(roles);
-        //return IAP.paid;
-        return $rootScope.paid;
+        return Authorization.IsInRole(roles);
       };
 
       $scope.System = {
@@ -22,6 +19,7 @@ angular.module('estimateApp')
       };
 
       $scope.IsNew = true;
+      $scope.TeamCount = 0;
       $scope.IngredientCount = 0;
 
       function get(id) {
@@ -45,8 +43,6 @@ angular.module('estimateApp')
         );
       }
 
-
-
       function getSystemIngredients(id){
         var criteria = [];
         criteria.push({'systemid': id});
@@ -61,12 +57,28 @@ angular.module('estimateApp')
           });
       }
 
+      function getSystemTeams(id){
+        var criteria = [];
+        criteria.push({'systemid': id});
+
+        SystemTeam.Search(criteria)
+          .then(function (result) {
+            $scope.Teams =result;
+            getTeams(result);
+
+          }, function (error) {
+            $scope.errors = error;
+          });
+      }
+
       if ($stateParams.id) {
         get($stateParams.id);
         getSystemIngredients($stateParams.id);
+        getSystemTeams($stateParams.id);
       }
       else{
         getIngredients();
+        getTeams();
       }
 
       $scope.Cancel = function () {
@@ -88,6 +100,7 @@ angular.module('estimateApp')
         }
 
         model.ingredients = $scope.Ingredients;
+        model.teams = $scope.Teams;
 
         model.error = [];
         model.errors = [];
@@ -118,24 +131,16 @@ angular.module('estimateApp')
         }
       };
 
-      $scope.Remove = function (id) {
-        System.Remove(id)
-          .then(function (result) {
-            $scope.saving = false;
-            $rootScope.back();
-          },
-          function (error) {
-            $scope.saving = false;
-            Reference.ProcessError(error, model.errors);
-          });
-      }
-
-
-
       $scope.checkIngredient = function(id){
         var primary = _.where($scope.Ingredients, {'id': id})[0];
         primary.checked = !primary.checked;
         countIngredients();
+      };
+
+      $scope.checkTeam = function(id){
+        var primary = _.where($scope.Teams, {'id': id})[0];
+        primary.checked = !primary.checked;
+        countTeams();
       };
 
       function validate(model, errors) {
@@ -177,16 +182,46 @@ angular.module('estimateApp')
           });
       }
 
+      function getTeams(systemTeam){
+        Team.GetAll()
+          .then(function (result) {
+            if(!systemTeam){
+              $scope.Teams =_.sortBy(result, 'name');
+              return;
+            }
+            var innerTeam = result;
+            _.each(innerTeam,function(team){
+              var ic = _.where(systemTeam, {'teamid': team.id})[0];
+              if(ic){
+                team.leadteamid = ic.id;
+                team.checked = true;
+                team.leadteamversion = ic.version;
+              }
+            });
+            $scope.Teams =_.sortBy(innerTeam, 'name');
+            countTeams();
+
+          }, function (error) {
+            $scope.errors = error;
+          });
+      }
+
       function countIngredients(){
         var count =_.where($scope.Ingredients, {'checked' : true}).length;
         $scope.IngredientCount = count;
         return count;
       }
 
+      function countTeams(){
+        var count =_.where($scope.Teams, {'checked' : true}).length;
+        $scope.TeamCount = count;
+        return count;
+      }
+
       $scope.StatusOptions = System.StatusOptions;
       $scope.FactorOptions = System.FactorOptions;
-    };
 
+    }
 
     init();
   }]);

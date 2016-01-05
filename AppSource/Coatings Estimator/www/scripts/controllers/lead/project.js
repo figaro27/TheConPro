@@ -1,7 +1,7 @@
 angular.module('estimateApp')
   .controller('ProjectCtrl', [
-    '$window', '$scope', '$stateParams', '$q', '$rootScope', 'Lead', 'Project', 'ProjectDetail', 'Config', 'System', 'ProjectDetailStyle', 'Storage', 'Person', 'Reference', 'Note','Address','$filter',
-    function ($window, $scope, $stateParams, $q, $rootScope, Lead, Project, ProjectDetail, Config, System, ProjectDetailStyle, Storage, Person, Reference, Note, Address, $filter) {
+    '$window', '$scope', '$stateParams', '$q', '$rootScope', 'Lead', 'Project', 'ProjectDetail', 'Config', 'System', 'ProjectDetailStyle', 'Storage', 'Person', 'Reference', 'Note','Address','$cordovaCamera','$filter',
+    function ($window, $scope, $stateParams, $q, $rootScope, Lead, Project, ProjectDetail, Config, System, ProjectDetailStyle, Storage, Person, Reference, Note, Address, $cordovaCamera, $filter) {
 
       'use strict';
 
@@ -28,14 +28,12 @@ angular.module('estimateApp')
           searchType: 'use',
           populate: true
         };
-        var systemSearch = {
+        var searchType = {
           'type': 'use',
           'populate': ['systemdetail', 'ingredient']
         };
         promises.push(Lead.Get($scope.leadid, hints));
-
-        promises.push(System.GetAll(systemSearch));
-
+        promises.push(System.GetAll(searchType));
         var addresscriteria = [{'personid': $scope.leadid}];
 
         promises.push(Address.Search(addresscriteria));
@@ -202,7 +200,13 @@ angular.module('estimateApp')
           $scope.showAreaPrice = false;
 
           populateNotes(model.notes);
-        }
+        };
+
+        $scope.updatePrice = function(detail) {
+          var price = parseFloat(detail.contractorprice).toFixed(2);
+
+          detail.contractorprice = price;
+        };
 
 
         $scope.Cancel = function () {
@@ -343,21 +347,19 @@ angular.module('estimateApp')
             adds.push(style);
           }
           else {
-            if(ingredient.style) {
-              if (ingredient.style.id) {
+            if (ingredient.style.id) {
+              style = ingredient.style;
+              style.ingredientid = ingredient.id;
+              updates.push(style);
+            }
+            else {
+              if (ingredient.style) {
                 style = ingredient.style;
-                style.ingredientid = ingredient.id;
-                updates.push(style);
               }
-              else {
-                if (ingredient.style) {
-                  style = ingredient.style;
-                }
-                style.projectdetailid = model.id;
-                style.ingredientid = ingredient.id;
-                style.purchaseprice = ingredient.purchaseprice;
-                adds.push(style);
-              }
+              style.projectdetailid = model.id;
+              style.ingredientid = ingredient.id;
+              style.purchaseprice = ingredient.purchaseprice;
+              adds.push(style);
             }
           }
         }
@@ -498,17 +500,10 @@ angular.module('estimateApp')
         }
 
         function meshProjectSystem() {
-
-
           _.each($scope.Model.details, function (detail) {
             detail.System = _.where($scope.Systems, {id: detail.systemid})[0];
             if(detail.System){
               detail.System.saleprice = Number(detail.saleprice);
-            } else {
-                detail.System = {
-                    name: 'hidden by preference, unhide or select other system'
-                };
-
             }
 
           });
@@ -549,7 +544,7 @@ angular.module('estimateApp')
           _.each($scope.System.ingredients, function (ingredient) {
             var amount = ((area / ingredient.coverage) * ingredient.factor).toFixed(2);
             var contractorprice = amount * ingredient.purchaseprice;
-            ingredient.contractorprice = contractorprice;
+            ingredient.contractorprice = contractorprice.toFixed(2);
             ingredient.amount = amount;
             contractortotalprice += contractorprice;
           });
@@ -564,11 +559,9 @@ angular.module('estimateApp')
         // Images & Signatues
 
         function populateStorages(storageModels) {
-
           var queues = [],
-
           response = $q.defer(),
-          results =  _.where(storageModels, {type: 'areaimage'});
+            results =  _.where(storageModels, {type: 'areaimage'});
 
          // $scope.AreaImages = _.where(storageModels, {type: 'areaimage'});
 
@@ -608,6 +601,7 @@ angular.module('estimateApp')
         }
 
         $scope.RemoveAreaImage = function (model, index) {
+
           function removeImage(buttonIndex){
             if(buttonIndex === 1){
               if (model.id) {
@@ -621,6 +615,7 @@ angular.module('estimateApp')
               }
             }
           }
+
           if(navigator && navigator.notification){
             navigator.notification.confirm(
               'Are you absolutely sure you want to remove this image?', // message
@@ -637,6 +632,8 @@ angular.module('estimateApp')
 
             }
           }
+
+
         };
 
         $scope.TakePicture = function () {
@@ -644,6 +641,7 @@ angular.module('estimateApp')
           $scope.AreaImage.errors = [];
 
           if (navigator && navigator.camera) {
+
 
             var cameraOptions = {
               quality: 50,
@@ -654,15 +652,16 @@ angular.module('estimateApp')
               targetHeight: 600
             };
 
-            navigator.camera.getPicture(function(imageData) {
-              $scope.AreaImage.data = 'data:image/png;base64,' + imageData;
-              var newImage = {
-                'data':imageData // 'data:image/png;base64,' + imageData
-              };
-              populateCameraResult(newImage);
-            },function(error) {
-              Reference.ProcessError(error, $scope.AreaImage.errors);
-            }, cameraOptions);
+            $cordovaCamera.getPicture(cameraOptions)
+              .then(function(imageData) {
+              //  $scope.AreaImage.data = 'data:image/png;base64,' + imageData;
+                var newImage = {
+                  'data':imageData // 'data:image/png;base64,' + imageData
+                };
+                populateCameraResult(newImage);
+              }, function(error) {
+                Reference.ProcessError(error, $scope.AreaImage.errors);
+            });
 
           }
         };
@@ -693,10 +692,8 @@ angular.module('estimateApp')
         }
 
         function populateCameraResult(newImage){
-          $scope.$apply(function() {
-            $scope.NewPicture = true;
-            $scope.AreaImage = newImage;
-          });
+          $scope.NewPicture = true;
+          $scope.AreaImage = newImage;
         }
 
         $scope.SaveAreaImage = function () {

@@ -1,14 +1,13 @@
 angular.module('estimateApp')
-  .service('Lead', ['$q', 'Reference', 'Service', 'Person', 'Address', 'Phone', 'Project', 'ProjectDetail', 'LeadDetail', 'Note', 'ProjectDetailStyle',
-    function ($q, Reference, Service, Person, Address, Phone, Project, ProjectDetail, LeadDetail, Note, ProjectDetailStyle) {
+  .service('Lead', ['$q', 'Reference', 'Service', 'Person', 'Address', 'Phone', 'Project', 'ProjectDetail', 'LeadDetail', 'LeadTeam', 'Note', 'ProjectDetailStyle',
+    function ($q, Reference, Service, Person, Address, Phone, Project, ProjectDetail, LeadDetail, LeadTeam, Note, ProjectDetailStyle) {
       'use strict';
       var service = this;
 
       var url = {
         search: 'api/v1/lead/search',
         add: 'api/v1/lead',
-        update: 'api/v1/lead',
-        remove: 'api/v1/lead'
+        update: 'api/v1/lead'
       };
 
       service.Statuses = Reference.Statuses;
@@ -25,8 +24,7 @@ angular.module('estimateApp')
           criteria = [],
           searchHints = {
             searchType: 'use',
-            populate: true,
-            status : 1
+            populate: true
           };
 
         if (hints) {
@@ -80,6 +78,9 @@ angular.module('estimateApp')
             howcanwehelp: model.howcanwehelp
           };
           saves.push(LeadDetail.Add(newDetail));
+        }
+        if (model.Teams && model.Teams.length > 0) {
+          saves.push(buildSaveTeams(person.id, model.Teams));
         }
 
 
@@ -226,19 +227,6 @@ angular.module('estimateApp')
         return response.promise;
       };
 
-      service.Remove = function (id) {
-        var response = $q.defer();
-
-        Service.Remove(id, url.remove)
-          .then(function (result) {
-            return response.resolve(result);
-          },
-          function (error) {
-            return response.reject(error);
-          });
-        return response.promise;
-      }
-
       service.Update = function (model) {
         var response = $q.defer();
         Service.Put(model, url.update)
@@ -370,6 +358,37 @@ angular.module('estimateApp')
           }
         });
         if (i === phones.length) {
+          return response.resolve(innerResponse);
+        }
+        return response.promise;
+      }
+
+      function buildSaveTeams(id, teams) {
+        var response = $q.defer();
+        var innerResponse = [],
+          i = 0;
+        _.each(teams, function (team) {
+          i = i + 1;
+
+          var leadTeam = {};
+          //There is not an systemdetailid = this is a new association
+          if (!team.leadteamid) {
+            if (team.checked === true) {
+              leadTeam.personid = id;
+              leadTeam.teamid = team.id;
+              innerResponse.push(LeadTeam.Add(leadTeam));
+            }
+
+          } else {
+            // These will be associations where the ingredient is not checked
+            // we will remove these as they are not checked
+            if (team.checked === false) {
+              innerResponse.push(LeadTeam.Remove(team.leadteamid));
+            }
+
+          }
+        });
+        if (i === teams.length) {
           return response.resolve(innerResponse);
         }
         return response.promise;

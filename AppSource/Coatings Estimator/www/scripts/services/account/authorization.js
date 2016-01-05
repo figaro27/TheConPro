@@ -6,151 +6,139 @@
  * Factory in the estimateApp.
  */
 angular.module('estimateApp')
-    .factory('Authorization', ['$q', 'LocalService', 'AccessLevels', 'Config', 'Service', function ($q, LocalService, AccessLevels, Config, Service) {
-        'use strict';
-        var factory = this;
+  .factory('Authorization', ['$q', 'LocalService', 'AccessLevels', 'Config', 'Service', function ($q, LocalService, AccessLevels, Config, Service) {
+    'use strict';
+    var factory = this;
 
-        var url = {
-            login: 'api/v1/account/login',
-            verify: 'api/v1/account/verify',
-            register: 'api/v1/account/register',
-            feedback: 'api/v1/account/feedback',
-            forgotpassword: 'api/v1/account/forgotpassword',
-            extendtoken: '/api/v1/account/extend',
-            changepassword: 'api/v1/account/changepassword'
-        };
+    var url = {
+      login: 'api/v1/account/login',
+      register: 'api/v1/account/register',
+      feedback: 'api/v1/account/feedback',
+      forgotpassword: 'api/v1/account/forgotpassword',
+      extendtoken: '/api/v1/account/extend',
+      changepassword: 'api/v1/account/changepassword'
+    };
 
 
-        factory.CheckToken = function () {
-            var authentication = LocalService.Get(Config.AuthTokenName);
-            if (authentication) {
-                var expiration = new Date(JSON.parse(LocalService.Get(Config.AuthExpiration)));
-                //if (new Date() > Date.parse(JSON.parse(authentication).expires)) {
-                if (new Date() > expiration) {
-                    Service.UnsetConfigAuth();
-                }
-            }
-        };
 
-        factory.IsInRole = function (role) {
-            return isInRole(role);
-        };
-
-        function isInRole(role) {
-            var roles = JSON.parse(LocalService.Get(Config.AuthRoles));
-            if (!roles) {
-                return true;
-            }
-            return (_.intersection(roles, role).length > 0);
-
+    factory.CheckToken = function () {
+      var authentication = LocalService.Get(Config.AuthTokenName);
+      if (authentication) {
+        var expiration = new Date(JSON.parse(LocalService.Get(Config.AuthExpiration)));
+        //if (new Date() > Date.parse(JSON.parse(authentication).expires)) {
+        if (new Date() > expiration) {
+          Service.UnsetConfigAuth();
         }
+      }
+    };
 
-        factory.IsAuthorized = function (access) {
-            return true;
-            //  var accessgranted = [AccessLevels.anon, AccessLevels.administrator];
-            var accessgranted = [AccessLevels.anon];
+    factory.IsInRole = function (role) {
+      return isInRole(role);
+    };
 
-            if ((_.intersection(accessgranted, access).length > 0)) {
-                return true;
-            }
+    function isInRole(role) {
+      var roles = JSON.parse(LocalService.Get(Config.AuthRoles));
+      if (!roles) {
+        return true;
+      }
+      return (_.intersection(roles, role).length > 0);
 
-            if (isInRole(access)) {
-                return factory.IsAuthenticated();
-            }
-            return false;
+    }
 
-        };
+    factory.IsAuthorized = function (access) {
+      return true;
+      //  var accessgranted = [AccessLevels.anon, AccessLevels.administrator];
+      var accessgranted = [AccessLevels.anon];
 
-        factory.IsOwner = function (id) {
-            return id === JSON.parse(LocalService.Get(Config.AuthId));
-        };
+      if ((_.intersection(accessgranted, access).length > 0)) {
+        return true;
+      }
 
-        factory.IsAuthenticated = function () {
-            factory.CheckToken();
-            return LocalService.Get(Config.AuthTokenName);
-        };
+      if (isInRole(access)) {
+        return factory.IsAuthenticated();
+      }
+      return false;
 
-        factory.Verify = function (model) {
-            var response = $q.defer();
-            Service.Post(model, url.verify)
-                .then(function (result) {
-                    response.resolve(result);
-                }, function (error) {
-                    response.reject(error);
-                });
-            return response.promise;
-        };
+    };
 
-        factory.Login = function (user) {
-            var response = $q.defer();
+    factory.IsOwner = function (id) {
+      return id === JSON.parse(LocalService.Get(Config.AuthId));
+    };
 
-            Service.Post(user, url.login)
-                .then(function (result) {
-                    Service.SetConfigAuth(result);
-                    response.resolve(result);
-                }, function (error) {
-                console.log(JSON.stringify(error));
-                    response.reject(error);
-                });
-            return response.promise;
-        };
+    factory.IsAuthenticated = function () {
+      factory.CheckToken();
+      return LocalService.Get(Config.AuthTokenName);
+    };
 
-        factory.ExtendToken = function () {
-            var response = $q.defer();
-            Service.Post({}, url.extendtoken)
-                .then(function (result) {
-                    Service.SetConfigAuth(result);
-                    response.resolve(result);
-                }, function (error) {
-                    response.reject(error);
-                });
-            return response.promise;
-        };
 
-        factory.Logout = function () {
-            var response = $q.defer();
-            try {
-                Service.UnsetConfigAuth();
-                response.resolve(true);
-            }
-            catch (e) {
-                response.reject(e);
-            }
-            return response.promise;
-        };
+    factory.Login = function (user) {
+      var response = $q.defer();
+      Service.Post(user, url.login)
+        .then(function (result) {
+          Service.SetConfigAuth(result);
+          response.resolve(result);
+        }, function (error) {
+          response.reject(error);
+        });
+      return response.promise;
+    };
 
-        factory.Register = function (user) {
-            var response = $q.defer();
-            Service.Post(user, url.register)
-                .then(function (result) {
-                    Service.SetConfigAuth(result);
-                    response.resolve(result);
-                }, function (error) {
-                    response.reject(error);
-                });
-            return response.promise;
-        };
+    factory.ExtendToken = function () {
+      var response = $q.defer();
+      Service.Post({}, url.extendtoken)
+        .then(function (result) {
+          Service.SetConfigAuth(result);
+          response.resolve(result);
+        }, function (error) {
+          response.reject(error);
+        });
+      return response.promise;
+    };
 
-        factory.ForgotPassword = function (model) {
-            return Service.Post(model, url.forgotpassword);
-        };
+    factory.Logout = function () {
+      var response = $q.defer();
+      try {
+        Service.UnsetConfigAuth();
+        response.resolve(true);
+      }
+      catch (e) {
+        response.reject(e);
+      }
+      return response.promise;
+    };
 
-        factory.Feedback = function (model) {
-            return Service.Post(model, url.feedback);
-        };
+    factory.Register = function (user) {
+      var response = $q.defer();
+      Service.Post(user, url.register)
+        .then(function (result) {
+          Service.SetConfigAuth(result);
+          response.resolve(result);
+        }, function (error) {
+          response.reject(error);
+        });
+      return response.promise;
+    };
 
-        factory.ChangePassword = function (user) {
-            var response = $q.defer();
-            Service.Post(user, url.changepassword)
-                .then(function (result) {
-                    Service.SetConfigAuth(result);
-                    response.resolve(result);
-                }, function (error) {
-                    response.reject(error);
-                });
-            return response.promise;
-        };
+    factory.ForgotPassword = function (model) {
+      return Service.Post(model, url.forgotpassword);
+    };
 
-        return factory;
-    }])
+    factory.Feedback = function (model) {
+      return Service.Post(model, url.feedback);
+    };
+
+    factory.ChangePassword = function (user) {
+      var response = $q.defer();
+      Service.Post(user, url.changepassword)
+        .then(function (result) {
+          Service.SetConfigAuth(result);
+          response.resolve(result);
+        }, function (error) {
+          response.reject(error);
+        });
+      return response.promise;
+    };
+
+    return factory;
+  }])
 ;

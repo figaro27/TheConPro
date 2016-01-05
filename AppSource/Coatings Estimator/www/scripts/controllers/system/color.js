@@ -14,11 +14,7 @@ angular.module('estimateApp')
         name: ''
       };
 
-      $scope.IsNew = true;
-
       function get(id) {
-        $scope.IsNew = false;
-
         Service.Get(id)
           .then(function (result) {
             if (result[0]) {
@@ -38,23 +34,6 @@ angular.module('estimateApp')
       $scope.Cancel = function () {
         $rootScope.back();
       };
-
-      $scope.Remove = function (id) {
-        $scope.saving = true;
-
-        Service.Remove(id)
-          .then(function (result) {
-            $scope.saving = false;
-            $rootScope.back();
-          },
-          function (error) {
-            $scope.saving = false;
-            model.errors = error;
-            model.error = model.errors.join(', ');
-
-          }
-        );
-      }
 
       $scope.Save = function (model) {
         $scope.saving = true;

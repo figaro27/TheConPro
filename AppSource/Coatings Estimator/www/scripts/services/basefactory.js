@@ -10,6 +10,7 @@ angular.module('estimateApp')
   .factory('BaseFactory', ['Service', function (Service) {
     'use strict';
 
+
     function factory(name){
       this.url = {
         search: 'api/v1/' + name + '/search',
@@ -19,6 +20,7 @@ angular.module('estimateApp')
 
       };
     }
+
 
     factory.prototype.Get = function (id) {
       var searchCriteria = {},

@@ -19,11 +19,7 @@ angular.module('estimateApp')
       $scope.PatternsCount = 0;
       $scope.ColorsCount = 0;
 
-      $scope.IsNew = true;
-
       function get(id) {
-        $scope.IsNew = false;
-
         Service.Get(id)
           .then(function (result) {
             if(result[0]){
@@ -121,21 +117,6 @@ angular.module('estimateApp')
           );
         }
       };
-
-      $scope.Remove = function (id) {
-        $scope.saving = true;
-
-        Service.Remove(id)
-          .then(function (result) {
-            $scope.saving = false;
-            $rootScope.back();
-          },
-          function (error) {
-            $scope.saving = false;
-            Reference.ProcessError(error, model.errors);
-          }
-        );
-      }
 
       $scope.checkColor = function(id){
         var primary = _.where($scope.Colors, {'id': id})[0];

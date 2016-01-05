@@ -40,19 +40,19 @@ angular.module('estimateApp')
     };
 
     service.Statuses = [
-      {key: '1', value: 'Active'},
-      {key: '0', value: 'Inactive'}
+      {key: '1', value: 'active'},
+      {key: '0', value: 'inactive'}
     ];
 
     service.ProjectStatuses = [
-      {key: 'estimate', value: 'Estimate'},
-      {key: 'current', value: 'Current'},
-      {key: 'complete', value: 'Complete'}
+      {key: 'estimate', value: 'estimate'},
+      {key: 'current', value: 'current'},
+      {key: 'complete', value: 'complete'}
     ];
 
     service.TrueFalse = [
-      {key: true, value: 'True'},
-      {key: false, value: 'False'}
+      {key: true, value: 'true'},
+      {key: false, value: 'false'}
     ];
 
     var pageTitle = 'Sign In';

@@ -6,8 +6,7 @@
  * Controller of the estimateApp
  */
 angular.module('estimateApp')
-  .controller('LoginCtrl', ['$rootScope', '$state', '$scope', 'Account', 'IAP', 'Config', 'Authorization',
-    function ($rootScope, $state, $scope, Account, IAP, Config, Authorization) {
+  .controller('LoginCtrl', ['$rootScope', '$state', '$scope', 'Account', function ($rootScope, $state, $scope, Account) {
     'use strict';
 
     function init() {
@@ -16,30 +15,18 @@ angular.module('estimateApp')
       $scope.model = {};
       $scope.formInfo = {};
 
-
-      if(Account.IsAuthenticated()){
-
-        IAP.init(Authorization.IsInRole(["concreteprotector"]));
-
-        $state.go('index');
-      }
-
       $scope.login = function (model) {
 
         Account.Login(model)
           .then(function () {
-            var skipStates = [];
 
+            var skipStates = [];
             skipStates.push('index.register');
             skipStates.push('index.login');
-
-            IAP.init(Authorization.IsInRole(["concreteprotector"]));
-
 
             $state.go('index');
 
           }, function (error) {
-            //alert(JSON.stringify(error));
             $scope.errors = error;
           });
       };
