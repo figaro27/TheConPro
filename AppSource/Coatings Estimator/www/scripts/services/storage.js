@@ -15,7 +15,6 @@ angular.module('estimateApp')
       return Service.GetOne(url.add + '/' + id);
     };
 
-
     service.Get = function (id) {
       var searchCriteria = {},
         criteria = [];
@@ -25,10 +24,12 @@ angular.module('estimateApp')
     };
 
     service.Search = function (criteria, hints) {
+      // need to specify storage type in hints
       var message = {},
         searchHints = {
           searchType : 'use',
-          populate : true
+          populate : false,
+            storageType: '' // this needs to be specified!
         };
 
       if (hints) {
@@ -50,6 +51,7 @@ angular.module('estimateApp')
     service.Remove = function (id) {
       return Service.Remove(id, url.remove);
     };
+
 
  return service;
 

@@ -13,8 +13,8 @@ angular.module('estimateApp')
 
                 var $shadow = angular.element('<div></div>').css({
                     position:   'absolute',
-                    top:        -10000,
-                    left:       -10000,
+                    top:        '-10000px',
+                    left:       '-10000px',
                     width:      element[0].offsetWidth - parseInt(paddingLeft || 0) - parseInt(paddingRight || 0),
                     fontSize:   element.css('fontSize'),
                     fontFamily: element.css('fontFamily'),

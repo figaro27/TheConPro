@@ -35,9 +35,8 @@ angular.module('estimateApp')
         if(scope.penColor) {
           settings.color = scope.penColor;
         }
-
         // Build jSignature Element
-        element.jSignature(settings);
+        $(element).jSignature(settings);
 
         // Watch Model
   /* original
@@ -68,11 +67,11 @@ angular.module('estimateApp')
         // Watch readOnly
         scope.$watch('readonly', function (newValue, oldValue) {
           if(newValue === true) {
-            element.jSignature('disable');
+            $(element).jSignature('disable');
             // Hide undo button
             element.find('button').css({'display': 'none'});
           } else {
-            element.jSignature('enable');
+            $(element).jSignature('enable');
             /* original
             var currentModel = scope.model.split(',');
             // Show undo button only if there are actions to undo?
@@ -103,7 +102,7 @@ angular.module('estimateApp')
              svgbase64
             */
             scope.data ='';
-            var dataPair = element.jSignature("getData","svgbase64");
+            var dataPair = $(element).jSignature("getData","svgbase64");
             var signatureImage =  dataPair.join(',');
             scope.data = signatureImage;
             scope.model = signatureImage;

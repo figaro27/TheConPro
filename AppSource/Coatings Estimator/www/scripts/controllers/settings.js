@@ -6,12 +6,16 @@
  * Controller of the estimateApp
  */
 angular.module('estimateApp')
-  .controller('SettingsCtrl', ['$scope','$state', 'Authorization', function ($scope, $state, Authorization) {
+  .controller('SettingsCtrl', ['$scope','$state', '$rootScope', 'Authorization',
+    function ($scope, $state, $rootScope, Authorization) {
     'use strict';
 
     function init() {
-
+      $scope.isPaidVersion = function() {
+        return $rootScope.paid;
+      }
       $scope.IsInRoles = function (roles) {
+        return true;
         return Authorization.IsInRole(roles);
       };
 

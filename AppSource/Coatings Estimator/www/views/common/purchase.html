@@ -1,0 +1,15 @@
+<div ng-init="init();" class="text-center" style="margin-top: 15px;  margin-left: 5px; margin-right: 5px;">
+    <div class="row">
+        <div class="col-xs-12">
+            <button type="button" ng-click="buyMonthly();" class="btn btn-left btn-grey btn-block">
+                Subscription monthly
+            </button>
+          <button type="button" ng-click="buyYearly();" class="btn btn-left btn-grey btn-block">
+            Subscription yearly
+          </button>
+          <button ng-show="false" type="button" ng-click="testBuy();" class="btn btn-left btn-grey btn-block" ui-sref="index.preference({type:'system'})">
+            Test buy
+          </button>
+        </div>
+    </div>
+</div>

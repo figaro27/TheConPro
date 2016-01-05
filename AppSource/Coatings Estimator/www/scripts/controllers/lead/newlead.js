@@ -1,6 +1,6 @@
 angular.module('estimateApp')
-  .controller('NewLeadCtrl', ['$scope', '$stateParams', '$state', '$rootScope', 'Lead', 'Authorization', 'Reference', 'System', 'SystemDetail', 'Ingredient', '$window', 'Team',
-    function ($scope, $stateParams, $state, $rootScope, Lead, Authorization, Reference, System, SystemDetail, Ingredient, $window, Team) {
+  .controller('NewLeadCtrl', ['$scope', '$stateParams', '$state', '$rootScope', 'Lead', 'Authorization', 'Reference', 'System', 'SystemDetail', 'Ingredient', '$window',
+    function ($scope, $stateParams, $state, $rootScope, Lead, Authorization, Reference, System, SystemDetail, Ingredient, $window) {
 
       'use strict';
 
@@ -55,29 +55,7 @@ angular.module('estimateApp')
 
         var isAdmin = Authorization.IsInRole(['concreteprotector', 'subscriber', 'administrator']);
 
-        if (isAdmin) {
-          Team.GetAll()
-            .then(function (result) {
-              $scope.Teams = _.sortBy(result, 'name');
-              countTeams();
 
-            }, function (error) {
-              $scope.errors = error;
-            });
-        }
-
-        function countTeams() {
-          var count = _.where($scope.Teams, {'checked': true}).length;
-          $scope.TeamCount = count;
-          return count;
-        }
-
-        $scope.checkTeam = function (id) {
-          var primary = _.where($scope.Teams, {'id': id})[0];
-          primary.checked = !primary.checked;
-          countTeams();
-        };
-        //
 
         $scope.BestTimeToCalLOptions = Lead.BestTimeToCalLOptions;
 
@@ -372,8 +350,6 @@ angular.module('estimateApp')
             lead.hasdetail = true;
           }
 
-
-          lead.Teams = $scope.Teams;
           lead.Systems = $scope.LeadSystems;
           if (lead.note && lead.note.length > 490) {
             errors.push('note is too long');
