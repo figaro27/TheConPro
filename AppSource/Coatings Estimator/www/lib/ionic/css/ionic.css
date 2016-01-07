@@ -5824,7 +5824,7 @@ input, button, select, textarea {
       top: 0;
       -webkit-transition: opacity 0.15s ease-in, top 0.2s linear;
       transition: opacity 0.15s ease-in, top 0.2s linear; }
-
+/*
 textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"] {
   display: block;
   padding-top: 2px;
@@ -5834,7 +5834,7 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
   vertical-align: middle;
   font-size: 14px;
   line-height: 16px; }
-
+*/
 .platform-ios input[type="datetime-local"], .platform-ios input[type="date"], .platform-ios input[type="month"], .platform-ios input[type="time"], .platform-ios input[type="week"], .platform-android input[type="datetime-local"], .platform-android input[type="date"], .platform-android input[type="month"], .platform-android input[type="time"], .platform-android input[type="week"] {
   padding-top: 8px; }
 
@@ -5855,7 +5855,8 @@ textarea {
   height: auto; }
 
 textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"] {
-  border: 0; }
+  //border: 0;
+}
 
 input[type="radio"], input[type="checkbox"] {
   margin: 0;

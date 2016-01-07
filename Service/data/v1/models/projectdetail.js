@@ -17,6 +17,7 @@ module.exports = function (db) {
             arealength: {type: Sequelize.STRING},
             areawidth: {type: Sequelize.STRING},
             saleprice:{type: Sequelize.STRING},
+            contractprice:{type: Sequelize.STRING},
             removed: {type: Sequelize.BOOLEAN}
         };
         dto = _.merge(dto, db.BaseEntity.addFields);

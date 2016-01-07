@@ -11,6 +11,7 @@ angular.module('estimateApp')
         $scope.Model = {};
         $scope.System = {};
         $scope.saving = false;
+        $scope.Systems = [];
 
         $scope.IsInRoles = function (roles) {
           return Authorization.IsInRole(roles);
@@ -23,6 +24,11 @@ angular.module('estimateApp')
         System.GetAll(searchType)
           .then(function (result) {
             $scope.Systems = result;
+
+            if ($scope.Systems.length) {
+              $scope.SystemChange($scope.LeadSystem.systemid = $scope.Systems[0].id);
+            }
+
           },
           function (error) {
             $scope.errors = error;
@@ -88,7 +94,7 @@ angular.module('estimateApp')
           model = {};
           $scope.System = {};
           $scope.showIngredients = false;
-
+          $scope.LeadSystem.systemid = $scope.Systems[0].id;
         };
 
         $scope.UpdateSystem = function (model) {
@@ -144,6 +150,8 @@ angular.module('estimateApp')
               removeSystem(1);
             }
           }
+
+          $scope.LeadSystem.systemid = $scope.Systems[0].id;
         };
 
         $scope.EditSystem = function (model, index) {
@@ -158,6 +166,8 @@ angular.module('estimateApp')
           $scope.LeadSystemEdit = true;
 
           $scope.showIngredients = false;
+
+          $scope.LeadSystem.systemid = $scope.Systems[0].id;
         };
 
         $scope.CancelUpdateSystem = function (leadSystem) {

@@ -588,3 +588,8 @@ input[type=radio] + label:before{
 input[type=checkbox] + label:before{
   border-radius:2px;
 }
+
+.input-currency {
+  width: 80%;
+  border: none;
+}

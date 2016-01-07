@@ -39,6 +39,10 @@ function populate(source, model) {
         model.patternid = source.patternid;
     }
 
+    if (source.contractorprice) {
+        model.contractorprice = source.contractorprice;
+    }
+
 }
 projectdetailstyle.prototype.Populate = populate;
 
@@ -78,6 +82,10 @@ function build(app, source, isNew) {
                 }
                 if (source.patternid) {
                     model.patternid = source.patternid;
+                }
+
+                if (source.contractorprice) {
+                    model.contractorprice = source.contractorprice;
                 }
 
                 base.VerifyDefaults(source, model, errors, isNew);
