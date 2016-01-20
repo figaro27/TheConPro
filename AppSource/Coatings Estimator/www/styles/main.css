@@ -100,7 +100,7 @@ h6,
 
 .btn-link-nolink {
   color: #333333;
-  margin-left: -15px;
+  //margin-left: -15px;
   margin-top: -12px;
   margin-bottom: -10px; }
 
@@ -592,4 +592,42 @@ input[type=checkbox] + label:before{
 .input-currency {
   width: 80%;
   border: none;
+}
+
+.ce-loading-backdrop {
+  background: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 10000px;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  z-index:10000;
+}
+
+.ce-loadingwheel-wrapper {
+  color:white;
+  font-weight:900;
+  top: 50%;
+  position: fixed;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.ce-table {
+  table-layout: fixed;
+  word-wrap: break-word;
+  font-size: 0.7em;
+}
+
+.btn-sendto {
+  border: none;
+  padding: 7px 15px;
+}
+
+.input-sendto {
+  line-height: 2em;
+  vertical-align: middle;
+  text-indent: 0.5em;
 }

@@ -194,6 +194,7 @@
                       style="margin-top: 3px;" class="pull-right fa fa-minus-circle"></i></a>
           </span>
                         Coverage: {{System.coverage}} sq.ft.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <br/>
           <span ng-hide="showAreaPrice">
                         <button class="btn btn-link btn-link-nolink" ng-click="showAreaPrice=!showAreaPrice">
                           {{System.saleprice | currency}} / sqft
@@ -206,11 +207,12 @@
                    ng-model="System.saleprice">
                         <button class="btn btn-success" ng-click="showAreaPrice=!showAreaPrice">ok</button>
           </span>
+          <br/>
           System Price: {{System.price | currency}}
 </span>
         <span ng-show="System.ingredients.length === 0 ">Select System</span>
           <span ng-show="showIngredients">
-          <table style="margin-top: 20px;" ng-show="System.ingredients.length !== 0 " width="100%">
+          <table class="ce-table" style="margin-top: 20px;" ng-show="System.ingredients.length !== 0 " width="100%">
             <thead>
             <tr style="border: 1px solid black;">
               <th>
@@ -218,7 +220,7 @@
                   &nbsp;&nbsp;Amount&nbsp;
                 </button>
               </th>
-              <th style="width:200px" ng-show="showContractorPrice">price</th>
+              <th ng-show="showContractorPrice">price</th>
               <th>Ingredient</th>
               <th>&nbsp;Extra&nbsp;</th>
               <th>&nbsp;Units&nbsp;</th>
@@ -368,9 +370,10 @@
     <!-- Images End -->
 
       <div class="row">
-        <div class="col-xs-12" style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
-          <a ng-click="Cancel()" class="btn btn-default"><i class="fa fa-arrow-circle-left fa-lg"></i> </a>
-        </div>
+          <div class="col-xs-12" style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+              <a ng-click="Cancel()" class="btn btn-default"><i class="fa fa-arrow-circle-left fa-lg"></i> </a>
+              <a ui-sref="index.contracts({projectid:projectid})" class="btn btn-primary"><i class="fa fa-pencil-square-o fa-lg"></i> </a>
+          </div>
       </div>
     </span>
 </div>

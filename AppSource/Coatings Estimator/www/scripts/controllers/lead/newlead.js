@@ -78,6 +78,7 @@ angular.module('estimateApp')
           if (!model.width) {
             model.width = 0;
           }
+
           if (!model.systemid) {
             model.systemid = $scope.Systems[0].id;
             calculatePrice();

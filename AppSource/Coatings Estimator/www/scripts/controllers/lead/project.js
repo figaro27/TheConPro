@@ -550,8 +550,14 @@ angular.module('estimateApp')
             var amount = ((area / ingredient.coverage) * ingredient.factor).toFixed(2);
             var contractorprice = amount * ingredient.purchaseprice;
 
-            if (ingredient.style.contractorprice)
-              contractorprice = ingredient.style.contractorprice;
+            try {
+              if (ingredient.style.contractorprice)
+                contractorprice = ingredient.style.contractorprice;
+            }
+            catch(e) {
+
+            }
+
 
             ingredient.contractorprice = parseFloat(contractorprice).toFixed(2);
             ingredient.amount = amount;

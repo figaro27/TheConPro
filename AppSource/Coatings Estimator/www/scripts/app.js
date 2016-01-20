@@ -910,12 +910,11 @@ app.config(['$stateProvider',
       }, 100);
 
       $rootScope.showLoadingWheel = function() {
-        $ionicLoading.show({
-          template: 'Loading...'
-        });
+        $(".ce-loading-backdrop").show();
       };
+
       $rootScope.hideLoadingWheel = function(){
-        $ionicLoading.hide();
+        $(".ce-loading-backdrop").hide();
       };
       $rootScope.alert = function(title, msg) {
         var alertPopup = $ionicPopup.alert({
@@ -923,6 +922,8 @@ app.config(['$stateProvider',
           template: (typeof(msg) == "undefined" ? "" : msg)
         });
       };
+
+      $rootScope.hideLoadingWheel();
 
         //$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         $rootScope.$on('$stateChangeStart', function (event, toState) {

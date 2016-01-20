@@ -283,6 +283,7 @@ function innerSearch(app, req) {
                 _.contains(req.user.roles, 'concreteprotector') === true ||
                 _.contains(req.user.roles, 'administrator') === true
             ) {
+                baseTeams.push(base.Ownership(app, req.user.person, objectType));
                 baseTeams.push(base.TeamMembership(app, req.user.person, objectType, contractAccess));
             }
         }
