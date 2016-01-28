@@ -1,11 +1,12 @@
 angular.module('estimateApp')
     .controller('NewContractCtrl', [
-        '$scope', '$q', 'project','Contract','ContractTemplate','Storage',
-        function ($scope, $q, project,Contract, ContractTemplate, Storage) {
+        '$scope', '$q', 'project','Contract','ContractTemplate','Storage', '$stateParams', 'Contract',
+        function ($scope, $q, project,Contract, ContractTemplate, Storage, $stateParams, Service) {
             "use strict";
 
-            function init() {
-                $scope.Project ={};
+            $scope.init = function() {
+              $scope.Project ={};
+              $scope.model = {};
 
 
                 ContractTemplate.Search([],{storageType: 'contracttemplatelayout', searchType: 'use'})
@@ -43,5 +44,58 @@ angular.module('estimateApp')
                 };
             }
 
-            init();
+          $scope.validate = function(model, errors) {
+
+          };
+
+          $scope.save = function() {
+            $scope.saving = true;
+            var errors = [];
+            var model = $scope.model;
+            model.errors = [];
+
+            $scope.validate(model, errors);
+
+            if (errors.length > 0) {
+              model.errors = errors;
+              model.error = errors.join(', ');
+              return model.error;
+            }
+
+            model.error = [];
+            model.errors = [];
+
+            if ($stateParams.projectid && ($stateParams.projectid).length > 10) {
+              Service.Update(model)
+                .then(function (result) {
+                  $scope.saving = false;
+                  $rootScope.back();
+                },
+                function (error) {
+                  $scope.saving = false;
+                  model.errors = error;
+                  model.error = model.errors.join(', ');
+
+                }
+              );
+
+            }
+            else {
+              Service.Add(model)
+                .then(function (result) {
+                  $scope.saving = false;
+                  $rootScope.back();
+                },
+                function (error) {
+                  $scope.saving = false;
+                  model.errors = error;
+                  model.error = model.errors.join(', ');
+
+                }
+              );
+            }
+          }
+          $scope.sendTo = function() {
+
+          }
         }]);
