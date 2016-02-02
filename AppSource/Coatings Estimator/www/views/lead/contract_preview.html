@@ -1,0 +1,76 @@
+<div style="margin:1em 1em">
+  <!-- Header image -->
+  <img style="width:100%" src="" />
+
+  <h4 style="width:100%;text-align:center; border-bottom:1px solid;color:rgba(60, 144, 216,1); margin-bottom:1em">PROJECT DETAILS.</h4>
+
+  <div ng-repeat="detail in Project.details  | orderBy:predicate:reverse"
+       style="font-size:0.9em;margin-bottom:2em;background-color: white; color: rgba(0,0,0,0.6);">
+    <div style="padding:0.2em; border: solid black 1px; display:none">
+      <table style="width:100%; text-align:left">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Area</th>
+          <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td width="30%">{{detail.name}}</td>
+          <td width="30%">{{detail.area}}</td>
+          <td width="40%">{{detail.saleprice | currency}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <div style="padding:0.2em; border: solid rgba(0,0,0,0.1) 1px;">
+      <div><label>Name : </label><span>&nbsp;{{detail.name}}</span></div>
+      <div><label>Area : </label><span>&nbsp;{{detail.area}}</span></div>
+      <div><label>Price : </label><span style="color: #FF9100;">&nbsp;{{detail.saleprice | currency}}</span></div>
+      <div><label>Ingredient details:</label></div>
+      <div style="padding:0.2em; background: #D4F0FD;">
+        <table style="width:100%; text-align:left">
+          <thead>
+          <tr>
+            <th>Ingredient</th>
+            <th>Color</th>
+            <th>Pattern</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="style in detail.styles">
+            <td width="30%">{{style.ingredient.name}}</td>
+            <td width="30%">{{style.color.name}}</td>
+            <td width="40%">{{style.pattern.name}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label>TOTAL :</label>
+    <span >&nbsp;{{Project.totalcost | currency}}</span>
+  </div>
+
+  <div>
+    <label>DISCOUNT :</label>
+    <span >&nbsp;{{model.discount}}%</span>
+  </div>
+
+  <div>
+    <label>NET PRICE :</label>
+    <span >&nbsp;{{Project.totalcost - (Project.totalcost * (model.discount/100)) | currency}}</span>
+  </div>
+
+  <div>
+    <label>SIGNATURE :</label>
+    <img style="width:80%; height:auto;" src="{{signature}}">
+  </div>
+  <!-- Footer image -->
+  <img style="width:100%" src="" />
+</div>

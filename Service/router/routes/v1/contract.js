@@ -32,5 +32,9 @@ module.exports = function (app, path) {
         return base.RestAction(app, req, res, next, manager.Search(app, req, res, next));
     });
 
+    base.Router.post('/sendto', function (req, res, next) {
+        return base.RestAction(app, req, res, next, manager.SendTo(app, req, res, next));
+    });
+
     startup();
 };

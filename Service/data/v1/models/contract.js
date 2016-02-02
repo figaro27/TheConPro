@@ -17,8 +17,9 @@ module.exports = function (db) {
             headerid: {type: Sequelize.UUID},   // so that in the event the template changes
             footerid: {type: Sequelize.UUID},   // contracts can be recreated with the original source
             projectid: {type: Sequelize.UUID},
-            price: {type: Sequelize.STRING},
-            discount: {type: Sequelize.STRING}
+            price: {type: Sequelize.FLOAT},
+            discount: {type: Sequelize.FLOAT},
+            version: {type: Sequelize.BIGINT}
 
         };
         dto = _.merge(dto, db.BaseEntity.addFields);

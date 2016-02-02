@@ -1,6 +1,6 @@
 angular.module('estimateApp')
     .service('Contract', [
-        '$q', 'BaseFactory', 'System', 'Ingredient', 'Color', 'Pattern', function ($q, BaseFactory, System, Ingredient, Color, Pattern) {
+        '$q', 'BaseFactory', 'System', 'Ingredient', 'Color', 'Pattern', 'Service', function ($q, BaseFactory, System, Ingredient, Color, Pattern, Service) {
             'use strict';
 
             var service = function () {
@@ -10,6 +10,10 @@ angular.module('estimateApp')
             service.prototype = Object.create(BaseFactory.constructor.prototype);
             service.prototype.constructor = service;
             service.prototype.ProjectDetails = populateProject;
+
+      service.prototype.sendContractViaEmail = function(model) {
+        return Service.Post(model, 'api/v1/contract/sendto');
+      };
 
             function getProjectDetails(project) {
                 if (project.constructor === Array) {

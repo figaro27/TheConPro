@@ -238,7 +238,7 @@
               <td>{{detail.name}}</td>
               <td>{{detail.extra}}</td>
               <td>{{detail.factor}}</td>
-              <td>
+              <td valign="middle">
                 <span ng-show="detail.colors.length === 0">No Colors</span>
                 <select ng-show="detail.colors.length > 0" style="width: 100%;"
                         ng-model="detail.style.colorid"
@@ -246,7 +246,7 @@
                   <option style="display:none" value=""></option>
                 </select>
               </td>
-              <td>
+              <td valign="middle">
                 <span ng-show="detail.patterns.length === 0">No Patterns</span>
                 <select style="width: 100%;"
                         ng-show="detail.patterns.length > 0"
@@ -372,7 +372,7 @@
       <div class="row">
           <div class="col-xs-12" style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
               <a ng-click="Cancel()" class="btn btn-default"><i class="fa fa-arrow-circle-left fa-lg"></i> </a>
-              <a ui-sref="index.contracts({projectid:projectid})" class="btn btn-primary"><i class="fa fa-pencil-square-o fa-lg"></i> </a>
+              <a ui-sref="index.contracts({leadid:leadid, projectid:projectid})" class="btn btn-primary"><i class="fa fa-pencil-square-o fa-lg"></i> </a>
           </div>
       </div>
     </span>

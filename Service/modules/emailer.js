@@ -19,7 +19,7 @@ module.exports = function () {
             //Subject and text data
             subject: subject,
             html: body
-        }
+        };
 
         //Invokes the method to send emails given the above data with the helper library
         mailgun.messages().send(data, function (err, body) {

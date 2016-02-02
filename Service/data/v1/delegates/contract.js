@@ -429,11 +429,24 @@ function search(app, req) {
     return deferred.promise;
 }
 
+function sendTo(app, req) {
+    var deferred = Q.defer();
+
+    var subject = req.body.subject;
+    var to = req.body.emailTo;
+    var emailBody = req.body.htmlBody;
+    var emailer = require('../../../modules/emailer')();
+
+    emailer.sendHtmlEmailViaMailGun(app, "noreply@coatinsestimator.com", to, subject, emailBody);
+    //return deferred.resolve({messge:'contract has been sent to ' + to});
+}
+
 project.prototype.Populate = populate;
 project.prototype.Build = build;
 project.prototype.Generate = generate;
 project.prototype.Update = update;
 project.prototype.Search = search;
+project.prototype.SendTo = sendTo;
 project.instance = null;
 
 if (project.callee !== project.getInstance) {

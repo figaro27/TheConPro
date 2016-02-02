@@ -786,8 +786,8 @@ app.config(['$stateProvider',
                         $scope.goto = function (id) {
                             $state.go(contract.name, {id: id});
                         };
-                        $scope.projectid = $stateParams.projectid;
 
+                        $scope.projectid = $stateParams.projectid;
                     }]
                 }
             },
@@ -902,9 +902,10 @@ app.config(['$stateProvider',
         $httpProvider.interceptors.push('HttpInterceptor');
 
 
-    }]).run(['$rootScope', '$ionicPlatform', '$state', '$stateParams', '$ionicLoading', '$ionicPopup', '$window', 'Authorization', 'Config', 'Log',
-    function ($rootScope, $ionicPlatform, $state, $stateParams, $ionicLoading, $ionicPopup, $window, Authorization, Config, Log) {
+    }]).run(['$rootScope', '$ionicPlatform', '$state', '$stateParams', '$ionicLoading', '$ionicPopup', '$window', 'Authorization', 'Config', 'Log', '$templateCache',
+    function ($rootScope, $ionicPlatform, $state, $stateParams, $ionicLoading, $ionicPopup, $window, Authorization, Config, Log, $templateCache) {
         'use strict';
+
       $ionicPlatform.registerBackButtonAction(function () {
         window.history.back();
       }, 100);

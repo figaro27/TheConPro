@@ -139,6 +139,13 @@ module.exports = function (configuration) {
         next();
     }
 
+    function sendTo(app, req, res, next) {
+        if (configuration.type === 'contract') {
+            return base.PostAction(app, req, res, next, delegate.SendTo(app, req));
+        }
+        next();
+    }
+
 
     return {
         Generate: generate,
@@ -156,6 +163,7 @@ module.exports = function (configuration) {
         Feedback: feedback,
         Permission: permission,
         Permissions: permissions,
-        Verify: verify
+        Verify: verify,
+        SendTo: sendTo
     };
 };

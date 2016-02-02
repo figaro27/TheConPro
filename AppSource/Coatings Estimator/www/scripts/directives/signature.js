@@ -1,7 +1,7 @@
 
 angular.module('estimateApp')
-.directive('jSignature', ['$timeout',
-  function ($timeout) {
+.directive('jSignature', ['$timeout', '$rootScope',
+  function ($timeout, $rootScope) {
     'use strict';
     return {
       restrict: 'EA',
@@ -11,7 +11,6 @@ angular.module('estimateApp')
         lineColor: '@',
         readonly: '=',
         data : '='
-
       },
       link: function (scope, element, attrs, controller) {
         var exportmodel = scope.data;
@@ -102,9 +101,10 @@ angular.module('estimateApp')
              svgbase64
             */
             scope.data ='';
-            var dataPair = $(element).jSignature("getData","svgbase64");
-            var signatureImage =  dataPair.join(',');
-            scope.data = signatureImage;
+            var dataPair;
+            var signatureImage =  dataPair = $(element).jSignature("getData");
+            //var signatureImage = "data:" + dataPair.join(',');
+            $rootScope.signature = scope.data = signatureImage;
             scope.model = signatureImage;
           }, 100, true);
         });
