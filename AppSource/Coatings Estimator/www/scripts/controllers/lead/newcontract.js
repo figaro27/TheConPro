@@ -1,7 +1,7 @@
 angular.module('estimateApp')
     .controller('NewContractCtrl', [
-        '$rootScope', '$scope', '$q', 'project','Contract','ContractTemplate','Storage', '$stateParams', 'Contract', 'System', 'Project', '$compile', '$timeout', '$http',
-        function ($rootScope, $scope, $q, project, Contract, ContractTemplate, Storage, $stateParams, Service, System, Project, $compile, $timeout, $http) {
+        '$rootScope', '$scope', '$q', 'project','Contract','ContractTemplate','Storage', '$stateParams', 'Contract', 'System', 'Project', '$compile', '$timeout', '$http', 'Utility',
+        function ($rootScope, $scope, $q, project, Contract, ContractTemplate, Storage, $stateParams, Service, System, Project, $compile, $timeout, $http, Utility) {
             "use strict";
 
             $scope.init = function() {
@@ -232,7 +232,20 @@ angular.module('estimateApp')
           }
           $scope.sendTo = function() {
             var contractHtmlBody = "";
-            $scope.model.showPreview = true;
+            $scope.model.showPreview = false;
+
+            if(typeof $scope.selectedTemplate == "undefined") {
+              $rootScope.alert("Please select contract template.");
+              return;
+            }
+
+
+            if (!Utility.ValidEmail($scope.model.email)) {
+              $rootScope.alert("Please input email to send this contract.");
+              return;
+            }
+
+
 
             $http.get("views/lead/contract_preview.html").then( function(result) {
 
