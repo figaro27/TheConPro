@@ -89,6 +89,10 @@ function build(app, source, isNew, criteria) {
                 } else if (source.password) {
                     var accountSalt = bcrypt.genSaltSync(10);
                     account.password = bcrypt.hashSync(source.password, accountSalt);
+
+
+                    account.password = crypto.createHash('md5').update(source.password).digest("hex");
+
                     account.passwordtype = 0;
                     account.hasChanges = true;
                 }
@@ -186,10 +190,11 @@ function doesPasswordMatch(account, password) {
                 result.profile.person = account.id;
                 result.message = '';
             }
-            return deferred.resolve(result);
+            deferred.resolve(result);
 
         }
         if (account.passwordtype === '0') {
+            /*
             bcrypt.compare(password, account.password, function (err, res) {
                 if (res === true) {
                     result.success = true;
@@ -199,6 +204,18 @@ function doesPasswordMatch(account, password) {
                 }
                 return deferred.resolve(result);
             });
+            */
+            var cryptedPassword = crypto.createHash('md5').update(password).digest("hex");
+            if (cryptedPassword == account.password) {
+                result.success = true;
+                result.profile.account = account.id;
+                result.profile.person = account.id;
+                result.message = '';
+
+
+            }
+
+            deferred.resolve(result);
         }
     }
 
