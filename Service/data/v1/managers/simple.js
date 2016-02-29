@@ -132,6 +132,13 @@ module.exports = function (configuration) {
         next();
     }
 
+    function uploadimage(app, req, res, next) {
+        if (configuration.type === 'storage') {
+            return base.PostAction(app, req, res, next, delegate.Uploadimage(app, req));
+        }
+        next();
+    }
+
     function downloadString(app, req, res, next) {
         if (configuration.type === 'storage') {
             return base.PostAction(app, req, res, next, delegate.DownloadString(app, req));
@@ -160,6 +167,7 @@ module.exports = function (configuration) {
         ChangePassword: changepassword,
         ForgotPassword: forgotpassword,
         DownloadString: downloadString,
+        Uploadimage: uploadimage,
         Feedback: feedback,
         Permission: permission,
         Permissions: permissions,

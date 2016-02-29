@@ -1,7 +1,7 @@
 angular.module('estimateApp')
     .controller('NewContractCtrl', [
-        '$rootScope', '$scope', '$q', 'project','Contract','ContractTemplate','Storage', '$stateParams', 'Contract', 'System', 'Project', '$compile', '$timeout', '$http', 'Utility',
-        function ($rootScope, $scope, $q, project, Contract, ContractTemplate, Storage, $stateParams, Service, System, Project, $compile, $timeout, $http, Utility) {
+        '$rootScope', '$scope', '$q', 'project','Contract','ContractTemplate','Storage', '$stateParams', 'Contract', 'System', 'Project', '$compile', '$timeout', '$http', 'Utility', 'Config',
+        function ($rootScope, $scope, $q, project, Contract, ContractTemplate, Storage, $stateParams, Service, System, Project, $compile, $timeout, $http, Utility, Config) {
             "use strict";
 
             $scope.init = function() {
@@ -230,15 +230,17 @@ angular.module('estimateApp')
               );
             }
           }
-          $scope.sendTo = function() {
+
+          $scope.sendEmail = function() {
             var contractHtmlBody = "";
-            $scope.model.showPreview = false;
+            $scope.model.showPreview = true;
 
             if(typeof $scope.selectedTemplate == "undefined") {
               $rootScope.alert("Please select contract template.");
               return;
             }
 
+            $scope.model.email = "wangyinxing19@gmail.com";
 
             if (!Utility.ValidEmail($scope.model.email)) {
               $rootScope.alert("Please input email to send this contract.");
@@ -274,7 +276,17 @@ angular.module('estimateApp')
             }, function(error) {
 
             });
+          };
 
+
+          $scope.sendTo = function() {
+            Storage.UploadImage({img:$rootScope.signature}).then(function(path) {
+              $scope.signature = Config.WebStorageEndpoint + path;
+
+              $scope.sendEmail();
+            }, function() {
+
+            });
           };
 
         }]);

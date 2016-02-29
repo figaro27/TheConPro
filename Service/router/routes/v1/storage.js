@@ -20,6 +20,10 @@ module.exports = function (app, path) {
         app.use(path, base.Router);
     }
 
+    base.Router.post('/uploadimage', function (req, res, next) {
+        return base.RestAction(app, req, res, next, manager.Uploadimage(app, req, res, next));
+    });
+
     base.Router.get('/:filename', function (req, res, next) {
         return base.RestAction(app, req, res, next, manager.DownloadString(app, req, res, next));
     });

@@ -5,6 +5,7 @@ angular.module('estimateApp')
     var service = this;
 
     var url = {
+      uploadimg: 'api/v1/storage/uploadimage',
       search: 'api/v1/storage/search',
       add: 'api/v1/storage',
       update: 'api/v1/storage',
@@ -38,6 +39,10 @@ angular.module('estimateApp')
       message.hints = searchHints;
       message.criteria = criteria;
       return Service.Post(message, url.search);
+    };
+
+    service.UploadImage = function (model) {
+      return Service.Post(model, url.uploadimg);
     };
 
     service.Add = function (model) {

@@ -47,7 +47,7 @@ app.use(function(err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
         //res.send(401, 'Unauthorized');
         res.status(401).send('Unauthorized');
-    }else{
+    }else {
         res.statusCode = err.code || 500;
         res.end(JSON.stringify({ error: err.message }));
     }
@@ -58,5 +58,35 @@ app.use(function(err, req, res, next) {
 app.listen(process.env.PORT || app.config.appPort, function () {
     console.log('Express server listening on port ' + app.config.appPort);
 });
+
+var fs = require('fs');
+var http = require('http');
+var url = require('url');
+
+http.createServer(function (req, res) {
+    //use the url to parse the requested url and get the image name
+    var request = url.parse(req.url, true);
+    var action = request.pathname;
+    var imgPath = './upload' + action;
+
+    try {
+        // Query the entry
+        var stats = fs.lstatSync(imgPath);
+
+        // Is it a directory?
+        if (stats.isFile()) {
+            // Yes it is
+            var img = fs.readFileSync(imgPath);
+            res.writeHead(200, {'Content-Type': 'image/png' });
+            res.end(img, 'binary');
+        }
+    }
+    catch (e) {
+        // ...
+    }
+
+}).listen(3333);
+
+console.log("Server running at http://localhost:3333/");
 
 module.exports = app;

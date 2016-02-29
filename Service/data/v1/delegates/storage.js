@@ -6,6 +6,7 @@
 var Q = require('q'),
     base = require('./base')(),
     objectType = 'storage',
+    fs = require('fs'),
     pkgcloud = require('pkgcloud'),
     stream = require('stream');
 //,MemoryStream = require('memorystream');
@@ -609,6 +610,25 @@ function downloadStringBackup(app, req) {
     return deferred.promise;
 }
 
+
+function uploadimage(app, req) {
+    var deferred = Q.defer();
+    var base64Data = req.body.img.replace(/^data:image\/png;base64,/, "");
+    var uuid = require('node-uuid');
+    var id = uuid.v1();
+
+    require("fs").writeFile("upload/" + id + ".png", base64Data, 'base64', function(err) {
+        if (err == null) {
+            deferred.resolve(id + ".png");
+        }
+        else {
+            deferred.reject();
+        }
+    });
+
+    return deferred.promise;
+}
+
 function downloadString(app, req) {
     var deferred = Q.defer();
 
@@ -721,6 +741,7 @@ storage.prototype.Build = build;
 storage.prototype.Generate = generate;
 storage.prototype.Update = update;
 storage.prototype.Search = search;
+storage.prototype.Uploadimage = uploadimage;
 storage.prototype.DownloadString = downloadString;
 storage.prototype.Remove = remove;
 
