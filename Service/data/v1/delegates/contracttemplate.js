@@ -165,6 +165,8 @@ function writeToFile(content, type, _id) {
     var uuid = require('node-uuid');
     var id = (typeof(_id) == "undefined" || _id == null) ? uuid.v1() : _id;
 
+    console.log(content + "    " + type + id + "\r\n");
+
     if (type == "img") {
         if (validUrl.isHttpUri(content)) {
             deferred.resolve(id);
@@ -209,15 +211,11 @@ function save(app, body, changePerson, isNew) {
         model = {},
         actionDate = new Date();
 
-
-    console.log("Save started....\r\n");
-
     try {
         var source = body;
 
         base.PopulateDefaults(source, model, actionDate, changePerson, isNew);
 
-        console.log("base.PopulateDefaults....\r\n");
 
 
         Q.all ([
