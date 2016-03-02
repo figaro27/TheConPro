@@ -165,7 +165,7 @@ function writeToFile(content, type, _id) {
     var uuid = require('node-uuid');
     var id = (typeof(_id) == "undefined" || _id == null) ? uuid.v1() : _id;
 
-    console.log(content + "    " + type + id + "\r\n");
+    console.log(content + "    " + type + _id + "\r\n");
 
     if (type == "img") {
         if (validUrl.isHttpUri(content)) {
@@ -223,6 +223,7 @@ function save(app, body, changePerson, isNew) {
             writeToFile(source.header.data, "img", source.headerid),
             writeToFile(source.footer.data, "img", source.footerid),
         ]).then(function(ret) {
+            console.log("then....\r\n");
             //deferred.resolve(ret);
             source.termid = ret[0];
             source.headerid = ret[1];
