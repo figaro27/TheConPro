@@ -96,9 +96,9 @@ function build(app, source, isNew) {
                 if (source.headerid)    contracttemplate.headerid = source.headerid;
                 if (source.footerid)    contracttemplate.footerid = source.footerid;
 
-                source.layoutid = 0;
-                source.type = 0;
-
+                console.log("Layout id...");
+                console.log(source);
+                console.log(source.layoutid);
 
                 if (!source.layoutid && isNew) {
                     errors.push('missing layout id');
