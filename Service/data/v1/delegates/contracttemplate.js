@@ -286,6 +286,7 @@ function save(app, body, changePerson, isNew) {
 }
 
 function generate(app, req) {
+    console.log("Generating...\r\n");
 
     var deferred = Q.defer(),
         changePerson = req.user.person; // person making the changes
