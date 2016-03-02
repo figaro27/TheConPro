@@ -230,6 +230,8 @@ function save(app, body, changePerson, isNew) {
             var itemsToSave = [];
             var sourceData = [];
 
+            console.log("Saving....\r\n");
+
             base.BuildSaveArray(itemsToSave, sourceData, build(app, model, isNew), model);
 
             //if this is an update, if the current user is not the user that created the template then return
@@ -251,6 +253,9 @@ function save(app, body, changePerson, isNew) {
                         Q.all(finalbuild)
                             .then(
                             function (newmodel) {
+
+                                console.log("Almost....\r\n");
+
                                 t.commit()
                                     .error(function (error) {
                                         deferred.reject({message: error, code: 500});
