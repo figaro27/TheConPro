@@ -166,27 +166,31 @@ function writeToFile(content, type, _id) {
     var id = (typeof(_id) == "undefined" || _id == null) ? uuid.v1() : _id;
 
     if (type == "img") {
-        console.log("Saving image....");
-
         if (validUrl.isHttpUri(content)) {
-            console.log("it's not http uri");
             deferred.resolve(id);
         }
         else {
-            console.log("Start saving...");
+            console.log("---------");
+            console.log(content.length);
+            console.log(typeof(content));
 
             if (content.indexOf('data:image/png;base64,') == -100) {
                 deferred.resolve(id);
             }
             else {
+                console.log("Writing file.");
+
                 base64Data = content.replace(/^data:image\/png;base64,/, "");
+
+                console.log("Replaced...");
 
                 fs.writeFile("upload/" + id + ".png", base64Data, 'base64', function(err) {
                     if (err == null) {
                         deferred.resolve(id);
                     }
                     else {
-                        deferred.reject();
+                        console.log(err);
+                        deferred.reject(err);
                     }
                 });
             }
