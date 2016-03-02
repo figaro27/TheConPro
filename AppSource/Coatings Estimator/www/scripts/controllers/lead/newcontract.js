@@ -1,6 +1,6 @@
 angular.module('estimateApp')
     .controller('NewContractCtrl', [
-        '$rootScope', '$scope', '$q', 'project','Contract','ContractTemplate','Storage', '$stateParams', 'Contract', 'System', 'Project', '$compile', '$timeout', '$http', 'Utility', 'Config',
+        '$rootScope', '$scope', '$q', 'project','Contract','ContractTemplate','Storage', '$stateParams', 'ContractTemplate', 'System', 'Project', '$compile', '$timeout', '$http', 'Utility', 'Config',
         function ($rootScope, $scope, $q, project, Contract, ContractTemplate, Storage, $stateParams, Service, System, Project, $compile, $timeout, $http, Utility, Config) {
             "use strict";
 
@@ -24,35 +24,60 @@ angular.module('estimateApp')
                     .then(function(results){
                         $scope.Project = results;
                     });
-
-                $scope.TemplateChange = function(id) {
-                    $scope.selectedTemplate =_.where($scope.ContractTemplates,{id:id})[0];
-                    var criteria = [];
-                    criteria.push({'id': $scope.selectedTemplate.layoutid});
-                    criteria.push({fid: $scope.selectedTemplate.id});
-
-                    var searches = [];
-                    searches.push(Storage.Search([{'id': $scope.selectedTemplate.layoutid}],{storageType:'contracttemplatelayout', searchType : 'use', populate : false}));
-                    searches.push(Storage.Search([{'fid': $scope.selectedTemplate.id}],{storageType:'contracttemplateheader', searchType : 'use', populate : false}))
-                    searches.push(Storage.Search([{'fid': $scope.selectedTemplate.id}],{storageType:'contracttemplatefooter', searchType : 'use', populate : false}))
-                    searches.push(Storage.Search([{'fid': $scope.selectedTemplate.id}],{storageType:'contracttemplateterm', searchType : 'use', populate : false}))
-
-                    $q.all(searches)
-                        .then(function(storage){
-                            var storages = _.flatten(storage);
-                            var p = storages;
-                            $scope.Layout = storage
-                        }, function(error){
-                            var e = 'do something with the error ' + error;
-                        });
-                };
-
-              /*
-                Load project details...
-               */
+               // Load project details...
               //$scope.loadLeadAndAddress();
               //$scope.loadProjectDetail();
             };
+
+
+          $scope.TemplateChange = function(id) {
+            var promises = [];
+            var headerhints = {
+              populate: true,
+              searchType: 'use',
+              storageType: 'contracttemplateheader'
+            };
+            var termhints = {
+              populate: true,
+              searchType: 'use',
+              storageType: 'contracttemplateterm'
+            };
+            var footerhints = {
+              populate: true,
+              searchType: 'use',
+              storageType: 'contracttemplatefooter'
+            };
+            var criteria = {fid: id};
+
+            // get contracttemplate
+            promises.push(Service.Get(id));
+
+            // get contracttemplateheader
+            //promises.push(Storage.Search(criteria, headerhints));
+
+            // get contracttemplatefooter
+            //promises.push(Storage.Search(criteria, footerhints));
+
+            // get contracttemplateterm
+            //promises.push(Storage.Search(criteria, termhints));
+
+            $q.all(promises)
+              .then(function (promiseResults) {
+                $scope.updateTemplate(promiseResults);
+                //populateContractTemplate(promiseResults[0][0]);
+                //populateHeader(promiseResults[1][0]);
+                //populateFooter(promiseResults[2][0]);
+                //populateTerm(promiseResults[3][0]);
+              }, function (error) {
+                Reference.ProcessError(error, $scope.errors);
+              });
+          };
+
+          $scope.updateTemplate = function(ret) {
+              $scope.model.header = ret[0][0].headerImgSize == 0 ? "" : Config.WebStorageEndpoint + ret[0][0].headerid + ".png";
+              $scope.model.footer = ret[0][0].footerImgSize == 0 ? "" : Config.WebStorageEndpoint + ret[0][0].footerid + ".png";
+              $scope.model.term = ret[0][0].term;
+          };
 
           $scope.loadLeadAndAddress = function() {
             var promises = [];
@@ -233,7 +258,7 @@ angular.module('estimateApp')
 
           $scope.sendEmail = function() {
             var contractHtmlBody = "";
-            $scope.model.showPreview = true;
+            $scope.model.showPreview = false;
 
             if(typeof $scope.selectedTemplate == "undefined") {
               $rootScope.alert("Please select contract template.");

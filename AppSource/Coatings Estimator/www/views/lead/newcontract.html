@@ -1,14 +1,14 @@
-<meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'"/>
 
 <div class="contract-form" ng-init="init();" class="entity">
     <form novalidate>
-        <div class="row" style="color: red;" ng-show="!!Model.errors.length">
+        <div class="row" style="color: red;" ng-show="!!model.errors.length">
             <ul>
-                <li ng-repeat="error in Model.errors">
+                <li ng-repeat="error in model.errors">
                     {{error}}
                 </li>
             </ul>
         </div>
+      <br/>
         <div class="row">
             <div class="col-xs-12">
                 Contract Template<br/>
@@ -21,6 +21,10 @@
             </div>
         </div>
     </form>
+    <img ng-hide="model.header.length == 0" class="img-contract" ng-src="{{model.header}}"/>
+    <div class="contract-term" ng-bind-html='model.term'>
+
+    </div>
     <div class="row" ng-hide="showDetails">
         <div class="col-xs-12">
             <a class="btn btn-left btn-primary btn-sm" style="width: 100%;" ng-click="showDetails = !showDetails"><i
@@ -116,6 +120,7 @@
           <a ng-click="sendTo()" class="btn btn-success">Send to </a><input placeholder="Email to send" ng-model="model.email" class="input-sendto" />
         </div>
     </div>
+  <img ng-hide="model.footer.length == 0" class="img-contract" ng-src="{{model.footer}}"/>
   <div ng-show="model.showPreview" class="contract_preview">
   </div>
 </div>

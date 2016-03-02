@@ -47,8 +47,9 @@
         </div>
         <div class="row" ng-show="headershow">
             <div class="col-sm-12" style="text-align: center;">
-                <img  ng-show="Model.header.data.length > 1" style="width: 100%; padding: 10px;" src="data:image/png;base64,{{Model.header.data}}"/><br ng-show="Model.header.data.length > 1" />
-                <button type="button" class="btn btn-success" ng-click="GetImage(Model.header)"><i class="fa fa-camera"></i></button>
+                <img  ng-show="Model.header.data.length > 1" style="width: 100%; padding: 10px;" ng-src="{{Model.header.data}}"/><br ng-show="Model.header.data.length > 1" />
+                <button type="button" class="btn btn-success" ng-click="GetImage(Model.header, 0)"><i class="fa fa-camera"></i></button>
+                <button type="button" class="btn btn-success" ng-click="GetImage(Model.header, 1)"><i class="fa fa-file-image-o"></i></button>
                 <button ng-show="Model.header.data.length > 1" type="button" class="btn btn-danger" ng-click="RemoveImage(Model, Model.header)"><i class="fa fa-trash"></i></button>
             </div>
         </div>
@@ -90,8 +91,9 @@
         </div>
         <div class="row" ng-show="footershow">
             <div class="col-sm-12" style="text-align: center;">
-                <img  ng-show="Model.footer.data.length > 1" style="width: 100%; padding: 10px;" src="data:image/png;base64,{{Model.footer.data}}"/><br ng-show="Model.footer.data.length > 1"/>
-                <button type="button" class="btn btn-success" ng-click="GetImage(Model.footer)"><i class="fa fa-camera"></i></button>
+                <img  ng-show="Model.footer.data.length > 1" style="width: 100%; padding: 10px;" ng-src="{{Model.footer.data}}"/><br ng-show="Model.footer.data.length > 1"/>
+                <button type="button" class="btn btn-success" ng-click="GetImage(Model.footer, 0)"><i class="fa fa-camera"></i></button>
+                <button type="button" class="btn btn-success" ng-click="GetImage(Model.footer, 1)"><i class="fa fa-file-image-o"></i></button>
                 <button ng-show="Model.footer.data.length > 1" type="button" class="btn btn-danger" ng-click="RemoveImage(Model, Model.footer)"><i class="fa fa-trash"></i></button>
             </div>
         </div>

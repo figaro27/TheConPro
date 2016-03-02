@@ -437,7 +437,7 @@ function sendTo(app, req) {
     var emailBody = req.body.htmlBody;
     var emailer = require('../../../modules/emailer')();
 
-    emailer.sendHtmlEmailViaMailGun(app, "noreply@coatinsestimator.com", to, subject, emailBody);
+    emailer.sendHtmlEmailViaMailGun(app, "noreply@coatingsestimator.com", to, subject, emailBody);
     deferred.resolve({messge:'contract has been sent to ' + to});
 
     return deferred.promise;

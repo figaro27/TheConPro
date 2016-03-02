@@ -148,6 +148,11 @@ module.exports = function () {
         return deferred.promise;
     }
 
+    function populate(source, model) {
+
+    }
+
+
     /*
      * @param source - this is the body of the post/put
      * @param destination - this is the DTO
@@ -418,6 +423,7 @@ module.exports = function () {
         GetEntityModels: getEntityModels,
         VerifyDefaults: verifyDefaults,
         PopulateDefaults: populateDefaults,
+        Populate: populate,
         SaveEntity: save,
         GetSearchCriteria: getSearchCriteria,
         GetCriteria: getCriteria,

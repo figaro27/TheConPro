@@ -3,6 +3,7 @@
  */
 'use strict';
 var Q = require('q'),
+    validUrl = require('valid-url'),
     base = require('./base')(),
     objectType = 'contracttemplate',
     teamDelegate = require('./team'),
@@ -38,7 +39,6 @@ function SearchMethod() {
 }
 
 function populate(source, model) {
-
     if (source.id) {
         model.id = source.id;
     }
@@ -50,19 +50,10 @@ function populate(source, model) {
     if (source.type) {
         model.type = source.type;
     }
-/*
-    if (source.termid) {
-        model.termid = source.termid;
-    }
 
-    if (source.headerid) {
-        model.headerid = source.headerid;
-    }
-
-    if (source.footerid) {
-        model.footerid = source.footerid;
-    }
-    */
+    model.termid = source.termid;
+    model.headerid = source.headerid;
+    model.footerid = source.footerid;
 
     if(source.layoutid){
         model.layoutid = source.layoutid;
@@ -100,25 +91,12 @@ function build(app, source, isNew) {
                 } else {
                     contracttemplate.type = source.type;
                 }
-/*
-                if (source.termid) {
-                    contracttemplate.termid = source.termid;
-                } else {
-                    contracttemplate.termid = null;
-                }
 
-                if (source.headerid) {
-                    contracttemplate.headerid = source.headerid;
-                } else {
-                    contracttemplate.headerid = null;
-                }
+                if (source.termid)      contracttemplate.termid = source.termid;
+                if (source.headerid)    contracttemplate.headerid = source.headerid;
+                if (source.footerid)    contracttemplate.footerid = source.footerid;
 
-                if (source.footerid) {
-                    contracttemplate.footerid = source.footerid;
-                } else {
-                    contracttemplate.footerid = null;
-                }
-*/
+
                 if (!source.layoutid && isNew) {
                     errors.push('missing layout id');
                 } else {
@@ -145,62 +123,160 @@ function build(app, source, isNew) {
     return deferred.promise;
 }
 
+function validateFileFromID(id) {
+    if (id == null)
+        return 0;
+
+    var fs = require("fs");
+    var path = "upload/" + id + ".png";
+
+    var stat = fs.lstatSync(path);
+
+    if (stat.isFile()) {
+        return stat['size'];
+    }
+
+    return 0;
+}
+
+function readFileFromID(id) {
+    var deferred = Q.defer();
+    var fs = require("fs");
+
+    fs.readFile("upload/" + id + ".txt", "utf8", function(err, data) {
+        if (err) {
+            deferred.reject(err);
+        }
+        else {
+            deferred.resolve(data);
+        }
+    });
+
+    return deferred.promise;
+}
+
+function writeToFile(content, type, _id) {
+    var deferred = Q.defer();
+
+    var base64Data = "";
+    var path = "upload/";
+    var fs = require("fs");
+
+    var uuid = require('node-uuid');
+    var id = (typeof(_id) == "undefined" || _id == null) ? uuid.v1() : _id;
+
+    if (type == "img") {
+        if (validUrl.isHttpUri(content)) {
+            deferred.resolve(id);
+        }
+        else {
+            if (content.indexOf('data:image/png;base64,') == -100) {
+                deferred.resolve(id);
+            }
+            else {
+                base64Data = content.replace(/^data:image\/png;base64,/, "");
+
+                fs.writeFile("upload/" + id + ".png", base64Data, 'base64', function(err) {
+                    if (err == null) {
+                        deferred.resolve(id);
+                    }
+                    else {
+                        deferred.reject();
+                    }
+                });
+            }
+        }
+    }
+    else if (type == "txt") {
+        fs.writeFile("upload/" + id + ".txt", content, function(err) {
+            if (err == null) {
+                deferred.resolve(id);
+            }
+            else {
+                deferred.reject();
+            }
+        });
+    }
+
+
+
+    return deferred.promise;
+}
+
+
 function save(app, body, changePerson, isNew) {
     var deferred = Q.defer(),
         model = {},
         actionDate = new Date();
+
     try {
-        var source = body; //JSON.parse(body);
+        var source = body;
 
         base.PopulateDefaults(source, model, actionDate, changePerson, isNew);
-        populate(source, model, isNew);
 
 
-        var itemsToSave = [];
-        var sourceData = [];
+        Q.all ([
+            writeToFile(source.term.data, "txt", source.termid),
+            writeToFile(source.header.data, "img", source.headerid),
+            writeToFile(source.footer.data, "img", source.footerid),
+        ]).then(function(ret) {
+            //deferred.resolve(ret);
+            source.termid = ret[0];
+            source.headerid = ret[1];
+            source.footerid = ret[2];
 
-        base.BuildSaveArray(itemsToSave, sourceData, build(app, model, isNew), model);
+            populate(source, model, isNew);
 
-        //if this is an update, if the current user is not the user that created the template then return
-        //an error letting the user know that they are not the owner.
-        if(isNew === false){
-            if(changePerson !== source.addedby){
-                return deferred.reject('only the user that created the contract template is able to make changes');
+            var itemsToSave = [];
+            var sourceData = [];
+
+            base.BuildSaveArray(itemsToSave, sourceData, build(app, model, isNew), model);
+
+            //if this is an update, if the current user is not the user that created the template then return
+            //an error letting the user know that they are not the owner.
+            if(isNew === false){
+                if(changePerson !== source.addedby){
+                    return deferred.reject('only the user that created the contract template is able to make changes');
+                }
             }
-        }
 
-        Q.all(itemsToSave)
-            .then(function (data) {
-                app.db.Sequelize.transaction(function (t) {
+            Q.all(itemsToSave)
+                .then(function (data) {
+                    app.db.Sequelize.transaction(function (t) {
 
-                    var finalbuild = [];
-                    for (var i = 0; i < data.length; i++) {
-                        finalbuild.push(base.SaveEntity(data[i], sourceData[i], t));
-                    }
-                    Q.all(finalbuild)
-                        .then(
-                        function (newmodel) {
-                            t.commit()
-                                .error(function (error) {
-                                    deferred.reject({message: error, code: 500});
+                        var finalbuild = [];
+                        for (var i = 0; i < data.length; i++) {
+                            finalbuild.push(base.SaveEntity(data[i], sourceData[i], t));
+                        }
+                        Q.all(finalbuild)
+                            .then(
+                            function (newmodel) {
+                                t.commit()
+                                    .error(function (error) {
+                                        deferred.reject({message: error, code: 500});
+                                    });
+                                t.done(function () {
+                                    deferred.resolve(newmodel[0]);
                                 });
-                            t.done(function () {
-                                deferred.resolve(newmodel[0]);
+                            },
+                            function (msg) {
+                                t.rollback();
+                                deferred.reject(msg);
                             });
-                        },
-                        function (msg) {
-                            t.rollback();
-                            deferred.reject(msg);
-                        });
+                    });
+                })
+                .fail(function (error) {
+                    return deferred.reject(error);
                 });
-            })
-            .fail(function (error) {
-                return deferred.reject(error);
-            });
+
+        }).fail(function (error) {
+            deferred.reject(error);
+        });
     }
     catch (e) {
-        return deferred.reject({message: e, code: 400});
+        deferred.reject({message: e, code: 400});
     }
+
     return deferred.promise;
 }
 
@@ -288,6 +364,8 @@ function innerSearch(app, req) {
             }
         }
 
+
+
         // we are getting the contract templates so that we can check at the end to make sure the
         // results are for contract templates that the user has access to use
         Q.all(baseTeams)
@@ -326,17 +404,38 @@ function innerSearch(app, req) {
                     contractTemplates = _.findByValues(contractTemplates, 'status', statuses.status);
                     final = true;
                 }
+
                 if (!hints.populate) {
-                    return deferred.resolve(contractTemplates);
+                    if (contractTemplates.length == 1) {
+                        var template = contractTemplates[0];
+
+                        template.headerImgSize = validateFileFromID(template.headerid);
+                        template.footerImgSize = validateFileFromID(template.footerid);
+
+                        Q.all(readFileFromID(template.termid)).then(function(data) {
+                            template.term = data;
+
+                            deferred.resolve(contractTemplates);
+                        }).fail(function(err) {
+                            deferred.resolve(contractTemplates);
+                        });
+                    }
+                    else {
+                        deferred.resolve(contractTemplates);
+                    }
                 }
+
+
+
+
 
             })
             .fail(function (error) {
-                return deferred.reject(error);
+                deferred.reject(error);
             });
     }
     catch (e) {
-        return deferred.reject({message: e, code: 400});
+        deferred.reject({message: e, code: 400});
     }
     return deferred.promise;
 }
@@ -346,6 +445,8 @@ function search(app, req) {
     try {
         innerSearch(app, req)
             .then(function (data) {
+                // Load template page
+
                 // Get a list of the add users to see if they have permission to view contract info
                 // innerSearch already make sure that the user has access to view the contract template
                 var results = [],

@@ -11,6 +11,9 @@ module.exports = function (db) {
         {
             id: {type: Sequelize.UUID, unique: true, primaryKey: true},
             name: {type: Sequelize.STRING},
+            termid: {type: Sequelize.UUID},
+            headerid: {type: Sequelize.UUID},
+            footerid: {type: Sequelize.UUID},
             type: {type: Sequelize.STRING},
             layoutid: {type: Sequelize.UUID}
         };

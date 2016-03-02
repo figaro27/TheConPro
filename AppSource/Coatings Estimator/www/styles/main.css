@@ -835,3 +835,12 @@ input[type=checkbox] + label:before{
   visibility: visible; }
 .backdrop.active {
   opacity: 1; }
+
+
+.img-contract {
+  width: 100%;
+}
+
+.contract-term {
+  margin: 1em;
+}

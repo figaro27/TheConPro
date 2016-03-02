@@ -10,6 +10,7 @@ angular.module('estimateApp')
         'WebStorageEndpoint': 'http://localhost:3333/',
 
         //'WebServiceEndpoint': 'http://104.239.230.5:5000/',
+        //'WebStorageEndpoint': 'http://104.239.230.5:3333/',
 
 
         //'WebServiceEndpoint': 'http://162.242.248.168:5000/',
