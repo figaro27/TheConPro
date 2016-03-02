@@ -129,7 +129,14 @@ function validateFileFromID(id) {
     var fs = require("fs");
     var path = "upload/" + id + ".png";
 
-    var stat = fs.lstatSync(path);
+    var stat;
+
+    try {
+        stat = fs.statSync(path);
+    }
+    catch (e) {
+        return 0;
+    }
 
     if (stat.isFile()) {
         return stat['size'];
@@ -169,9 +176,6 @@ function writeToFile(content, type, _id) {
             deferred.resolve(id);
         }
         else {
-            console.log("---------");
-            console.log(content.length);
-            console.log(typeof(content));
 
             if (content.length == 0) {
                 deferred.resolve(id);
@@ -443,11 +447,9 @@ function innerSearch(app, req) {
                         deferred.resolve(contractTemplates);
                     }
                 }
-
-
-
-
-
+                else {
+                    deferred.resolve(contractTemplates);
+                }
             })
             .fail(function (error) {
                 deferred.reject(error);
