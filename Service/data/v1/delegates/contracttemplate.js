@@ -165,13 +165,16 @@ function writeToFile(content, type, _id) {
     var uuid = require('node-uuid');
     var id = (typeof(_id) == "undefined" || _id == null) ? uuid.v1() : _id;
 
-    console.log(content + "    " + type + _id + "\r\n");
-
     if (type == "img") {
+        console.log("Saving image....");
+
         if (validUrl.isHttpUri(content)) {
+            console.log("it's not http uri");
             deferred.resolve(id);
         }
         else {
+            console.log("Start saving...");
+
             if (content.indexOf('data:image/png;base64,') == -100) {
                 deferred.resolve(id);
             }
