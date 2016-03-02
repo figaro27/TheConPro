@@ -174,7 +174,7 @@ function writeToFile(content, type, _id) {
             console.log(content.length);
             console.log(typeof(content));
 
-            if (content.indexOf('data:image/png;base64,') == -100) {
+            if (content.length == 0) {
                 deferred.resolve(id);
             }
             else {
@@ -186,6 +186,7 @@ function writeToFile(content, type, _id) {
 
                 fs.writeFile("upload/" + id + ".png", base64Data, 'base64', function(err) {
                     if (err == null) {
+                        console.log("Created!");
                         deferred.resolve(id);
                     }
                     else {
