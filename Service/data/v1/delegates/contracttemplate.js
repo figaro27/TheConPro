@@ -209,10 +209,15 @@ function save(app, body, changePerson, isNew) {
         model = {},
         actionDate = new Date();
 
+
+    console.log("Save started....\r\n");
+
     try {
         var source = body;
 
         base.PopulateDefaults(source, model, actionDate, changePerson, isNew);
+
+        console.log("base.PopulateDefaults....\r\n");
 
 
         Q.all ([
