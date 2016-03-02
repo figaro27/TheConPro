@@ -200,9 +200,11 @@ function writeToFile(content, type, _id) {
     else if (type == "txt") {
         fs.writeFile("upload/" + id + ".txt", content, function(err) {
             if (err == null) {
+                console.log("Created text file!");
                 deferred.resolve(id);
             }
             else {
+                console.log(err);
                 deferred.reject();
             }
         });
