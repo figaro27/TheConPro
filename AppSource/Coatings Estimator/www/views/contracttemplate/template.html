@@ -15,14 +15,14 @@
                 <input class="form-control" type="text" ng-model="Model.name" placeholder="name">
             </div>
         </div>
-        <div class="row">
+        <div class="hidden row">
             <div class="col-xs-12">
                 Print Layout<br/>
                 <input type="radio" id="landscape" ng-model="Model.type" value="landscape">&nbsp;<label for="landscape">Landscape</label>
                 <input type="radio" id="portrait" ng-model="Model.type" value="portrait">&nbsp;<label for="portrait">Portrait</label>
             </div>
         </div>
-        <div class="row">
+        <div class="hidden row">
             <div class="col-xs-12">
                 Contract Format<br/>
                 <select style="width: 100%;"
@@ -70,7 +70,7 @@
         </div>
         <div class="row" ng-show="termshow">
             <div class="col-sm-12" style="text-align: center">
-                <textarea class="form-control" ng-model="Model.term.data"
+                <textarea style="height:200px" class="form-control" ng-model="Model.term.data"
                           placeholder="contract terms" style="width: 100%;" rows="2"></textarea>
             </div>
         </div>

@@ -31,6 +31,9 @@ angular.module('estimateApp')
 
 
           $scope.TemplateChange = function(id) {
+            $scope.selectedTemplate = {id:id};
+
+
             var promises = [];
             var headerhints = {
               populate: true,
@@ -260,20 +263,6 @@ angular.module('estimateApp')
             var contractHtmlBody = "";
             $scope.model.showPreview = false;
 
-            if(typeof $scope.selectedTemplate == "undefined") {
-              $rootScope.alert("Please select contract template.");
-              return;
-            }
-
-            $scope.model.email = "wangyinxing19@gmail.com";
-
-            if (!Utility.ValidEmail($scope.model.email)) {
-              $rootScope.alert("Please input email to send this contract.");
-              return;
-            }
-
-
-
             $http.get("views/lead/contract_preview.html").then( function(result) {
 
               $(".contract_preview").html("");
@@ -287,7 +276,7 @@ angular.module('estimateApp')
                   emailTo: $scope.model.email
                 };
 
-                Service.sendContractViaEmail(model)
+                Contract.sendContractViaEmail(model)
                   .then(function(result) {
 
                   },
@@ -305,12 +294,34 @@ angular.module('estimateApp')
 
 
           $scope.sendTo = function() {
+            if (!$rootScope.signature) {
+              $rootScope.alert("Please sign.");
+              return;
+            }
+
+            if(typeof $scope.selectedTemplate == "undefined") {
+              $rootScope.alert("Please select contract template.");
+              return;
+            }
+
+            //$scope.model.email = "wangyinxing19@gmail.com";
+
+            if (!Utility.ValidEmail($scope.model.email)) {
+              $rootScope.alert("Please input email to send this contract.");
+              return;
+            }
+
             Storage.UploadImage({img:$rootScope.signature}).then(function(path) {
               $scope.signature = Config.WebStorageEndpoint + path;
 
-              $scope.sendEmail();
-            }, function() {
+              if ($scope.model.header.length)
+                $scope.contractHeader = $scope.model.header;
+              if ($scope.model.footer.length)
+                $scope.contractFooter = $scope.model.footer;
 
+              $scope.sendEmail();
+            }, function(error) {
+              console.log(error);
             });
           };
 

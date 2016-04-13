@@ -614,6 +614,11 @@ app.config(['$stateProvider',
                     templateUrl: 'views/common/list.html',
                     controller: ['$scope', '$state', 'models', function ($scope, $state, models) {
                         $scope.Models = models;
+
+                      $scope.canCreate = function() {
+                        return true;
+                      }
+
                         $scope.goto = function (id) {
                             $state.go(contracttemplate.name, {id: id});
                         };

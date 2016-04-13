@@ -27,7 +27,7 @@
       </button>
     </div>
   </div>
-  <div class="row setting-item">
+  <div class="hidden row setting-item">
     <div class="col-xs-12">
       <button type="button" class="btn btn-left btn-grey btn-block" ui-sref="index.preferences">
         Preferences
@@ -43,7 +43,7 @@
     </div>
   </div>
 
-  <div class="row setting-item" ng-show="IsInRoles(['administrator'])">
+  <div class="hidden row setting-item" ng-show="IsInRoles(['administrator'])">
     <div class="col-xs-12">
       <button  type="button" class="btn btn-left btn-danger  btn-block"  ui-sref="index.contracttemplatelayouts">
         Contract Layout

@@ -1,4 +1,3 @@
-
 <div class="contract-form" ng-init="init();" class="entity">
     <form novalidate>
         <div class="row" style="color: red;" ng-show="!!model.errors.length">
@@ -8,7 +7,6 @@
                 </li>
             </ul>
         </div>
-      <br/>
         <div class="row">
             <div class="col-xs-12">
                 Contract Template<br/>
@@ -20,6 +18,7 @@
                 </select>
             </div>
         </div>
+      <br/>
     </form>
     <img ng-hide="model.header.length == 0" class="img-contract" ng-src="{{model.header}}"/>
     <div class="contract-term" ng-bind-html='model.term'>
@@ -111,8 +110,10 @@
             <div data-j-signature="form.signature" data-pen-color="#009bff" data-line-color="#oooooo"></div>
         </div>
     </div>
+  <img ng-hide="model.footer.length == 0" class="img-contract" ng-src="{{model.footer}}"/>
+  <br/>
     <div class="row">
-        <div class="col-xs-12" style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+        <div class="hidden col-xs-12" style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
             <a ng-click="save()" class="btn btn-success">Save</a>
             <a ng-click="Cancel()" class="btn btn-default">Cancel</a>
         </div>
@@ -120,7 +121,7 @@
           <a ng-click="sendTo()" class="btn btn-success">Send to </a><input placeholder="Email to send" ng-model="model.email" class="input-sendto" />
         </div>
     </div>
-  <img ng-hide="model.footer.length == 0" class="img-contract" ng-src="{{model.footer}}"/>
+
   <div ng-show="model.showPreview" class="contract_preview">
   </div>
 </div>
