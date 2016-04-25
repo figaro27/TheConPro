@@ -1,7 +1,7 @@
 angular.module('estimateApp')
     .controller('NewContractCtrl', [
-        '$rootScope', '$scope', 'Lead', 'Color', 'Pattern','Address', '$q', 'project','Contract','ContractTemplate','Storage', '$stateParams', 'ContractTemplate', 'System', 'Project', '$compile', '$timeout', '$http', 'Utility', '$cordovaCamera', 'uiHelper', 'Config',
-        function ($rootScope, $scope, Lead, Color, Pattern, Address, $q, project, Contract, ContractTemplate, Storage, $stateParams, Service, System, Project, $compile, $timeout, $http, Utility, $cordovaCamera, uiHelper, Config) {
+        '$rootScope', '$scope', 'Lead', 'Color', 'Pattern','Address', '$q', 'project','Contract','ContractTemplate','Storage', '$stateParams', 'ContractTemplate', 'System', 'Project', '$compile', '$timeout', '$http', 'Utility', '$cordovaCamera', 'uiHelper', 'LocalService','Config',
+        function ($rootScope, $scope, Lead, Color, Pattern, Address, $q, project, Contract, ContractTemplate, Storage, $stateParams, Service, System, Project, $compile, $timeout, $http, Utility, $cordovaCamera, uiHelper, LocalService, Config) {
             "use strict";
 
             $scope.getDate = function() {
@@ -33,8 +33,8 @@ angular.module('estimateApp')
               $scope.leadid = $stateParams.leadid;
               $scope.projectid = $stateParams.projectid;
               $('#signature').jSignature({
-                width:'100%',
-                height:'100%',
+                width:'300',
+                height:'200',
                 UndoButton: true,
                 lineWidth: 3,
                 color:'#00f'
@@ -240,9 +240,20 @@ angular.module('estimateApp')
               }
 
               $scope.model.projects = projects;
+              if (typeof(address) == 'undefined') {
+                uiHelper.showNoty('Address is not defined for this project.', 'error');
+              }
+              else {
+                $scope.model.address = address.address1 + ", " + address.address2 + " " + address.city + ", " + address.state + " " + address.zip;
+              }
 
-              $scope.model.address = address.address1 + ", " + address.address2 + " " + address.city + ", " + address.state + " " + address.zip;
-              $scope.model.lead.person.name = $scope.model.lead.person.firstname +  " " + $scope.model.lead.person.lastname;
+              if (typeof($scope.model.lead.person) == 'undefined') {
+                uiHelper.showNoty('Person info is not defined for this project.', 'error'); 
+              }
+              else {
+                $scope.model.lead.person.name = $scope.model.lead.person.firstname +  " " + $scope.model.lead.person.lastname;
+              }
+              
               $scope.model.systems = model[3];
             }
 
@@ -397,17 +408,35 @@ angular.module('estimateApp')
 
               $(".contract_preview").append($compile(result.data)($scope));
 
-              $scope.model.email = 'wangyinxing19@gmail.com';
-
               $timeout(function() {
                 var model = {
                   subject: 'Contract from ',
                   htmlBody: $(".contract_preview").html(),
-                  emailTo: $scope.model.email
+                  emailTo: $scope.model.lead.detail.email
+                  //emailTo: 'wangyinxing19@gmail.com'
                 };
 
                 Contract.sendContractViaEmail(model)
                   .then(function(result) {
+                    uiHelper.showNoty('Contract has been sent to customer : ' + $scope.model.lead.detail.email);
+
+                    var loginDetail = JSON.parse(LocalService.Get('loginDetail'));
+                    var email = loginDetail.username;
+
+                    var model = {
+                      subject: 'Contract from ',
+                      htmlBody: $(".contract_preview").html(),
+                      emailTo: email
+                      //emailTo: 'wangyinxing19@gmail.com'
+                    };
+
+                    Contract.sendContractViaEmail(model)
+                      .then(function(result) {
+                        uiHelper.showNoty('Contract has been sent to app owner : ' + email);
+                      }, function(error) {
+
+                      });
+
 
                   },
                   function (error) {

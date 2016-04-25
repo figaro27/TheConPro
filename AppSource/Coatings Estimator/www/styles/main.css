@@ -982,7 +982,7 @@ textarea::-webkit-input-placeholder {
 }
 
 div.dateby-signature {
-  min-height: 200px;
+  text-align: center;
 }
 
 div.dateby-signature div#signature input[type='button'] {

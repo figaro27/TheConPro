@@ -934,6 +934,11 @@ app.config(['$stateProvider',
         //$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         $rootScope.$on('$stateChangeStart', function (event, toState) {
 
+            
+        });
+
+        //https://github.com/angular-ui/ui-router/issues/92
+        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
             Authorization.CheckToken();
 
             if (!Authorization.IsAuthorized(toState.data.access)) {
@@ -942,10 +947,7 @@ app.config(['$stateProvider',
             }
             var pageTitle = toState.data.pageTitle;
             $rootScope.$broadcast(Config.SetTitleEvent, pageTitle);
-        });
 
-        //https://github.com/angular-ui/ui-router/issues/92
-        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
             // to be used for back button //won't work when page is reloaded.
             $rootScope.appTargetStateName = fromState.name;
             $rootScope.appTargetStateParams = fromParams;

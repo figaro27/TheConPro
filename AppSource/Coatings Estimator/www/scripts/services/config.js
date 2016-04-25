@@ -6,11 +6,11 @@ angular.module('estimateApp')
         'AuthRoles': 'AuthRoles',
         'AuthUserName': 'AuthUserName',
         'AuthId': 'AuthId',
-        'WebServiceEndpoint': 'http://192.168.1.100:5000/',
-        'WebStorageEndpoint': 'http://192.168.1.100:3333/',
+        //'WebServiceEndpoint': 'http://192.168.1.100:5000/',
+        //'WebStorageEndpoint': 'http://192.168.1.100:3333/',
 
-        //'WebServiceEndpoint': 'http://104.239.230.5:5000/',
-        //'WebStorageEndpoint': 'http://104.239.230.5:3333/',
+        'WebServiceEndpoint': 'http://104.239.230.5:5000/',
+        'WebStorageEndpoint': 'http://104.239.230.5:3333/',
 
 
         //'WebServiceEndpoint': 'http://162.242.248.168:5000/',

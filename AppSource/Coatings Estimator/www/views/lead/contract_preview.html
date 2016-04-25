@@ -3,7 +3,7 @@
 </head>
 <div style="margin:1em 1em">
   <!-- Logo image -->
-  <img ng-show='model.logo.length' ng-src='{{model.logo}}' style='width:150px; height: 150px;'><br>
+  <img ng-show='model.logo.length != 0' ng-src='{{model.logo}}' style='width:auto; height: 150px;'><br>
 
   <br>
   <h4 style='text-align:center; text-decoration: underline'>{{model.title}}</h4>

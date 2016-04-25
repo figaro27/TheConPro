@@ -17,8 +17,7 @@ angular.module('estimateApp')
       $scope.formInfo = {};
 
 
-      if(Account.IsAuthenticated()){
-
+      if(Account.IsAuthenticated()) {
         IAP.init(Authorization.IsInRole(["concreteprotector"]));
 
         $state.go('index');

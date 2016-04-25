@@ -46,6 +46,7 @@ angular.module('estimateApp')
       LocalService.Unset(Config.AuthUserName);
       LocalService.Unset(Config.AuthId);
       LocalService.Unset(Config.AuthExpiration);
+      LocalService.Unset('loginDetail');
     }
 
     service.SetConfigAuth = function (result) {

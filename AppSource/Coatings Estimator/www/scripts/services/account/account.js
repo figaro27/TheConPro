@@ -6,7 +6,7 @@
  * Service in the estimateApp.
  */
 angular.module('estimateApp')
-    .service('Account', ['$rootScope', '$q', 'Config', 'Authorization', 'Reference', function Account($rootScope, $q, Config, Authorization, Reference) {
+    .service('Account', ['$rootScope', '$q', 'Config', 'Authorization', 'Reference', 'LocalService', function Account($rootScope, $q, Config, Authorization, Reference, LocalService) {
         'use strict';
         var service = this;
 
@@ -19,8 +19,6 @@ angular.module('estimateApp')
 
 
             try {
-
-
                 Authorization.Verify(model)
                     .then(function (result) {
                         callback(true, result);
@@ -159,9 +157,19 @@ angular.module('estimateApp')
                 response.reject(errors);
             }
 
+            
+
             Authorization.Login(loginModel)
                 .then(function (result) {
                     $rootScope.$broadcast(Config.UserAuthenticated);
+                    
+                    var loginDetail = {
+                        username: model.username,
+                        password: ''
+                    };
+
+                    LocalService.Set('loginDetail', JSON.stringify(loginDetail));
+
                     response.resolve(result);
                 }, function (error) {
                     Reference.ProcessError(error, errors);

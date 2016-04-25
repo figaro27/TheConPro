@@ -45,8 +45,16 @@ angular.module('estimateApp')
 
         }
 
-        factory.IsAuthorized = function (access) {
+        factory.IsAuthorized = function() {
+            var loginDetail = JSON.parse(LocalService.Get('loginDetail'));
+
+            if (loginDetail == null)
+                return false;
+
             return true;
+        }
+
+        factory._IsAuthorized = function (access) {
             //  var accessgranted = [AccessLevels.anon, AccessLevels.administrator];
             var accessgranted = [AccessLevels.anon];
 
