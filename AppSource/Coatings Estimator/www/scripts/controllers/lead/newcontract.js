@@ -1,16 +1,65 @@
 angular.module('estimateApp')
     .controller('NewContractCtrl', [
-        '$rootScope', '$scope', '$q', 'project','Contract','ContractTemplate','Storage', '$stateParams', 'ContractTemplate', 'System', 'Project', '$compile', '$timeout', '$http', 'Utility', 'Config',
-        function ($rootScope, $scope, $q, project, Contract, ContractTemplate, Storage, $stateParams, Service, System, Project, $compile, $timeout, $http, Utility, Config) {
+        '$rootScope', '$scope', 'Lead', 'Color', 'Pattern','Address', '$q', 'project','Contract','ContractTemplate','Storage', '$stateParams', 'ContractTemplate', 'System', 'Project', '$compile', '$timeout', '$http', 'Utility', '$cordovaCamera', 'uiHelper', 'Config',
+        function ($rootScope, $scope, Lead, Color, Pattern, Address, $q, project, Contract, ContractTemplate, Storage, $stateParams, Service, System, Project, $compile, $timeout, $http, Utility, $cordovaCamera, uiHelper, Config) {
             "use strict";
 
+            $scope.getDate = function() {
+              var today = new Date();
+              var dd = today.getDate();
+              var mm = today.getMonth() + 1; //January is 0!
+              var yyyy = today.getFullYear();
+
+              if (dd < 10) {
+                dd = '0' + dd
+              } 
+
+              if (mm < 10) {
+                mm = '0' + mm
+              } 
+
+              return mm + '/' + dd + '/' + yyyy;
+            }
+
             $scope.init = function() {
+              //$scope.leadid = $rootScope.leadid;
               $scope.isNew = false;
               $scope.Project ={};
               $scope.model = {};
               $scope.model.showPreview = false;
               $scope.model.discount = 0.0;
+              $scope.model.title = 'Installation Estimate / Purchase Agreement';
+
+              $scope.leadid = $stateParams.leadid;
               $scope.projectid = $stateParams.projectid;
+              $('#signature').jSignature({
+                width:'100%',
+                height:'100%',
+                UndoButton: true,
+                lineWidth: 3,
+                color:'#00f'
+              });
+
+              $('div.contract-form textarea').focus(function() {
+                $('div.contract-form div.bottom-space').show();
+              }).blur(function() {
+                $('div.contract-form div.bottom-space').hide();
+              })
+
+
+              var icons = {
+                header: "ui-icon-circle-arrow-e",
+                activeHeader: "ui-icon-circle-arrow-s"
+              };
+
+              $("div.contract").accordion({
+                  icons: icons,
+                  collapsible: true,
+                  heightStyle: "content",
+                  active: false
+                });
+
+              $scope.model.date = $scope.getDate();
 
 
                 ContractTemplate.Search([],{storageType: 'contracttemplatelayout', searchType: 'use'})
@@ -25,13 +74,45 @@ angular.module('estimateApp')
                         $scope.Project = results;
                     });
                // Load project details...
-              //$scope.loadLeadAndAddress();
+              $scope.loadLeadAndAddress();
               //$scope.loadProjectDetail();
             };
 
+        $scope.onClickLogo = function() {
+          //$scope.model.errors = [];
+
+          if (navigator && navigator.camera) {
+
+            var cameraOptions = {
+              quality: 30,
+              destinationType: Camera.DestinationType.DATA_URL,
+              encodingType: Camera.EncodingType.PNG,
+              correctOrientation: true,
+              targetWidth: 800,
+              targetHeight: 600
+            };
+
+            $cordovaCamera.getPicture(cameraOptions)
+              .then(function(imageData) {
+                Storage.UploadImage({img:imageData}).then(function(path) {
+                  $scope.model.logo = Config.WebStorageEndpoint + path;
+                }, function(error) {
+
+                });
+                
+              }, function(error) {
+                Reference.ProcessError(error, $scope.AreaImage.errors);
+            });
+
+          }
+          else {
+            alert("This device doesn't support Camera.");
+          }
+        }
+
 
           $scope.TemplateChange = function(id) {
-            $scope.selectedTemplate = {id:id};
+            $scope.selectedTemplate = {id: id};
 
 
             var promises = [];
@@ -88,34 +169,81 @@ angular.module('estimateApp')
               searchType: 'use',
               populate: true
             };
+            var searchType = {
+              'type': 'use',
+              'populate': ['systemdetail', 'ingredient']
+            };
 
             promises.push(Lead.Get($scope.leadid, hints));
             var addresscriteria = [{'personid': $scope.leadid}];
 
             promises.push(Address.Search(addresscriteria));
+
             if ($scope.isNew === false) {
               promises.push(Project.Search([{id: $scope.projectid}]));
             }
 
+            promises.push(System.GetAll(searchType));
+            promises.push(Color.Get());
+            promises.push(Pattern.Get());
+
             $q.all(promises)
               .then(function (promiseResults) {
-                populateLead(promiseResults[0][0]);
-                $scope.Systems = promiseResults[1];
-                $scope.Addresses = promiseResults[2];
-                if (promiseResults.length > 3) {
-                  populateProject(promiseResults[3][0]);
-                }
-                else {
-                  populateProject({
-                    leadid: $scope.Lead.id
-                  });
-                }
+                populateLead(promiseResults);
+
               }, function (error) {
                 $scope.errors = error;
               });
 
             function populateLead(model) {
-              $scope.Lead = model;
+              //
+              // 0: Lead
+              // 1: Address
+              // 2: Project
+              // 3: Systems
+              //
+              $scope.model.lead = model[0][0];
+              var address = model[1][0];
+              var projects = model[2][0];
+              var systems = model[3];
+              var colors = model[4];
+              var patterns = model[5];
+
+              var systemsInLead = [];
+
+              console.log(projects);
+
+              for (var i in projects.details) {
+                var detail = projects.details[i];
+
+                for (var j=0; j<systems.length; j++) {
+                  if (systems[j].id == detail.systemid) {
+                    detail.system = systems[j];
+
+                    for (var k in detail.styles) {
+                      var style = detail.styles[k];
+                      //var colors = detail.system.ingredients[k].colors;
+                      //var patterns = detail.system.ingredients[k].patterns;
+
+                      for (var l=0; l<colors.length; l++) {
+                        if (style.colorid == colors[l].id)
+                          style.color = colors[l];
+                      }
+                      
+                      for (var m=0; m<patterns.length; m++) {
+                        if (style.patternid == patterns[m].id)
+                          style.pattern = patterns[m];
+                      }
+                    }
+                  }
+                }
+              }
+
+              $scope.model.projects = projects;
+
+              $scope.model.address = address.address1 + ", " + address.address2 + " " + address.city + ", " + address.state + " " + address.zip;
+              $scope.model.lead.person.name = $scope.model.lead.person.firstname +  " " + $scope.model.lead.person.lastname;
+              $scope.model.systems = model[3];
             }
 
             function ensureProject(project){
@@ -269,6 +397,8 @@ angular.module('estimateApp')
 
               $(".contract_preview").append($compile(result.data)($scope));
 
+              $scope.model.email = 'wangyinxing19@gmail.com';
+
               $timeout(function() {
                 var model = {
                   subject: 'Contract from ',
@@ -293,31 +423,18 @@ angular.module('estimateApp')
           };
 
 
-          $scope.sendTo = function() {
-            if (!$rootScope.signature) {
-              $rootScope.alert("Please sign.");
+          $scope.sendAsEmail = function() {
+            var signData = $('#signature').jSignature("getData");
+
+            var isNotSigned = $('#signature').find('input[type="button"]').css('display') == 'none';
+
+            if (isNotSigned) {
+              uiHelper.showNoty('Please sign on signature box in Date by signature line section before sending email.', 'error');
               return;
             }
 
-            if(typeof $scope.selectedTemplate == "undefined") {
-              $rootScope.alert("Please select contract template.");
-              return;
-            }
-
-            //$scope.model.email = "wangyinxing19@gmail.com";
-
-            if (!Utility.ValidEmail($scope.model.email)) {
-              $rootScope.alert("Please input email to send this contract.");
-              return;
-            }
-
-            Storage.UploadImage({img:$rootScope.signature}).then(function(path) {
-              $scope.signature = Config.WebStorageEndpoint + path;
-
-              if ($scope.model.header.length)
-                $scope.contractHeader = $scope.model.header;
-              if ($scope.model.footer.length)
-                $scope.contractFooter = $scope.model.footer;
+            Storage.UploadImage({img:signData}).then(function(path) {
+              $scope.model.signature = Config.WebStorageEndpoint + path;
 
               $scope.sendEmail();
             }, function(error) {

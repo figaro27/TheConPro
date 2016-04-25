@@ -1,6 +1,6 @@
 angular.module('estimateApp')
-  .controller('NewLeadCtrl', ['$scope', '$stateParams', '$state', '$rootScope', 'Lead', 'Authorization', 'Reference', 'System', 'SystemDetail', 'Ingredient', '$window',
-    function ($scope, $stateParams, $state, $rootScope, Lead, Authorization, Reference, System, SystemDetail, Ingredient, $window) {
+  .controller('NewLeadCtrl', ['$scope', '$stateParams', '$state', '$rootScope', 'Lead', 'Authorization', 'Reference', 'System', 'SystemDetail', 'Ingredient', '$window', '$cordovaCamera',
+    function ($scope, $stateParams, $state, $rootScope, Lead, Authorization, Reference, System, SystemDetail, Ingredient, $window, $cordovaCamera) {
 
       'use strict';
 

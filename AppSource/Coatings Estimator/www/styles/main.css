@@ -844,3 +844,153 @@ input[type=checkbox] + label:before{
 .contract-term {
   margin: 1em;
 }
+
+
+div.contract-form {
+  margin: 0 8px;
+}
+
+div.contract-form div.lbl-logo {
+  margin-top:1em;
+  color: #818181;
+  font-size: 1.2em;
+}
+
+div.contract-form .logo-wrapper{
+  position: relative;
+  max-width: 150px;
+  max-height:150px;
+}
+
+
+div.contract-form .logo-wrapper div.img-logo img {
+  width: 100%;
+  height: 100%;
+}
+
+div.contract-form .logo-wrapper div.camera {
+  position: absolute;
+  width: 100%;
+  height: 25%;
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  bottom: 0px;
+  left: 0px;
+
+  text-align: center
+}
+
+div.contract-form .logo-wrapper div.camera i {
+  font-size: 2em;
+  margin-top: 5px;
+}
+
+div.contract-form .title {
+  margin:2em 0em;
+  width: 100%;
+  color: #818181;
+  text-align: center;
+}
+
+div.contract-form .title input {
+  text-align: center;
+  width: 90%;
+  border: none;
+  border-bottom: 1px solid #818181;
+}
+
+div.contract-form .ui-accordion .ui-accordion-header {
+  color: white;
+  background: #337AB7;
+  border-radius: 0px;
+  font-family: ecodesans-light;
+  font-size: 0.8em;
+  text-align: center;
+}
+
+div.contract-form .ui-accordion .ui-accordion-content {
+  padding: 1em 1em;
+  border: none;
+  border-radius: 0px;
+}
+
+div.contract-form div.contract div.customer-contact-information {
+  //text-align: center;
+}
+
+div.contract-form div.contract div.customer-contact-information input {
+  width: 80%;
+  border: none;
+  border-bottom: 1px solid #818181;
+  background: transparent;
+  color: #818181;
+  margin: 0.3em 0em;
+}
+
+div.contract-form div.contract textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #818181;
+  background: transparent;
+  color: #818181;
+  min-height:200px;
+}
+
+div.contract-form div.contract div.scope-of-work div.system {
+  border: 1px solid #e1e1e1;
+  padding: 5px;
+  margin-bottom: 1em
+}
+
+div.contract-form div.contract div.scope-of-work div.system table th {
+  background: #818181;
+  color: white;
+}
+
+input {
+  font-family: ecodesans-light;
+}
+
+input::-webkit-input-placeholder {
+   color: #e2e2e2;
+   font-style: italic;
+   font-family: ecodesans-light;
+}
+
+input::-moz-placeholder {
+   color: #b2b2b2;
+   font-style: italic;
+   font-family: ecodesans-light;
+}
+
+input::-moz-placeholder{
+  color: #b2b2b2;
+   font-style: italic;
+   font-family: ecodesans-light;
+}
+
+input::-ms-input-placeholder {
+  color: #b2b2b2;
+   font-style: italic;
+   font-family: ecodesans-light;
+}
+
+textarea::-webkit-input-placeholder {
+   color: #b2b2b2;
+   font-style: italic;
+   font-family: ecodesans-light;
+}
+
+div.dateby-signature {
+  min-height: 200px;
+}
+
+div.dateby-signature div#signature input[type='button'] {
+  color: white;
+  background: #818181;
+  border: none;
+}
+
+div.dateby-signature div.date {
+  text-align: right;
+}

@@ -43,7 +43,7 @@ angular.module('estimateApp')
                     quality: 50,
                     destinationType: Camera.DestinationType.DATA_URL,
                     encodingType: Camera.EncodingType.PNG,
-                    correctOrientation: true,
+                    correctOrientation: false,
                     targetWidth: 800,
                     targetHeight: 600
                   };

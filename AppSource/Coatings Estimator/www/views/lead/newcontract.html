@@ -1,127 +1,134 @@
 <div class="contract-form" ng-init="init();" class="entity">
-    <form novalidate>
-        <div class="row" style="color: red;" ng-show="!!model.errors.length">
-            <ul>
-                <li ng-repeat="error in model.errors">
-                    {{error}}
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <div class="col-xs-12">
-                Contract Template<br/>
-                <select style="width: 100%;"
-                        ng-model="TemplateId"
-                        ng-change="TemplateChange(TemplateId)"
-                        ng-options="rel.id as rel.name for rel in ContractTemplates">
-                    <option style="display:none" value=""></option>
-                </select>
+    <div class="row" style="color: red;" ng-show="!!model.errors.length">
+        <ul>
+            <li ng-repeat="error in model.errors">
+                {{error}}
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class='col-xs-12'>
+            <div class='lbl-logo' ng-click='onClickLogo();'>
+                <span >LOGO&nbsp;&nbsp;&nbsp;</span><i class='fa fa-camera'></i>
+            </div>            
+            <div class='logo-wrapper' ng-click='onClickLogo();'>
+                <div class='img-logo'>
+                    <img ng-src='{{model.logo}}'>
+                </div>
             </div>
         </div>
-      <br/>
-    </form>
-    <img ng-hide="model.header.length == 0" class="img-contract" ng-src="{{model.header}}"/>
-    <div class="contract-term" ng-bind-html='model.term'>
+    </div>
 
-    </div>
-    <div class="row" ng-hide="showDetails">
-        <div class="col-xs-12">
-            <a class="btn btn-left btn-primary btn-sm" style="width: 100%;" ng-click="showDetails = !showDetails"><i
-                    style="margin-top: 3px;" class="pull-left fa fa-plus-circle"></i> Project Details</a>
-        </div>
-    </div>
-    <div class="row" ng-show="showDetails">
-        <div class="col-xs-12">
-            <a class="btn btn-left btn-warning btn-sm" style="width: 100%;" ng-click="showDetails = !showDetails"><i
-                    style="margin-top: 3px;" class="pull-left fa fa-minus-circle"></i> Project Details</a>
-        </div>
-    </div>
-    <div class="row" ng-show="showDetails">
-        <div class="col-xs-4"><a class="blueish" ng-click="predicate = 'name'; reverse=!reverse">Name</a></div>
-        <div class="col-xs-4"><a class="blueish" ng-click="predicate = 'area'; reverse=!reverse">Area</a></div>
-        <div class="col-xs-4"><a class="blueish" ng-click="predicate = 'saleprice'; reverse=!reverse">Price</a></div>
-    </div>
-    <div ng-repeat="detail in Project.details  | orderBy:predicate:reverse" ng-click="showStyles = !showStyles"
-         class="row striperow pointer" ng-show="showDetails">
-        <div class="col-xs-4">
-            <a class="btn stripe-btn-link-nolink btn-md"><i
-                    style="margin-top: 3px;" ng-class="showStyles && 'fa-minus-circle' || 'fa-plus-circle'"
-                    class="fa striperowicon"></i></a>
-            &nbsp;{{detail.name}}
-        </div>
-        <div class="col-xs-4">&nbsp;{{detail.area}}</div>
-        <div class="col-xs-4">&nbsp;{{detail.saleprice}}</div>
-        <div ng-show="showStyles" class="col-xs-10 col-xs-offset-1"
-             style=" margin-bottom: 5px;background-color: white; color: black; border: solid black 1px;">
-            <div class="row" style="border-bottom: solid black 1px" ng-show="showStyles">
-                <div class="col-xs-4">Ingredient</div>
-                <div class="col-xs-4">Color</div>
-                <div class="col-xs-4">Pattern</div>
-            </div>
-            <div ng-show="showStyles" ng-repeat="style in detail.styles" class="row">
-                <div class="col-xs-4">&nbsp;{{style.ingredient.name}}</div>
-                <div class="col-xs-4">&nbsp;{{style.color.name}}</div>
-                <div class="col-xs-4">&nbsp;{{style.pattern.name}}</div>
-            </div>
-        </div>
-    </div>
-    <!-- notes start -->
-    <div class="row" ng-hide="showNotes">
-        <div class="col-xs-12">
-            <a class="btn btn-left btn-primary btn-sm" style="width: 100%;" ng-click="showNotes = !showNotes"><i
-                    style="margin-top: 3px;" class="pull-left fa fa-plus-circle"></i> Notes</a>
-        </div>
-    </div>
-    <div class="row" ng-show="showNotes">
-        <div class="col-xs-12">
-            <a class="btn btn-left btn-warning btn-sm" style="width: 100%;" ng-click="showNotes = !showNotes"><i
-                    style="margin-top: 3px;" class="pull-left fa fa-minus-circle"></i> Notes</a>
-        </div>
-    </div>
-    <div class="row" ng-show="showNotes">
-        <div class="col-xs-8"><a class="blueish" ng-click="npredicate = 'body'; reverse=!reverse">Note</a></div>
-        <div class="col-xs-4"><a class="blueish" ng-click="npredicate = 'added'; reverse=!reverse">Date</a></div>
-    </div>
-    <div ng-repeat="note in Project.notes  | orderBy:npredicate:reverse" class="row striperow" ng-show="showNotes">
-        <div class="col-xs-8">&nbsp;{{note.body}}</div>
-        <div class="col-xs-4">&nbsp;{{note.added | date}}</div>
-    </div>
-    <!-- notes end -->
-    <div class="row">
-        <div class="col-xs-12">
-            <span class="col-xs-6 pull-left">Total&nbsp;{{Project.totalcost| currency}}</span>
-        </div>
-        </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <span class="col-xs-6 pull-left">Discount % <input class="col-xs-3 form-control" type="text" ng-model="model.discount" placeholder="discount %"></span>
-            </div>
-        </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <span class="col-xs-6 pull-left">Net Price&nbsp;{{Project.totalcost - (Project.totalcost * (model.discount/100)) | currency}}</span>
 
-        </div>
+    <div class='title'>
+        <input class="row" ng-model='model.title' placeholder="title">
     </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <span class="col-xs-4 pull-left">Signature</span><br/>
 
-            <div data-j-signature="form.signature" data-pen-color="#009bff" data-line-color="#oooooo"></div>
+
+    <div class='note-to-customer'>
+        
+    </div>
+
+
+    <div class='contract'>
+        <h3>Customer contact information</h3>
+        <div>
+            <div class='customer-contact-information'>
+                <input placeholder="Name" ng-model='model.lead.person.name'>
+                <input placeholder="Address" ng-model='model.address'>
+                <input placeholder="Phone number" ng-model='model.lead.phone.number'>
+                <input placeholder="Email" ng-model='model.lead.detail.email'>
+            </div>
+        </div>
+        <h3>Note to customer</h3>
+        <div>
+            <div class='note-to-customer'>
+                <textarea ng-model='model.noteToCustomer' placeholder="Note to customer"></textarea>
+            </div>
+        </div>
+        <h3>Scope Of Work</h3>
+        <div>
+            <div class='scope-of-work'>
+                <div class='system' ng-repeat='system in model.projects.details'>
+                    <div>Area Name: {{system.name}}</div>
+                    <div>System: {{system.system.name}}</div>
+                    <div>Area: {{system.area}}&nbsp;sq/ft</div>
+                    <div>Price: {{system.saleprice * system.area | currency}}</div>
+                    <table width='100%'>
+                        <tr>
+                            <th width='50%'>Color</th>
+                            <th width='50%'>Pattern</th>
+                        </tr>
+                        <tr ng-repeat='style in system.styles'>
+                            <td width='50%'>{{style.color.name}}</td>
+                            <td width='50%'>{{style.pattern.name}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <h3>Common conditions to be aware of</h3>
+        <div>
+            <div class='common-condition'>
+                <textarea ng-model='model.commonCondition' placeholder="Common condition to be aware of"></textarea>
+            </div>
+        </div>
+        <h3>Total investment for this system installed</h3>
+        <div>
+            <div class='total-investment'>
+                Total : {{Project.totalcost| currency}}
+            </div>
+        </div>
+        <h3>Down payment terms</h3>
+        <div>
+            <div class='downpayment-terms'>
+                <textarea ng-model='model.downpaymentTerms' placeholder="Down payment terms"></textarea>
+            </div>
+        </div>
+        <h3>Date by signature line</h3>
+        <div>
+            <div class='dateby-signature'>
+                <div id='signature'></div>
+                <br>
+                <div class='date' ng-bind-html='model.date'></div>
+            </div>
+        </div>
+        <h3>Note</h3>
+        <div>
+            <div class='note'>
+                <textarea ng-model='model.note' placeholder="Note"></textarea>
+                <span>Discount % <input class="col-xs-3 form-control" type="text" ng-model="model.discount" placeholder="discount %"></span>
+                <br>
+                <span>Net Price&nbsp;{{Project.totalcost - (Project.totalcost * (model.discount/100)) | currency}}</span>
+            </div>
+        </div>
+        <h3>Conclusion to customer</h3>
+        <div>
+            <div class='conclusion-to-customer'>
+                <textarea ng-model='model.conclusion' placeholder="Conclusion to customer"></textarea>
+            </div>
+        </div>
+        <h3>Footer</h3>
+        <div>
+            <div class='contract-footer'>
+                <textarea ng-model='model.footer' placeholder="footer"></textarea>
+            </div>
         </div>
     </div>
-  <img ng-hide="model.footer.length == 0" class="img-contract" ng-src="{{model.footer}}"/>
-  <br/>
+    <br/>
     <div class="row">
         <div class="hidden col-xs-12" style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
             <a ng-click="save()" class="btn btn-success">Save</a>
             <a ng-click="Cancel()" class="btn btn-default">Cancel</a>
         </div>
-        <div class="col-xs-12" style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
-          <a ng-click="sendTo()" class="btn btn-success">Send to </a><input placeholder="Email to send" ng-model="model.email" class="input-sendto" />
+        <div style='text-align: center;'>
+            <a ng-click="sendAsEmail()" class="btn btn-success">Send as email</a>
         </div>
     </div>
 
   <div ng-show="model.showPreview" class="contract_preview">
+  </div>
+
+  <div class='bottom-space' style='display: none; height: 350px; background: red'>
   </div>
 </div>

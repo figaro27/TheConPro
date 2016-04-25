@@ -352,7 +352,7 @@
           </button>
         </div>
         <div ng-show="NewPicture" class="col-sm-12" style="text-align: center">
-          <img ng-show="AreaImage.data" style="width: 100%; padding: 10px;" src="data:image/png;base64,{{AreaImage.data}}"/><br/>
+          <img ng-show="AreaImage.data" style="width: 100%; padding: 10px;" ng-src="data:image/png;base64,{{AreaImage.data}}"/><br/>
           <button type="button" class="btn btn-success" ng-click="SaveAreaImage()">Save</button>
           <button type="button" class="btn btn-default" ng-click="CancelSaveAreaImage()">Cancel</button>
         </div>
@@ -360,7 +360,7 @@
 
     <div class="row" ng-repeat="imageData in AreaImages" ng-show="showImages">
         <div ng-show="imageData.data" class="col-sm-12" style="text-align: center; border-bottom: 1px solid #000000;">
-          <img style="width: 100%; padding: 10px;" src="data:image/png;base64,{{imageData.data}}"/><br/>
+          <img style="width: 100%; padding: 10px;" ng-src="data:image/png;base64,{{imageData.data}}"/><br/>
           <button type="button" class="btn btn-danger" ng-click="RemoveAreaImage (imageData, $index)"><i
             class="fa fa-trash"></i>
           </button>
@@ -372,7 +372,7 @@
       <div class="row">
           <div class="col-xs-12" style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
               <a ng-click="Cancel()" class="btn btn-default"><i class="fa fa-arrow-circle-left fa-lg"></i> </a>
-              <a ui-sref="index.contracts({leadid:leadid, projectid:projectid})" class="btn btn-primary"><i class="fa fa-pencil-square-o fa-lg"></i> </a>
+              <a ui-sref="index.newcontract({leadid:leadid, projectid:projectid})" class="btn btn-primary"><i class="fa fa-pencil-square-o fa-lg"></i> </a>
           </div>
       </div>
     </span>

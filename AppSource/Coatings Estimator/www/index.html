@@ -4,6 +4,7 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
   <!-- Good default declaration:
       * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
       * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
@@ -11,7 +12,6 @@
           * Enable inline JS: add 'unsafe-inline' to default-src
           * Enable eval(): add 'unsafe-eval' to default-src
   -->
-  <meta http-equiv="Content-Security-Policy" content="img-src * data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'"/>
   <!--
  < meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *;script-src 'self' http://xxxx 'unsafe-inline' 'unsafe-eval';"/>
  -->
@@ -48,12 +48,27 @@
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 
 
+<link rel="stylesheet" href="lib/jquery-ui/custom/jquery-ui.min.css" />
+<script src="lib/jquery-ui/custom/jquery-ui.min.js"></script>
 
+
+<script src="lib/jSignature/libs/flashcanvas.js"></script>
+<script src="lib/jSignature/libs/jSignature.min.noconflict.js"></script>
+<script src="lib/jSignature/src/plugins/jSignature.UndoButton.js"></script>
+
+<!--====================================================================================================================
+        jQuery plugins
+        Noty-2.3.8
+====================================================================================================================-->
+<script src="lib/noty-2.3.8/js/noty/packaged/jquery.noty.packaged.js"></script>
+<link href="lib/noty-2.3.8/js/noty/customTheme.css" rel="stylesheet">
+<!--
 <script src="lib/jSignature/src/jSignature.js"></script>
 
 <script src="lib/jSignature/src/plugins/jSignature.CompressorBase30.js"></script>
 <script src="lib/jSignature/src/plugins/jSignature.CompressorSVG.js"></script>
 <script src="lib/jSignature/src/plugins/jSignature.UndoButton.js"></script>
+-->
 <!-- endbower -->
 <!-- endbuild -->
 
@@ -162,6 +177,8 @@
 <script src="scripts/services/note.js"></script>
 <script src="scripts/services/basefactory.js"></script>
 <script src="scripts/services/storage.js"></script>
+<script src="scripts/services/uiHelper.js"></script>
+
 <script src="scripts/directives/signature.js"></script>
 
 <script src="scripts/filters/sanitize.js"></script>

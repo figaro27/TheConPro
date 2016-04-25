@@ -7,7 +7,7 @@ angular.module('estimateApp')
 
       function init() {
         $scope.projectid = $stateParams.projectid;
-        $scope.leadid = $stateParams.leadid;
+        $rootScope.leadid = $scope.leadid = $stateParams.leadid;
         $scope.AreaImages = [];
         $scope.AreaImage = {};
         $scope.Signature = {};
@@ -656,8 +656,6 @@ angular.module('estimateApp')
           $scope.AreaImage.errors = [];
 
           if (navigator && navigator.camera) {
-
-
             var cameraOptions = {
               quality: 50,
               destinationType: Camera.DestinationType.DATA_URL,

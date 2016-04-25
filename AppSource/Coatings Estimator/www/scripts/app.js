@@ -804,7 +804,7 @@ app.config(['$stateProvider',
 
         var newcontract = {
             name: 'index.newcontract',
-            url: 'newcontract/:projectid',
+            url: 'newcontract/:leadid/:projectid',
             resolve: {
                 project: ['$stateParams','Project', function ($stateParams,Service) {
                     var criteria = [];
