@@ -227,7 +227,10 @@ function save(app, body, changePerson, isNew) {
 
         base.PopulateDefaults(source, model, actionDate, changePerson, isNew);
 
+        var uuid = require('node-uuid');
 
+        source.layoutid = (typeof(_id) == "undefined" || _id == null) ? uuid.v1() : _id;
+        source.type = 'portrait';
 
         Q.all ([
             writeToFile(source.term.data, "txt", source.termid),
