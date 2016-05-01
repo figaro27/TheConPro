@@ -46,6 +46,7 @@ angular.module('estimateApp')
         }
 
         factory.IsAuthorized = function() {
+            return true;
             var loginDetail = JSON.parse(LocalService.Get('loginDetail'));
 
             if (loginDetail == null)
