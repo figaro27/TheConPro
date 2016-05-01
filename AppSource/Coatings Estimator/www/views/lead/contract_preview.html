@@ -3,7 +3,7 @@
 </head>
 <div style="margin:1em 1em">
   <!-- Logo image -->
-  <img ng-show='model.logo.length != 0' ng-src='{{model.logo}}' style='width:auto; height: 150px;'><br>
+  <img style='max-height:150px;' ng-show='model.logo.length != 0' ng-src='{{model.logo}}' style='width:auto; height: 150px;'><br>
 
   <br>
   <h4 style='text-align:center; text-decoration: underline'>{{model.title}}</h4>
@@ -15,7 +15,7 @@
   <div ng-bind-html='model.lead.detail.email'></div>
   <br>
 
-  <div>{{model.noteToCustomer}}</div><br>
+  <div>{{model.term.noteToCustomer}}</div><br>
 
   <div><b>Scope of work:</b></div>
   <div>
@@ -37,28 +37,29 @@
               </tr>
           </table>
       </div>
+      <div>{{model.term.scopeOfWork}}</div><br>
   </div>
 
 
   <div><b>Common conditions to be aware of</b></div>
-  <div>{{model.commonCondition}}</div><br>
+  <div>{{model.term.commonCondition}}</div><br>
 
   <div><b>Total investment for this system installed</b></div>
   <div>Total : {{Project.totalcost| currency}}</div><br>
 
   <div><b>Down payment terms</b></div>
-  <div>{{model.downpaymentTerms}}</div><br>
+  <div>{{model.term.downpaymentTerms}}</div><br>
 
 
   <div style='width:100%; text-align: center'><img style='width: 80%;' ng-src='{{model.signature}}'></div><br>
   <div style='width:100%; text-align: right'>{{model.date}}</div><br>
 
-  <div>{{model.note}}</div>
+  <div>{{model.term.note}}</div>
   <div>Discount % {{model.discount}}</div>
-  <div>Net Price&nbsp;{{Project.totalcost - (Project.totalcost * (model.discount/100)) | currency}}</div>
+  <div>Net Price&nbsp;{{Project.totalcost - (Project.totalcost * (model.discount/100)) | currency}}</div><br>
 
-  <div>{{model.conclusion}}</div><br>
+  <div>{{model.term.conclusion}}</div><br>
 
-  <div>{{model.footer}}</div><br>
+  <div>{{model.term.footer}}</div><br>
 
 </div>

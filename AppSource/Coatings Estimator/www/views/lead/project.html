@@ -281,19 +281,19 @@
   <!-- Systems End -->
 
 <!-- Notes -->
-  <div class="row" ng-hide="showNotes">
+  <div class="row hidden" ng-hide="showNotes">
     <div class="col-xs-12">
       <a class="btn btn-left btn-primary btn-sm" style="width: 100%;" ng-click="showNotes = !showNotes"><i
         style="margin-top: 3px;" class="pull-left fa fa-plus-circle"></i> Notes</a>
     </div>
   </div>
-  <div class="row" ng-show="showNotes">
+  <div class="row hidden" ng-show="showNotes">
     <div class="col-xs-12">
       <a class="btn btn-left btn-warning btn-sm" style="width: 100%;" ng-click="showNotes = !showNotes"><i
         style="margin-top: 3px;" class="pull-left fa fa-minus-circle"></i> Notes</a>
     </div>
   </div>
-    <div class="row" ng-show="showNotes">
+    <div class="row hidden" ng-show="showNotes">
       <div class="col-xs-12">
         Note<br/>
           <textarea class="form-control" ng-model="NewNote.note"
@@ -301,12 +301,12 @@
                     style="width: 100%;" rows="2"></textarea>
       </div>
     </div>
-        <div class="row" ng-show="showNotes">
+        <div class="row hidden" ng-show="showNotes">
           <div class="col-xs-12  text-center">
             <button ng-disabled="saving" type="button" class="btn btn-success" ng-click="SaveNote(NewNote)">Save</button>
           </div>
         </div>
-  <div class="row" ng-show="showNotes">
+  <div class="row hidden" ng-show="showNotes">
     <div class="col-xs-12">
       <table style="background-color: white;" width="100%">
         <thead>

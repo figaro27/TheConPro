@@ -1,4 +1,4 @@
-<div style=" background-color: #ffffff; padding-left: 10px; padding-right:10px; margin-top: 20px; margin-left: 5px; margin-right: 5px; width:auto; ">
+<div class='contract-form' style=" background-color: #ffffff; padding-left: 10px; padding-right:10px; margin-top: 20px; margin-left: 5px; margin-right: 5px; width:auto; ">
     <form>
         <input type="hidden" value="Model.version">
 
@@ -9,94 +9,64 @@
                 </li>
             </ul>
         </div>
-        <div class="row">
-            <div class="col-xs-12">
-                Name<br/>
-                <input class="form-control" type="text" ng-model="Model.name" placeholder="name">
-            </div>
-        </div>
-        <div class="hidden row">
-            <div class="col-xs-12">
-                Print Layout<br/>
-                <input type="radio" id="landscape" ng-model="Model.type" value="landscape">&nbsp;<label for="landscape">Landscape</label>
-                <input type="radio" id="portrait" ng-model="Model.type" value="portrait">&nbsp;<label for="portrait">Portrait</label>
-            </div>
-        </div>
-        <div class="hidden row">
-            <div class="col-xs-12">
-                Contract Format<br/>
-                <select style="width: 100%;"
-                        ng-model="Model.layoutid"
-                        ng-options="rel.id as rel.filename for rel in Layouts">
-                    <option style="display:none" value=""></option>
-                </select>
-            </div>
-        </div>
-        <!-- Header Image -->
-        <div class="row" ng-hide="headershow">
-            <div class="col-xs-12">
-                <a class="btn btn-left btn-primary btn-sm" style="width: 100%;" ng-click="headershow = !headershow"><i
-                        style="margin-top: 3px;" class="pull-left fa fa-plus-circle"></i> Header Image</a>
-            </div>
-        </div>
-        <div class="row" ng-show="headershow">
-            <div class="col-xs-12">
-                <a class="btn btn-left btn-warning btn-sm" style="width: 100%;" ng-click="headershow = !headershow"><i
-                        style="margin-top: 3px;" class="pull-left fa fa-minus-circle"></i> Header Image</a>
-            </div>
-        </div>
-        <div class="row" ng-show="headershow">
-            <div class="col-sm-12" style="text-align: center;">
-                <img  ng-show="Model.header.data.length > 1" style="width: 100%; padding: 10px;" ng-src="{{Model.header.data}}"/><br ng-show="Model.header.data.length > 1" />
-                <button type="button" class="btn btn-success" ng-click="GetImage(Model.header, 0)"><i class="fa fa-camera"></i></button>
-                <button type="button" class="btn btn-success" ng-click="GetImage(Model.header, 1)"><i class="fa fa-file-image-o"></i></button>
-                <button ng-show="Model.header.data.length > 1" type="button" class="btn btn-danger" ng-click="RemoveImage(Model, Model.header)"><i class="fa fa-trash"></i></button>
-            </div>
-        </div>
-        <!-- Header Image End -->
+        <div class="row"><div class="col-xs-12">Name<br/><input class="form-control" type="text" ng-model="Model.name" placeholder="name"></div></div>
 
-        <!-- Terms Text -->
-        <div class="row" ng-hide="termshow">
-            <div class="col-xs-12">
-                <a class="btn btn-left btn-primary btn-sm" style="width: 100%;" ng-click="termshow = !termshow"><i
-                        style="margin-top: 3px;" class="pull-left fa fa-plus-circle"></i> Contract Terms</a>
+        <div class='contract'>
+            <h3>Logo</h3>
+            <div>
+                <div class="row">
+                    <div class="col-sm-12" style="text-align: center;">
+                        <img  ng-show="Model.header.data.length > 1" style="width: 100%; padding: 10px;" ng-src="{{Model.header.data}}"/><br ng-show="Model.header.data.length > 1" />
+                        <button type="button" class="btn btn-success" ng-click="GetImage(Model.header, 0)"><i class="fa fa-camera"></i></button>
+                        <button class='hidden' type="button" class="btn btn-success" ng-click="GetImage(Model.header, 1)"><i class="fa fa-file-image-o"></i></button>
+                        <button ng-show="Model.header.data.length > 1" type="button" class="btn btn-danger" ng-click="RemoveImage(Model, Model.header)"><i class="fa fa-trash"></i></button>
+                    </div>
+                </div>
+            </div>
+            <h3>Note to customer</h3>
+            <div>
+                <div class='note-to-customer'>
+                    <textarea ng-model='Model.term.noteToCustomer' placeholder="Note to customer"></textarea>
+                </div>
+            </div>
+            <h3>Scope of work</h3>
+            <div>
+                <div class='scope-of-work'>
+                    <textarea ng-model='Model.term.scopeOfWork' placeholder="Scope of work"></textarea>
+                </div>
+            </div>
+            <h3>Common conditions to be aware of</h3>
+            <div>
+                <div class='common-condition'>
+                    <textarea ng-model='Model.term.commonCondition' placeholder="Common condition to be aware of"></textarea>
+                </div>
+            </div>
+            <h3>Down payment terms</h3>
+            <div>
+                <div class='downpayment-terms'>
+                    <textarea ng-model='Model.term.downpaymentTerms' placeholder="Down payment terms"></textarea>
+                </div>
+            </div>
+            <h3>Note</h3>
+            <div>
+                <div class='note'>
+                    <textarea ng-model='Model.term.note' placeholder="Note"></textarea>
+                </div>
+            </div>
+            <h3>Conclusion to customer</h3>
+            <div>
+                <div class='conclusion-to-customer'>
+                    <textarea ng-model='Model.term.conclusion' placeholder="Conclusion to customer"></textarea>
+                </div>
+            </div>
+            <h3>Footer</h3>
+            <div>
+                <div class='contract-footer'>
+                    <textarea ng-model='Model.term.footer' placeholder="footer"></textarea>
+                </div>
             </div>
         </div>
-        <div class="row" ng-show="termshow">
-            <div class="col-xs-12">
-                <a class="btn btn-left btn-warning btn-sm" style="width: 100%;" ng-click="termshow = !termshow"><i
-                        style="margin-top: 3px;" class="pull-left fa fa-minus-circle"></i> Contract Terms</a>
-            </div>
-        </div>
-        <div class="row" ng-show="termshow">
-            <div class="col-sm-12" style="text-align: center">
-                <textarea style="height:200px" class="form-control" ng-model="Model.term.data"
-                          placeholder="contract terms" style="width: 100%;" rows="2"></textarea>
-            </div>
-        </div>
-        <!-- Terms Text End -->
 
-        <!-- Footer Image -->
-        <div class="row" ng-hide="footershow">
-            <div class="col-xs-12">
-                <a class="btn btn-left btn-primary btn-sm" style="width: 100%;" ng-click="footershow = !footershow"><i
-                        style="margin-top: 3px;" class="pull-left fa fa-plus-circle"></i> Footer Image</a>
-            </div>
-        </div>
-        <div class="row" ng-show="footershow">
-            <div class="col-xs-12">
-                <a class="btn btn-left btn-warning btn-sm" style="width: 100%;" ng-click="footershow = !footershow"><i
-                        style="margin-top: 3px;" class="pull-left fa fa-minus-circle"></i> Footer Image</a>
-            </div>
-        </div>
-        <div class="row" ng-show="footershow">
-            <div class="col-sm-12" style="text-align: center;">
-                <img  ng-show="Model.footer.data.length > 1" style="width: 100%; padding: 10px;" ng-src="{{Model.footer.data}}"/><br ng-show="Model.footer.data.length > 1"/>
-                <button type="button" class="btn btn-success" ng-click="GetImage(Model.footer, 0)"><i class="fa fa-camera"></i></button>
-                <button type="button" class="btn btn-success" ng-click="GetImage(Model.footer, 1)"><i class="fa fa-file-image-o"></i></button>
-                <button ng-show="Model.footer.data.length > 1" type="button" class="btn btn-danger" ng-click="RemoveImage(Model, Model.footer)"><i class="fa fa-trash"></i></button>
-            </div>
-        </div>
         <!-- Footer Image End -->
 
         <div class="row">

@@ -53,7 +53,6 @@ function populate(source, model) {
 
     model.termid = source.termid;
     model.headerid = source.headerid;
-    model.footerid = source.footerid;
 
     if(source.layoutid){
         model.layoutid = source.layoutid;
@@ -94,7 +93,6 @@ function build(app, source, isNew) {
 
                 if (source.termid)      contracttemplate.termid = source.termid;
                 if (source.headerid)    contracttemplate.headerid = source.headerid;
-                if (source.footerid)    contracttemplate.footerid = source.footerid;
 
                 if (!source.layoutid && isNew) {
                     errors.push('missing layout id');
@@ -233,14 +231,12 @@ function save(app, body, changePerson, isNew) {
 
         Q.all ([
             writeToFile(source.term.data, "txt", source.termid),
-            writeToFile(source.header.data, "img", source.headerid),
-            writeToFile(source.footer.data, "img", source.footerid),
+            writeToFile(source.header.data, "img", source.headerid)
         ]).then(function(ret) {
             console.log("then....\r\n");
             //deferred.resolve(ret);
             source.termid = ret[0];
             source.headerid = ret[1];
-            source.footerid = ret[2];
 
             populate(source, model, isNew);
 
@@ -433,7 +429,6 @@ function innerSearch(app, req) {
                         var template = contractTemplates[0];
 
                         template.headerImgSize = validateFileFromID(template.headerid);
-                        template.footerImgSize = validateFileFromID(template.footerid);
 
                         Q.all(readFileFromID(template.termid)).then(function(data) {
                             template.term = data;

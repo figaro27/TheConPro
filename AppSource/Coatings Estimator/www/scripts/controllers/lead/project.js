@@ -657,7 +657,7 @@ angular.module('estimateApp')
 
           if (navigator && navigator.camera) {
             var cameraOptions = {
-              quality: 50,
+              quality: 30,
               destinationType: Camera.DestinationType.DATA_URL,
               encodingType: Camera.EncodingType.PNG,
               correctOrientation: true,

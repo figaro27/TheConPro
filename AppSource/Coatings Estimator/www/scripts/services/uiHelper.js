@@ -25,7 +25,7 @@ angular.module('estimateApp')
                 text        : msg,
                 type        : typeof(type) == 'undefined' ? 'success' : type,
                 dismissQueue: true,
-                timeout     : 2000,
+                timeout     : 5000,
                 closeWith   : ['click'],
                 layout      : 'topRight',
                 theme       : 'defaultTheme',

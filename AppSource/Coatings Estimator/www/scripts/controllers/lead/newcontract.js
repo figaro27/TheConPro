@@ -148,19 +148,30 @@ angular.module('estimateApp')
             $q.all(promises)
               .then(function (promiseResults) {
                 $scope.updateTemplate(promiseResults);
-                //populateContractTemplate(promiseResults[0][0]);
-                //populateHeader(promiseResults[1][0]);
-                //populateFooter(promiseResults[2][0]);
-                //populateTerm(promiseResults[3][0]);
+                
               }, function (error) {
                 Reference.ProcessError(error, $scope.errors);
               });
           };
 
           $scope.updateTemplate = function(ret) {
-              $scope.model.header = ret[0][0].headerImgSize == 0 ? "" : Config.WebStorageEndpoint + ret[0][0].headerid + ".png";
-              $scope.model.footer = ret[0][0].footerImgSize == 0 ? "" : Config.WebStorageEndpoint + ret[0][0].footerid + ".png";
-              $scope.model.term = ret[0][0].term;
+              var template = ret[0][0];
+
+              $scope.model.logo = template.headerImgSize == 0 ? "" : Config.WebStorageEndpoint + template.headerid + ".png";
+              //$scope.model.footer = ret[0][0].footerImgSize == 0 ? "" : Config.WebStorageEndpoint + ret[0][0].footerid + ".png";
+              var term = null;
+
+              try {
+                term = JSON.parse(template.term);  
+              } catch (e) {
+                console.warn(e);
+                uiHelper.showNoty('Template has not been loaded. term data is corrupted or unknown format.', 'error');
+              }
+
+              if (term != null) {
+                $scope.model.term = term;
+                uiHelper.showNoty('Template has been loaded successfully.');
+              }
           };
 
           $scope.loadLeadAndAddress = function() {
@@ -412,7 +423,7 @@ angular.module('estimateApp')
                 var model = {
                   subject: 'Contract from ',
                   htmlBody: $(".contract_preview").html(),
-                  emailTo: $scope.model.lead.detail.email
+                  emailTo: $scope.model.lead.detail.email,
                   //emailTo: 'wangyinxing19@gmail.com'
                 };
 
@@ -426,7 +437,7 @@ angular.module('estimateApp')
                     var model = {
                       subject: 'Contract from ',
                       htmlBody: $(".contract_preview").html(),
-                      emailTo: email
+                      emailTo: email,
                       //emailTo: 'wangyinxing19@gmail.com'
                     };
 

@@ -7,8 +7,8 @@
  */
 angular.module('estimateApp')
     .controller('ContractTemplateCtrl', [
-        '$rootScope', '$state', '$scope', '$stateParams', 'ContractTemplate', 'Storage', '$q', 'Reference', 'Log', '$window','Config', '$cordovaCamera',function (
-            $rootScope, $state, $scope, $stateParams, Service, Storage, $q, Reference, Log,$window, Config, $cordovaCamera) {
+        '$rootScope', '$state', '$scope', '$stateParams', 'ContractTemplate', 'Storage', '$q', 'Reference', 'Log', '$window','Config', '$cordovaCamera', 'uiHelper', function (
+            $rootScope, $state, $scope, $stateParams, Service, Storage, $q, Reference, Log,$window, Config, $cordovaCamera, uiHelper) {
             'use strict';
             $scope.saving = false;
 
@@ -23,12 +23,8 @@ angular.module('estimateApp')
             function init() {
 
                 $scope.Model = {
-                    name: '',
-                    type: '',
-                    layout: '',
                     header: {id: 0, data: ''},
-                    term: {id: 0, data: ''},
-                    footer: {id: 0, data: ''}
+                    term:{}
                 };
 
                 $scope.HeaderModelPrime = {id: 0, data: ''};
@@ -38,9 +34,21 @@ angular.module('estimateApp')
                 $scope.cameraOptions = {};
                 $scope.cameraOptionsFromLibrary = {};
 
+                var icons = {
+                    header: "ui-icon-circle-arrow-e",
+                    activeHeader: "ui-icon-circle-arrow-s"
+                };
+
+                $('.contract').accordion({
+                    icons: icons,
+                    collapsible: true,
+                    heightStyle: "content",
+                    active: false
+                });
+
                 if (navigator && navigator.camera) {
                   $scope.cameraOptions = {
-                    quality: 50,
+                    quality: 30,
                     destinationType: Camera.DestinationType.DATA_URL,
                     encodingType: Camera.EncodingType.PNG,
                     correctOrientation: false,
@@ -48,8 +56,8 @@ angular.module('estimateApp')
                     targetHeight: 600
                   };
                   $scope.cameraOptionsFromLibrary = {
-                    quality: 40,
-                    correctOrientation: true,
+                    quality: 30,
+                    correctOrientation: false,
                     destinationType: Camera.DestinationType.DATA_URL,
                     //destinationType: Camera.DestinationType.FILE_URI,
                     encodingType: Camera.EncodingType.PNG,
@@ -73,11 +81,7 @@ angular.module('estimateApp')
                         searchType: 'use',
                         storageType: 'contracttemplateterm'
                     };
-                    var footerhints = {
-                        populate: true,
-                        searchType: 'use',
-                        storageType: 'contracttemplatefooter'
-                    };
+
                     var criteria = [];
                     criteria.push({fid: id});
 
@@ -95,11 +99,20 @@ angular.module('estimateApp')
 
                     $q.all(promises)
                         .then(function (promiseResults) {
-                          var ret = promiseResults[0][0];
-                        $scope.Model = ret;
-                          $scope.Model.header = $scope.Model.headerImgSize == 0 ? {id:0, data: ""} : {id:0, data:Config.WebStorageEndpoint + ret.headerid + ".png"};
-                          $scope.Model.footer = $scope.Model.footerImgSize == 0 ? {id:0, data: ""} : {id:0, data:Config.WebStorageEndpoint + ret.footerid + ".png"};
-                          $scope.Model.term = {id:0, data:ret.term};
+                            var ret = promiseResults[0][0];
+                            $scope.Model = ret;
+                            $scope.Model.header = $scope.Model.headerImgSize == 0 ? {id:0, data: ""} : {id:0, data:Config.WebStorageEndpoint + ret.headerid + ".png"};
+
+                            var term = {};
+
+                            try {
+                                term = JSON.parse(ret.term);
+                            } catch (e) {
+                                console.warn(e);
+                            }
+                            
+
+                            $scope.Model.term = term;
                         }, function (error) {
                             Reference.ProcessError(error, $scope.errors);
                         });
@@ -162,32 +175,21 @@ angular.module('estimateApp')
                 };
 
                 $scope.Save = function (model) {
-                    var errors = [];
-                    model.errors = [];
-                    validate(model, errors);
+                    model.term.data = JSON.stringify(model.term);
 
-                    if (errors.length > 0) {
-                        model.errors = errors;
-                        model.error = errors.join(', ');
-                        return model.error;
-                    }
-
-                    model.error = [];
-                    model.errors = [];
-
-                    var saves = [];
 
                     if ($stateParams.id && ($stateParams.id).length > 10) {
-
                         Service.Update(model)
                             .then(function () {
-                                //saves.push(processStorage(model.id, saves, $scope.HeaderModelPrime, $scope.Model.header, 'contracttemplateheader'));
-                                //saves.push(processStorage(model.id, saves, $scope.FooterModelPrime, $scope.Model.footer, 'contracttemplatefooter'));
-                                //saves.push(processStorage(model.id, saves, $scope.TermModelPrime, $scope.Model.term, 'contracttemplateterm'));
+                                model.errors = [];
+
+                                uiHelper.showNoty('Template has been saved successfully.');
                             },
                             function (error) {
                                 model.errors = error;
                                 model.error = model.errors.join(', ');
+
+                                uiHelper.showNoty('Template has not been saved due to these error :' + model.error, 'error');
                                 return;
                             }
                         );
@@ -300,7 +302,7 @@ angular.module('estimateApp')
                                 //140000 max length
                                 Log.Log('imageData length ' + imageData.length);
 
-                                if (imageData.length > 150000) {
+                                if (imageData.length > 1500000) {
                                     fileTooLarge(imageData.length);
                                 } else{
                                     model.data = "data:image/png;base64," + imageData;
