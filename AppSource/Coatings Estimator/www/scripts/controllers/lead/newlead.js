@@ -5,7 +5,6 @@ angular.module('estimateApp')
       'use strict';
 
       function init() {
-
         $scope.LeadSystem = {};
         $scope.LeadSystems = [];
         $scope.Model = {};

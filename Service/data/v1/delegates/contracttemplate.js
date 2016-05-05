@@ -520,10 +520,47 @@ function search(app, req) {
     return deferred.promise;
 }
 
+function remove(app, req) {
+    var deferred = Q.defer(),
+        err = new Error();
+
+    if (!req.params) {
+        err = new Error('req missing parameters');
+        err.code = 420;
+        throw  err;
+    }
+
+    if (!req.params.id) {
+        err = new Error('req missing parameters');
+        err.code = 420;
+        throw  err;
+    }
+
+    try {
+        var objectModel = require('./../models/' + objectType)(app.db).Model();
+
+        var criteria = new SearchMethod().byId;
+        criteria.where.id = req.params.id;
+
+        base.RemoveEntity(objectModel, criteria)
+            .then(function () {
+                return deferred.resolve(req.params.id);
+            },
+            function (error) {
+                return deferred.reject(error);
+            });
+    }
+    catch (e) {
+        return deferred.reject({message: e, code: 400});
+    }
+    return deferred.promise;
+}
+
 contracttemplate.prototype.Populate = populate;
 contracttemplate.prototype.Build = build;
 contracttemplate.prototype.Generate = generate;
 contracttemplate.prototype.Update = update;
+contracttemplate.prototype.Remove = remove;
 contracttemplate.prototype.Search = search;
 contracttemplate.instance = null;
 

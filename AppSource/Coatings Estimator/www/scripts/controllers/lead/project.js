@@ -1,7 +1,7 @@
 angular.module('estimateApp')
   .controller('ProjectCtrl', [
-    '$window', '$scope', '$stateParams', '$q', '$rootScope', 'Lead', 'Project', 'ProjectDetail', 'Config', 'System', 'ProjectDetailStyle', 'Storage', 'Person', 'Reference', 'Note','Address','$cordovaCamera','$filter',
-    function ($window, $scope, $stateParams, $q, $rootScope, Lead, Project, ProjectDetail, Config, System, ProjectDetailStyle, Storage, Person, Reference, Note, Address, $cordovaCamera, $filter) {
+    '$window', '$scope', '$state', '$stateParams', '$ionicPopup', '$q', '$rootScope', 'Lead', 'Project', 'ProjectDetail', 'Config', 'System', 'ProjectDetailStyle', 'Storage', 'Person', 'Reference', 'Note','Address','$cordovaCamera','$filter',
+    function ($window, $scope, $state, $stateParams, $ionicPopup, $q, $rootScope, Lead, Project, ProjectDetail, Config, System, ProjectDetailStyle, Storage, Person, Reference, Note, Address, $cordovaCamera, $filter) {
 
       'use strict';
 
@@ -843,6 +843,26 @@ angular.module('estimateApp')
         };
 
         $scope.ProjectStatuses = Reference.ProjectStatuses;
+
+        $scope.gotoContractPage = function() {
+          if (!$rootScope.paid) {
+            $rootScope.back();
+
+            var alertPopup = $ionicPopup.alert({
+              title: 'Paid version required!',
+              template: 'Please purchase this app for contract function.'
+            });
+
+            alertPopup.then(function(res) {
+              $state.go('index.purchase');
+            });
+
+            return;
+          }
+          else {
+            $state.go('index.newcontract', {leadid:$scope.leadid, projectid:$scope.projectid});
+          }
+        }
 
         $scope.SaveNote = function (model) {
           $scope.saving = true;

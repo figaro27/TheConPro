@@ -1,7 +1,7 @@
 angular.module('estimateApp')
     .controller('NewContractCtrl', [
-        '$rootScope', '$scope', 'Lead', 'Color', 'Pattern','Address', '$q', 'project','Contract','ContractTemplate','Storage', '$stateParams', 'ContractTemplate', 'System', 'Project', '$compile', '$timeout', '$http', 'Utility', '$cordovaCamera', 'uiHelper', 'LocalService','Config',
-        function ($rootScope, $scope, Lead, Color, Pattern, Address, $q, project, Contract, ContractTemplate, Storage, $stateParams, Service, System, Project, $compile, $timeout, $http, Utility, $cordovaCamera, uiHelper, LocalService, Config) {
+        '$rootScope', '$scope', 'Lead', 'Color', 'Pattern','Address', '$q', 'project','Contract','ContractTemplate','Storage', '$stateParams', 'ContractTemplate', 'System', 'Project', '$compile', '$timeout', '$http', 'Utility', '$cordovaCamera', 'uiHelper', '$ionicPopup', 'LocalService','Config',
+        function ($rootScope, $scope, Lead, Color, Pattern, Address, $q, project, Contract, ContractTemplate, Storage, $stateParams, Service, System, Project, $compile, $timeout, $http, Utility, $cordovaCamera, uiHelper, $ionicPopup, LocalService, Config) {
             "use strict";
 
             $scope.getDate = function() {
@@ -12,21 +12,25 @@ angular.module('estimateApp')
 
               if (dd < 10) {
                 dd = '0' + dd
-              } 
+              }
 
               if (mm < 10) {
                 mm = '0' + mm
-              } 
+              }
 
               return mm + '/' + dd + '/' + yyyy;
             }
 
             $scope.init = function() {
+
+
               //$scope.leadid = $rootScope.leadid;
               $scope.isNew = false;
               $scope.Project ={};
               $scope.model = {};
               $scope.model.showPreview = false;
+              $scope.model.enableDiscountByPercentage = false;
+              $scope.model.enableDiscountByAmount = false;
               $scope.model.discount = 0.0;
               $scope.model.title = 'Installation Estimate / Purchase Agreement';
 
@@ -78,6 +82,13 @@ angular.module('estimateApp')
               //$scope.loadProjectDetail();
             };
 
+          $scope.onChangeDiscountMode = function(mode) {
+            if (mode == 0)
+              $scope.model.enableDiscountByAmount = false;
+            else if (mode == 1)
+              $scope.model.enableDiscountByPercentage = false;
+          }
+
         $scope.onClickLogo = function() {
           //$scope.model.errors = [];
 
@@ -99,7 +110,7 @@ angular.module('estimateApp')
                 }, function(error) {
 
                 });
-                
+
               }, function(error) {
                 Reference.ProcessError(error, $scope.AreaImage.errors);
             });
@@ -148,7 +159,7 @@ angular.module('estimateApp')
             $q.all(promises)
               .then(function (promiseResults) {
                 $scope.updateTemplate(promiseResults);
-                
+
               }, function (error) {
                 Reference.ProcessError(error, $scope.errors);
               });
@@ -162,7 +173,7 @@ angular.module('estimateApp')
               var term = null;
 
               try {
-                term = JSON.parse(template.term);  
+                term = JSON.parse(template.term);
               } catch (e) {
                 console.warn(e);
                 uiHelper.showNoty('Template has not been loaded. term data is corrupted or unknown format.', 'error');
@@ -240,7 +251,7 @@ angular.module('estimateApp')
                         if (style.colorid == colors[l].id)
                           style.color = colors[l];
                       }
-                      
+
                       for (var m=0; m<patterns.length; m++) {
                         if (style.patternid == patterns[m].id)
                           style.pattern = patterns[m];
@@ -259,12 +270,12 @@ angular.module('estimateApp')
               }
 
               if (typeof($scope.model.lead.person) == 'undefined') {
-                uiHelper.showNoty('Person info is not defined for this project.', 'error'); 
+                uiHelper.showNoty('Person info is not defined for this project.', 'error');
               }
               else {
                 $scope.model.lead.person.name = $scope.model.lead.person.firstname +  " " + $scope.model.lead.person.lastname;
               }
-              
+
               $scope.model.systems = model[3];
             }
 
@@ -411,7 +422,25 @@ angular.module('estimateApp')
 
           $scope.sendEmail = function() {
             var contractHtmlBody = "";
+            var totalPrice = $scope.Project.totalcost;
+            var discountedPriceByPercentage = accounting.formatMoney(totalPrice - (totalPrice * ($scope.model.discountPercentage/100)));
+            var discountedPriceByAmount = accounting.formatMoney((totalPrice - $scope.model.discountAmount));
+
             $scope.model.showPreview = false;
+
+
+            if ($scope.model.enableDiscountByPercentage) {
+              $scope.model.discountContent = '<div>Discount ' + $scope.model.discountPercentage  + ' %</div>' +
+                '<div>Net Price&nbsp;$&nbsp;' + discountedPriceByPercentage + '</div><br>';
+            }
+            else if ($scope.model.enableDiscountByAmount) {
+              $scope.model.discountContent = '<div>Discount&nbsp;$&nbsp;'  + $scope.model.discountAmount  +  ' </div>' +
+                '<div>Net Price&nbsp;$&nbsp;' + discountedPriceByAmount + '</div><br>';
+            }
+            else {
+              $scope.model.discountContent = '';
+            }
+
 
             $http.get("views/lead/contract_preview.html").then( function(result) {
 
@@ -468,10 +497,12 @@ angular.module('estimateApp')
 
             var isNotSigned = $('#signature').find('input[type="button"]').css('display') == 'none';
 
+            /*
             if (isNotSigned) {
               uiHelper.showNoty('Please sign on signature box in Date by signature line section before sending email.', 'error');
               return;
             }
+            */
 
             Storage.UploadImage({img:signData}).then(function(path) {
               $scope.model.signature = Config.WebStorageEndpoint + path;

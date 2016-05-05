@@ -74,6 +74,7 @@
                 <button ng-disabled="saving" type="submit" class="btn btn-success" ng-click="Save(Model)">Save</button>
                 <a ng-click="Cancel()" class="btn btn-default">Cancel</a>
                 <!--<button ng-disabled="saving" type="submit" class="btn btn-primary" ng-click="Preview(Model)">Preview</button>-->
+              <button ng-hide="IsNew" type="button" class="btn btn-danger" ng-click="Remove(Model.id)">Delete</button>
             </div>
         </div>
     </form>

@@ -55,8 +55,9 @@
   <div style='width:100%; text-align: right'>{{model.date}}</div><br>
 
   <div>{{model.term.note}}</div>
-  <div>Discount % {{model.discount}}</div>
-  <div>Net Price&nbsp;{{Project.totalcost - (Project.totalcost * (model.discount/100)) | currency}}</div><br>
+
+  <div ng-bind-html="model.discountContent">
+  </div>
 
   <div>{{model.term.conclusion}}</div><br>
 

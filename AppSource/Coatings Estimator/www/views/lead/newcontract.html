@@ -20,7 +20,7 @@
         <div class='col-xs-12'>
             <div class='lbl-logo' ng-click='onClickLogo();'>
                 <span >LOGO&nbsp;&nbsp;&nbsp;</span><i class='fa fa-camera'></i>
-            </div>            
+            </div>
             <div class='logo-wrapper' ng-click='onClickLogo();'>
                 <div class='img-logo'>
                     <img ng-src='{{model.logo}}'>
@@ -36,7 +36,7 @@
 
 
     <div class='note-to-customer'>
-        
+
     </div>
 
 
@@ -110,9 +110,30 @@
         <div>
             <div class='note'>
                 <textarea ng-model='model.term.note' placeholder="Note"></textarea>
-                <span>Discount % <input class="col-xs-3 form-control" type="text" ng-model="model.discount" placeholder="discount %"></span>
+
+              <br>
+
+              <input type="checkbox" ng-change="onChangeDiscountMode(0);" ng-model="model.enableDiscountByPercentage" name="discountByPercentage" id="discountByPercentage" value="value">
+              <label for="discountByPercentage">Discount by percentage ( % )</label>&nbsp;
+              <br>
+              <div ng-show="model.enableDiscountByPercentage">
+                <input class="col-xs-3 form-control" type="text" ng-model="model.discountPercentage" placeholder="discount %">
                 <br>
-                <span>Net Price&nbsp;{{Project.totalcost - (Project.totalcost * (model.discount/100)) | currency}}</span>
+                <span>Net Price&nbsp;{{Project.totalcost - (Project.totalcost * (model.discountPercentage/100)) | currency}}</span>
+              </div>
+
+              <br>
+
+
+              <input type="checkbox" ng-change="onChangeDiscountMode(1);" ng-model="model.enableDiscountByAmount" name="discountByAmount" id="discountByAmount" value="value">
+              <label for="discountByAmount">Discount by amount ( $ )</label>&nbsp;
+              <br>
+              <div ng-show="model.enableDiscountByAmount">
+                <input class="col-xs-3 form-control" type="text" ng-model="model.discountAmount" placeholder="discount $">
+                <br>
+                <span>Net Price&nbsp;{{Project.totalcost - model.discountAmount | currency}}</span>
+              </div>
+
             </div>
         </div>
         <h3>Conclusion to customer</h3>

@@ -21,6 +21,7 @@ angular.module('estimateApp')
       };
 
             function init() {
+              $scope.IsNew = true;
 
                 $scope.Model = {
                     header: {id: 0, data: ''},
@@ -69,6 +70,7 @@ angular.module('estimateApp')
                 $scope.Layouts = [];
 
                 function get(id) {
+                  $scope.IsNew = false;
 
                     var promises = [];
                     var headerhints = {
@@ -110,7 +112,7 @@ angular.module('estimateApp')
                             } catch (e) {
                                 console.warn(e);
                             }
-                            
+
 
                             $scope.Model.term = term;
                         }, function (error) {
@@ -174,7 +176,24 @@ angular.module('estimateApp')
                     $rootScope.back();
                 };
 
+              $scope.Remove = function(id) {
+                Service.Remove(id)
+                  .then(function (result) {
+                    $scope.saving = false;
+                    $rootScope.back();
+                  },
+                  function (error) {
+                    $scope.saving = false;
+                    Reference.ProcessError(error, model.errors);
+                  });
+              }
+
                 $scope.Save = function (model) {
+                    if (typeof(model.name) == 'undefined' || model.name == '') {
+                        uiHelper.showNoty("Please input template name correctly.", "error");
+                        return;
+                    }
+
                     model.term.data = JSON.stringify(model.term);
 
 

@@ -127,7 +127,10 @@ function populate(source, model, isNew) {
         model.id = source.id;
     }
 
-    if (source.address1) {
+    if (!source.address1 && isNew) {
+        model.address1 = '';
+    }
+    else if (source.address1) {
         model.address1 = source.address1;
     }
 
