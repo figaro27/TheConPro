@@ -999,3 +999,11 @@ div.dateby-signature div#signature input[type='button'] {
 div.dateby-signature div.date {
   text-align: right;
 }
+
+div.purchase-app {
+  color: #4a484a;
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  font-size:18px;
+}

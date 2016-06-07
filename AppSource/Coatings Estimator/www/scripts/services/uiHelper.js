@@ -22,6 +22,7 @@ angular.module('estimateApp')
 
         service.alert = function($scope, title, message, callback) {
             $scope.message = message;
+            window.scrollTo(0, 0);
 
             $ionicPopup.show({
                 templateUrl: 'views/common/confirmBox.html',
@@ -38,6 +39,7 @@ angular.module('estimateApp')
                     },
                 ]
                 }).then(function(res) {
+                    if (callback)
                         callback(res);
                     }, function(err) {
                         console.log('Err:', err);
