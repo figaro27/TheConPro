@@ -24,7 +24,13 @@ angular.module('estimateApp')
         factory.CheckToken = function () {
             var authentication = LocalService.Get(Config.AuthTokenName);
             if (authentication) {
-                var expiration = new Date(JSON.parse(LocalService.Get(Config.AuthExpiration)));
+              var expiration = 0;
+              try {
+                expiration = new Date(JSON.parse(LocalService.Get(Config.AuthExpiration)));
+              }
+              catch(e) {
+                console.warn(e);
+              }
                 //if (new Date() > Date.parse(JSON.parse(authentication).expires)) {
                 if (new Date() > expiration) {
                     Service.UnsetConfigAuth();

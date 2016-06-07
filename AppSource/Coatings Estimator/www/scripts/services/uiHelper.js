@@ -87,7 +87,7 @@ angular.module('estimateApp')
                 timeout     : 2000,
                 closeWith   : ['click'],
                 layout      : 'topRight',
-                theme       : 'someOtherTheme',
+                theme       : 'defaultTheme',
                 maxVisible  : 5
             });
         }

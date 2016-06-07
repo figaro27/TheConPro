@@ -37,8 +37,8 @@ angular.module('estimateApp')
               $scope.leadid = $stateParams.leadid;
               $scope.projectid = $stateParams.projectid;
               $('#signature').jSignature({
-                width:'300',
-                height:'200',
+                width:'100%',
+                height:'100%',
                 UndoButton: true,
                 lineWidth: 3,
                 color:'#00f'
@@ -458,7 +458,10 @@ angular.module('estimateApp')
 
                 Contract.sendContractViaEmail(model)
                   .then(function(result) {
-                    uiHelper.showNoty('Contract has been sent to customer : ' + $scope.model.lead.detail.email);
+                    if (typeof($scope.model.lead.detail.email) != 'undefined')
+                      uiHelper.showNoty('Contract has been sent to customer : ' + $scope.model.lead.detail.email);
+                    else
+                      uiHelper.showNoty("Contract has not been sent to app owner due to missing of email.", "error");
 
                     var loginDetail = JSON.parse(LocalService.Get('loginDetail'));
                     var email = loginDetail.username;
@@ -472,7 +475,10 @@ angular.module('estimateApp')
 
                     Contract.sendContractViaEmail(model)
                       .then(function(result) {
-                        uiHelper.showNoty('Contract has been sent to app owner : ' + email);
+                        if (typeof(email) != 'undefined')
+                          uiHelper.showNoty('Contract has been sent to app owner : ' + email);
+                        else
+                          uiHelper.showNoty("Contract has not been sent to app owner due to missing of email.", "error");
                       }, function(error) {
 
                       });

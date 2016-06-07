@@ -26,10 +26,10 @@ angular.module('estimateApp')
 
             var token = LocalService.Get(config.AuthTokenName);
 
-            if (token) {
+            if (token && token != "undefined") {
                 token = angular.fromJson(token);
             }
-            if (token) {
+            if (token && token != "undefined") {
                 request.headers.Authorization = 'Bearer ' + token;
             }
             return request;

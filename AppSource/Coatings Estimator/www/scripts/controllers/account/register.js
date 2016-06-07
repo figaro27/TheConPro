@@ -6,7 +6,8 @@
  * Controller of the estimateApp
  */
 angular.module('estimateApp')
-  .controller('RegisterCtrl', ['$state', '$rootScope', '$scope', 'Account', 'Utility', function ($state, $rootScope, $scope, Account, Utility) {
+  .controller('RegisterCtrl', ['$state', '$rootScope', '$scope', 'Account', 'Utility', 'uiHelper',
+    function ($state, $rootScope, $scope, Account, Utility, uiHelper) {
 
     'use strict';
 
@@ -58,6 +59,7 @@ angular.module('estimateApp')
         Account.Register(model)
           .then(function () {
             $scope.saving = false;
+
             $state.go('index');
           }, function (error) {
             $scope.saving = false;

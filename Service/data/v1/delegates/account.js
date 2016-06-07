@@ -255,6 +255,11 @@ function login(app, body) {
                                 throw  err;
                             }
 
+                            if (account.dataValues.status == '0') {
+                                return deferred.reject({message: "Please verify account.", code: 500});
+                            }
+
+
                             var queries = [];
 
                             //
@@ -481,7 +486,9 @@ function register(app, body) {
                 if (resolvedAccount.status === accountStatus.noperson) {
                     accountIsNew = resolvedAccount.accountIsNew;
                     pid = resolvedAccount.id;
+                    //accountmodel.status = accountStatus.inactive;
                     accountmodel.status = accountStatus.active;
+
                     // now use the account that was returned from the resolve function to build an app
                     //
                     //
@@ -517,6 +524,19 @@ function register(app, body) {
                                                 deferred.reject({message: error, code: 500});
                                             });
                                         t.done(function () {
+                                            /*
+                                            var message = {
+                                                person: person,
+                                                account: accountmodel,
+                                                app: app
+                                            }
+                                            newperson(message);
+
+
+
+                                            deferred.resolve({message:'verification email has been sent!', e:200});
+                                            */
+
                                             login(app, body)
                                                 .then(function (login) {
                                                     var message = {
@@ -530,6 +550,7 @@ function register(app, body) {
                                                 .fail(function (error) {
                                                     return deferred.reject(error);
                                                 });
+
                                         });
                                     },
                                     function (msg) {
@@ -591,7 +612,8 @@ function feedback(app, req) {
                         var from = app.config.senderemail,
                             to = app.config.suggestionemail,
                             subject = 'Coatings Estimator Suggestion';
-                        emailer.SendHtmlEmail(app, from, to, subject, feedback);
+                        //emailer.SendHtmlEmail(app, from, to, subject, feedback);
+                        emailer.sendHtmlEmailViaMailGun(app, from, to, subject, feedback);
                         deferred.resolve('suggestion sent to ' + app.config.suggestionemail);
                     }, function (error) {
                         deferred.reject({message: error, code: 500});
@@ -852,9 +874,11 @@ function newperson(message){
         accountResource.NewRegistration(account, person)
             .then(function (registrationBody) {
                 var from = app.config.senderemail,
+                    //to = account.username,
                     to = app.config.registrationemail,
                     subject = 'New Registration';
-                emailer.SendHtmlEmail(app, from, to, subject, registrationBody);
+                //emailer.SendHtmlEmail(app, from, to, subject, registrationBody);
+                emailer.sendHtmlEmailViaMailGun(app, from, to, subject, registrationBody);
             }, function (error) {
 
             });

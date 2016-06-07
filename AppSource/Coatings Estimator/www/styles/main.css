@@ -985,7 +985,12 @@ div.dateby-signature {
   text-align: center;
 }
 
+div.dateby-signature div#signature {
+  border: 1px solid #a1a1a1;
+}
+
 div.dateby-signature div#signature input[type='button'] {
+  margin-top:20px;
   color: white;
   background: #818181;
   border: none;

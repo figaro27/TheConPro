@@ -38,7 +38,7 @@ config.smtp = {
 };
 
 config.senderemail = 'noreply@coatingsestimator.com';
-config.suggestionemail = '';
-config.registrationemail = '';
+config.suggestionemail = 'web@theconcreteprotector.com';
+config.registrationemail = 'web@theconcreteprotector.com';
 
 module.exports = config;

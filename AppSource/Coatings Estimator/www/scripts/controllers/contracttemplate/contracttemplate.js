@@ -180,9 +180,11 @@ angular.module('estimateApp')
                 Service.Remove(id)
                   .then(function (result) {
                     $scope.saving = false;
+                    uiHelper.showNoty('Template has been removed successfully.');
                     $rootScope.back();
                   },
                   function (error) {
+                    uiHelper.showNoty('Template has not been removed due to these error :' + model.error, 'error');
                     $scope.saving = false;
                     Reference.ProcessError(error, model.errors);
                   });
@@ -203,6 +205,7 @@ angular.module('estimateApp')
                                 model.errors = [];
 
                                 uiHelper.showNoty('Template has been saved successfully.');
+                                $rootScope.back();
                             },
                             function (error) {
                                 model.errors = error;
@@ -216,24 +219,28 @@ angular.module('estimateApp')
                     else {
                         Service.Add(model)
                             .then(function () {
+                                uiHelper.showNoty('Template has been saved successfully.');
+                                $rootScope.back();
                                 //saves.push(processStorage(model.id, saves, $scope.HeaderModelPrime, $scope.Model.header, 'contracttemplateheader'));
                                 //saves.push(processStorage(model.id, saves, $scope.FooterModelPrime, $scope.Model.footer, 'contracttemplatefooter'));
                                 //saves.push(processStorage(model.id, saves, $scope.TermModelPrime, $scope.Model.term, 'contracttemplateterm'));
                             },
                             function (error) {
+                              uiHelper.showNoty('Template has not been saved due to these error :' + model.error, 'error');
                                 model.errors = error;
                                 model.error = model.errors.join(', ');
                                 return;
                             }
                         );
                     }
-
+                    /*
                     $q.all(saves)
                         .then(function (promiseResults) {
                           $rootScope.back();
                         }, function (error) {
                             Reference.ProcessError(error, $scope.errors);
                         });
+                     */
 
                 };
 
