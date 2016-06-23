@@ -29,7 +29,7 @@ module.exports = function (app, path) {
         return base.RestAction(app, req, res, next, manager.Login(app, req, res, next));
     });
 
-    base.Router.post('/changepassword', app.utility.RequireRoles(['user']), function (req, res, next) {
+    base.Router.post('/changepassword', function (req, res, next) {
         return base.RestAction(app, req, res, next, manager.ChangePassword(app, req, res, next));
     });
 
@@ -45,7 +45,7 @@ module.exports = function (app, path) {
         return base.RestAction(app, req, res, next, manager.Register(app, req, res, next));
     });
 
-    base.Router.post('/extend', app.utility.RequireRoles(['user']), function (req, res, next) {
+    base.Router.post('/extend', function (req, res, next) {
         return base.RestAction(app, req, res, next, manager.ExtendToken(app, req, res, next));
     });
 

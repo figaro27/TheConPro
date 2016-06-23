@@ -36,7 +36,7 @@
   </div>
 
 
-  <div class="row setting-item" ng-hide="isPaidVersion()">
+  <div class="row setting-item" ng-hide="paid">
     <div class="col-xs-12">
       <button type="button" class="btn btn-left btn-danger btn-block" ui-sref="index.purchase">
         Purchase
@@ -47,14 +47,14 @@
 
   <div class="row setting-item" ng-show="IsInRoles(['concreteprotector','administrator'])">
     <div class="col-xs-12">
-      <a type="button" class="btn btn-left btn-danger btn-block"  href="http://coatingsestimator.com/privacy-policy/">
+      <a type="button" class="btn btn-left btn-danger btn-block"  ui-sref="index.privacypolicy">
         Privacy policy
       </a>
     </div>
   </div>
   <div class="row setting-item" ng-show="IsInRoles(['concreteprotector','administrator'])">
     <div class="col-xs-12">
-      <a type="button" class="btn btn-left btn-danger  btn-block"  href="http://coatingsestimator.com/terms-and-conditions-of-use/">
+      <a type="button" class="btn btn-left btn-danger  btn-block"  ui-sref="index.termcondition">
         Terms and conditions of use
       </a>
     </div>

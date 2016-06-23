@@ -16,19 +16,19 @@ module.exports = function (app, path) {
         app.use(path, base.Router);
     }
 
-    base.Router.post('/', app.utility.RequireRoles(['concreteprotector', 'subscriber', 'administrator']), function (req, res, next) {
+    base.Router.post('/', function (req, res, next) {
         return base.RestAction(app, req, res, next, manager.Generate(app, req, res, next));
     });
 
-    base.Router.put('/', app.utility.RequireRoles(['concreteprotector', 'subscriber', 'administrator']), function (req, res, next) {
+    base.Router.put('/', function (req, res, next) {
         return base.RestAction(app, req, res, next, manager.Update(app, req, res, next));
     });
 
-    base.Router.delete('/:id', app.utility.RequireRoles(['concreteprotector', 'subscriber', 'administrator']), function (req, res, next) {
+    base.Router.delete('/:id', function (req, res, next) {
         return base.RestAction(app, req, res, next, manager.Remove(app, req, res, next));
     });
 
-    base.Router.post('/search', app.utility.RequireRoles(['concreteprotector', 'subscriber', 'administrator']), function (req, res, next) {
+    base.Router.post('/search', function (req, res, next) {
         return base.RestAction(app, req, res, next, manager.Search(app, req, res, next));
     });
 

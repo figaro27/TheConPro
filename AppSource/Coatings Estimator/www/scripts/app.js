@@ -138,6 +138,36 @@ app.config(['$stateProvider',
                 pageTitle: 'Feedback'
             }
         };
+        var termcondition = {
+          name: 'index.termcondition',
+
+          url: 'termcondition',
+          views: {
+            'content@index': {
+              controller: 'TermConditionCtrl',
+              templateUrl: 'views/account/termcondition.html'
+            }
+          },
+          data: {
+            access: [AccessLevels.user],
+            pageTitle: 'Terms and conditions of use'
+          }
+        };
+        var privacypolicy = {
+          name: 'index.privacypolicy',
+
+          url: 'privacypolicy',
+          views: {
+            'content@index': {
+              controller: 'PrivacyPolicyCtrl',
+              templateUrl: 'views/account/privacypolicy.html'
+            }
+          },
+          data: {
+            access: [AccessLevels.user],
+            pageTitle: 'Privacy Policy'
+          }
+        };
         var forgotpassword = {
             name: 'index.forgotpassword',
 
@@ -854,6 +884,10 @@ app.config(['$stateProvider',
         $stateProvider.state(login);
         $stateProvider.state(changepassword);
         $stateProvider.state(forgotpassword);
+
+        $stateProvider.state(termcondition);
+        $stateProvider.state(privacypolicy);
+
         $stateProvider.state(register);
 
         $stateProvider.state(settings);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!--<widget id="com.ionicframework.coatings642386" android-versionCode="204" ios-CFBundleVersion="2.0.2" version="0.0.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">-->
-<widget id="com.ionicframework.coatings642386" android-versionCode="210" ios-CFBundleVersion="2.1.0" version="0.0.9" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.ionicframework.coatings642386" android-versionCode="220" ios-CFBundleVersion="2.1.0" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Coatings Estimator</name>
   <description>
       concrete protector

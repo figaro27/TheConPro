@@ -384,7 +384,7 @@ function resolve(app, body) {
 
                     var accountrole = {};
                     accountrole.accountid = account.id;
-                    accountrole.role = 'administrator';
+                    accountrole.role = 'user';
 
                     base.PopulateDefaults(accountrole, accountrolemodel, actionDate, account.id, true);
                     accountroledelegate.Populate(accountrole, accountrolemodel, true);
